@@ -1,0 +1,9 @@
+﻿displayName = Revolutions Mod Nightly
+author = B.I.T.G
+version = 0.1082
+hideResources = false
+hideCode = false
+includeSource = true
+includePDB = true
+homepage = none
+buildIgnore = *.csproj, *.sln, obj\*, bin\*, *.suo, *.user, .git\*, .vs\*, Libraries\*

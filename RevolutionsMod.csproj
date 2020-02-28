@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <Import Project="..\..\references\tModLoader.targets" />
+  <PropertyGroup>
+    <AssemblyName>Revolutions</AssemblyName>
+    <TargetFramework>net45</TargetFramework>
+    <PlatformTarget>x86</PlatformTarget>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <Target Name="BuildMod" AfterTargets="Build">
+    <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
+  </Target>
+<ItemGroup>
+    <Reference Include="Microsoft.CodeAnalysis">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\Microsoft.CodeAnalysis.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CodeAnalysis.CSharp">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\Microsoft.CodeAnalysis.CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RoslynWrapper">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\RoslynWrapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.IO.FileSystem.dll</HintPath>
+    </Reference>
+    <Reference Include="System.IO.FileSystem.Primitives">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.IO.FileSystem.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Algorithms">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.Security.Cryptography.Algorithms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Encoding">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.Security.Cryptography.Encoding.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.Primitives">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.Security.Cryptography.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Cryptography.X509Certificates">
+      <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\System.Security.Cryptography.X509Certificates.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+</Project>
