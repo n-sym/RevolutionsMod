@@ -1,11 +1,14 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Items.Acc;
 using Revolutions.Items.Armor;
 using Revolutions.Utils;
 using System;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.Localization;
 using Terraria.ModLoader;
+using Terraria.ModLoader.IO;
 using static Terraria.ModLoader.ModContent;
 
 namespace Revolutions
@@ -39,8 +42,12 @@ namespace Revolutions
         public int nowBossLife { get; set; } = 0;
         public int nowBossLifeTrue { get; set; } = 0;
         public int nowBossLifeMax { get; set; } = 0;
+        public static int logoTimer = 0;
         public override void OnEnterWorld(Player player)
         {
+            logoTimer += 90;
+
+            Main.OnPostDraw += new Action<GameTime>(Welcome);
             Helper.spname = Helper.Name2Specialname(player.name);
             for (int i = 0; i < 601; i++)
             {
@@ -56,10 +63,15 @@ namespace Revolutions
             //Core.GetCore.attackerexist = 0;
             Lightning.LightningCfgs.projexists = false;
         }
+        public override TagCompound Save()
+        {
+            Main.OnPostDraw -= new Action<GameTime>(Welcome);
+            return base.Save();
+        }
         int i = 0;
         public override void PreUpdate()
         {
-            
+
             for (int j = 600; j > 0; j--)
             {
                 pastPosition[j] = pastPosition[j - 1];
@@ -158,27 +170,6 @@ namespace Revolutions
             nowBossLifeTrue = 0;
             foreach (NPC npc in Main.npc)
             {
-                if (npc.active && (npc.type == 246 || npc.type == 247 || npc.type == 248 || npc.type == 36 || npc.type == 128 || npc.type == 129 || npc.type == 130 || npc.type == 131))
-                {
-                    nowBossLifeMax += npc.lifeMax;
-                    nowBossLifeTrue += npc.life;
-                    if (timer2 == 10 || timer2 == 0)
-                    {
-                        nowBossLife += npc.life;
-                    }
-                }
-                if (npc.active && (npc.type == 396 || npc.type == 397))
-                {
-                    nowBossLifeMax += npc.lifeMax;
-                    if (npc.ai[0] != -2)
-                    {
-                        nowBossLifeTrue += npc.life;
-                        if (timer2 == 10 || timer2 == 0)
-                        {
-                            nowBossLife += npc.life;
-                        }
-                    }
-                }
                 if (npc.boss && npc.active)
                 {
                     if (nowBoss == null) nowBoss = npc;
@@ -192,26 +183,55 @@ namespace Revolutions
                     {
                         nowBossLife += npc.life;
                     }
-
+                }
+                if (nowBoss == null && npc.type == 13) nowBoss = npc;
+                //增加boss组件生命值
+                //石巨人
+                if (nowBoss != null && nowBoss.active)
+                {
+                    if (nowBoss.type == 245 && (npc.type == 246 || npc.type == 247 || npc.type == 248)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
+                    //骷髅王
+                    if (nowBoss.type == 35 && npc.type == 36) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
+                    //机械骷髅王
+                    if (nowBoss.type == 127 && (npc.type == 128 || npc.type == 129 || npc.type == 130 || npc.type == 131)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
+                    //克苏鲁之脑
+                    if (nowBoss.type == 266 && npc.type == 267) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
+                    //世界吞噬者
+                    if (nowBoss.type == 13 && (npc.type == 13 || npc.type == 14 || npc.type == 15)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
+                    //Moon Lord
+                    if (nowBoss.type == 398 && (npc.type == 396 || npc.type == 397)) { nowBossLifeMax += npc.lifeMax; if (npc.ai[0] != -2) { nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } } }
                 }
             }
             if (timer2 == 10) { timer2 = 0; timer3 = 1; }
-            if (nowBoss != null) { timer2++; nowBossLifeTrue += nowBoss.life; nowBossLifeMax += nowBoss.lifeMax; }
+            if (nowBoss != null)
+            {
+                timer2++;
+                if (nowBoss.type != 125 && nowBoss.type != 13)
+                {
+                    nowBossLifeTrue += nowBoss.life;
+                    nowBossLifeMax += nowBoss.lifeMax;
+                }
+            }
             else { timer2 = 0; nowBossLife = 0; timer3 = 0; }
-            if (timer2 == 1 && timer3 == 1) nowBossLife += nowBoss.life;
+            if (timer2 == 1 && timer3 == 1 && nowBoss.type != 125) nowBossLife += nowBoss.life;
+            if (nowBoss != null && nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
-            if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions." + Mutter.a01), 180, player);
-            if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions." + Mutter.a02), 180, player);
-            if (nowBoss != null && nowBossLifeMax > 39999 && nowBoss.type != 134 && nowBoss.type != 135 && nowBoss.type != 136)
+            if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.GoForTheEyes"), 180, player);
+            if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.CritalAttacks"), 180, player);
+            if (nowBoss != null && nowBossLifeMax > 39999)
             {
-                if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions." + Mutter.p01), 180, player);
-                if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions." + Mutter.p02), 180, player);
-                if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions." + Mutter.p03), 180, player);
+                if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory01"), 180, player);
+                if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory02"), 180, player);
+                if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory03"), 180, player);
             }
+            if (a == 6 && (proj.ranged || proj.magic)) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack03"), 180, player);
+            if (a == 7) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack05"), 180, player);
+            if (a == 8 && proj.melee) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
+            if (a == 6 && proj.minion) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack06"), 180, player);
             if (saviourstatus == 1)
             {
                 if (player.armor[0].type == ItemType<SaviourRanged>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.ranged)
@@ -257,6 +277,17 @@ namespace Revolutions
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+            Random rd = new Random();
+            int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
+            if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.GoForTheEyes"), 180, player);
+            if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.CritalAttacks"), 180, player);
+            if (nowBoss != null && nowBossLifeMax > 39999)
+            {
+                if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory01"), 180, player);
+                if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory02"), 180, player);
+                if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory03"), 180, player);
+            }
+            if (a == 8) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
             if (saviourstatus == 1)
             {
                 if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>())
@@ -274,6 +305,42 @@ namespace Revolutions
                         justDmgcounter++;
                     }
                 }
+            }
+        }
+        public override void OnRespawn(Player player)
+        {
+            Random rd = new Random();
+            int a = rd.Next(0, 6);
+            if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn01"), 180, player);
+            if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn02"), 180, player);
+            if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn03"), 180, player);
+            if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn04"), 180, player);
+            if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn05"), 180, player);
+        }
+        public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
+        {
+            Random rd = new Random();
+            int a = rd.Next(0, 4);
+            if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die01"), 180, player);
+            if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die02"), 180, player);
+            if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die03"), 180, player);
+            if (nowBoss != null)
+            {
+                if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die04"), 180, player);
+                if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die05"), 180, player);
+            }
+        }
+        public static void Welcome(object obj)
+        {
+            if (logoTimer >= 0)
+            {
+                Texture2D Logo = Revolutions.mod.GetTexture("UI/Revolutions");
+                Main.spriteBatch.Begin();
+                float scale = 0.3f * (float)Math.Cos(0.0174533 * (90 - logoTimer)) + 0.7f;
+                Main.spriteBatch.Draw(Logo, new Vector2(0.5f * Main.screenWidth - 0.25f * scale * Main.UIScale * Logo.Width, 135f + 45f * (float)Math.Cos(0.0174533 * (logoTimer))), new Rectangle(0, 0, (int)(Logo.Width), Logo.Height), Color.White * (float)Math.Cos(0.0174533 * (90 - logoTimer)), 0f, Vector2.Zero, 0.5f * Main.UIScale * scale, SpriteEffects.None, 0f);
+                /*Terraria.Utils.DrawBorderStringFourWay(Main.spriteBatch, Main, "Revolutions",
+                        0.5f * Main.screenWidth - 0.5f, 50f, Color.White, Color.Transparent, Vector2.Zero, 0.8f);*/
+                Main.spriteBatch.End();
             }
         }
 

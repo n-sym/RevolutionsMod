@@ -1,5 +1,7 @@
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,5 +36,15 @@ namespace Revolutions.Items.Weapon
         {
             Projectile.NewProjectile(target.Center + new Vector2((600 + Helper.EntroptPool[damage]), -800 + Helper.EntroptPool[damage + 100]), Vector2.Zero, mod.ProjectileType("Thunder"), damage, 0, player.whoAmI, target.Center.X, target.Center.Y);
         }
+        public override void UseStyle(Player player)
+        {
+            /*Action<GameTime> action = new Action<GameTime>(draw);
+            Main.OnPostDraw += action;*/
+        }
+        public void draw(object ob)
+        {
+            
+        }
+        
     }
 }

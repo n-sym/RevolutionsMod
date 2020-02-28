@@ -37,6 +37,7 @@ namespace Revolutions
         }
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
+            if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
             FirstUI firstUI = new FirstUI();
             firstUI.Draw(spriteBatch);
             SecondUI secondUI = new SecondUI();
