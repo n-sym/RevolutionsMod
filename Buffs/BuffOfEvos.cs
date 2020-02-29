@@ -21,6 +21,7 @@ namespace Revolutions.Buffs
         {
             RevolutionsPlayer modPlayer = player.GetModPlayer<RevolutionsPlayer>();
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Evolutionaries>()] > 0)
+            {
                 modPlayer.evolutionary = true;
             }
             if (!modPlayer.evolutionary)

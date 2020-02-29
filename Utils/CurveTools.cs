@@ -14,6 +14,10 @@ namespace Revolutions
         {
             return new Vector2(a / (float)Math.Cos(radian), b * (float)Math.Tan(radian)).RotatedBy(rotate);
         }
+        public static Vector2 DerivativeGetEllipse(float radian, float a, float b, float rotate)
+        {
+            return new Vector2(-a * (float)Math.Sin(radian), -b * (float)Math.Cos(radian)).RotatedBy(rotate);
+        }
     }
 
 }

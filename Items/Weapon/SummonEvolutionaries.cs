@@ -35,11 +35,12 @@ namespace Revolutions.Items.Weapon
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            player.AddBuff(item.buffType, 2);
             speedX = 0;
             speedY = 0;
             position = Main.MouseWorld;
-            return true;
+            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, 0, player.whoAmI, player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Evolutionaries>()]);
+            player.AddBuff(item.buffType, 2);
+            return false;
         }
     }
 }

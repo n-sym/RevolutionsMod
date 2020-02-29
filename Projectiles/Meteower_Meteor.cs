@@ -11,7 +11,7 @@ namespace Revolutions.Projectiles
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Meteower Meteor");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 11;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
         public override void SetDefaults()
@@ -122,7 +122,7 @@ namespace Revolutions.Projectiles
             for (int k = 0; k < 10; k++)
             {
                 if (HyperOldPositon[k] == Vector2.Zero) break;
-                Vector2 drawPosition = 0.35f * HyperOldPositon[k] + 0.65f * projectile.position;
+                Vector2 drawPosition = 0.35f * projectile.oldPos[k] + 0.65f * projectile.position;
                 drawPosition += new Vector2(0f, projectile.gfxOffY) - Main.screenPosition;
                 float sizeFix = 2;
                 sizeFix /= 1 + k;

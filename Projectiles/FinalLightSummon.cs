@@ -8,7 +8,7 @@ using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles
 {
-    public class FinalLight : PowerProj
+    public class FinalLightSummon : PowerProj
     {
         public override void SetStaticDefaults()
         {
@@ -21,21 +21,21 @@ namespace Revolutions.Projectiles
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.ranged = true;
+            projectile.minion = true;
             projectile.timeLeft = 30;
             projectile.tileCollide = false;
-            projectile.alpha = 0;
+            projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.aiStyle = -1;
             projectile.light = 0.5f;
             projectile.scale = 0.8f;
-            projectile.penetrate = 2000;
-            projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = -1;
         }
         int j = 0;
         int i = 0;
-
+        public override bool ShouldUpdatePosition()
+        {
+            return false;
+        }
         NPC t = null;
         public override void AI()
         {
@@ -48,10 +48,9 @@ namespace Revolutions.Projectiles
                 Random rd = new Random();
                 PositionSave[0].X = rd.Next(-101, 101) / 50;
             }
-            projectile.velocity = Vector2.Zero;
-            projectile.position = player.Center +
+            projectile.position = projectile.velocity +
                 Curve.GetEllipse((30 - projectile.timeLeft) * 0.10472f,
-                0.5f * Vector2.Distance(player.Center, target.Center),
+                0.5f * Vector2.Distance(projectile.velocity, target.Center),
                 4.2f * projectile.ai[0] * Helper.EntroptPool[(int)projectile.ai[0] * projectile.identity] / 50,
                 (player.Center - target.Center).ToRotation())
                 - 0.5f * (player.Center - target.Center);
@@ -76,9 +75,10 @@ namespace Revolutions.Projectiles
                 }
             }
         }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        public override void Kill(int timeLeft)
         {
-            if (target.whoAmI != projectile.ai[1]) damage = 0;
+            NPC target = Main.npc[(int)projectile.ai[1]];
+            if (timeLeft == 0) Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamage2>(), projectile.damage, 0, projectile.owner);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
@@ -109,10 +109,6 @@ namespace Revolutions.Projectiles
             }
             return true;
         }
-        public override void Kill(int timeLeft)
-        {
-            NPC target = Main.npc[(int)projectile.ai[1]];
-            if (projectile.penetrate == 2000) Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamage2>(), projectile.damage, 0, projectile.owner);
-        }
+
     }
 }
