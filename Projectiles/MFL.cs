@@ -22,7 +22,7 @@ namespace Revolutions.Projectiles
             projectile.friendly = true;
             projectile.ranged = true;
             projectile.timeLeft = 7;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.alpha = 0;
             projectile.ignoreWater = true;
             projectile.aiStyle = -1;
@@ -42,14 +42,15 @@ namespace Revolutions.Projectiles
         {
             base.AI();
             NPC target = null;
-            float distance = 0;
+            float distance = 1500; ;
             projectile.Center = Main.player[projectile.owner].Center + new Vector2(-70f * projectile.ai[0], 0f);
             foreach (NPC npc in Main.npc)
             {
-                if (Vector2.Distance(npc.Center, projectile.Center) > distance
+                if (Vector2.Distance(npc.Center, projectile.Center) < distance
                     && npc.type != NPCID.TargetDummy && npc.active
                     && Vector2.Distance(npc.Center, projectile.Center) < 1500f
-                    && !npc.dontTakeDamage)
+                    && !npc.friendly
+                    && npc.CanBeChasedBy(projectile))
                 {
                     distance = Vector2.Distance(npc.Center, projectile.Center);
                     target = npc;
@@ -102,48 +103,6 @@ namespace Revolutions.Projectiles
                     projectile.spriteDirection = -1;
                 }
             }
-
-        }
-        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-        {
-            /*Random rd = new Random();
-            int shoot2 = 0, shoot3 = 0;
-            if (Mega.GetMegaShootID.save1 == 0)
-            {
-                Mega.GetMegaShootID.save1 = 14;
-            }
-            if (Mega.GetMegaShootID.save2 == 0)
-            {
-                shoot2 = Mega.GetMegaShootID.save1;
-            }
-            else
-            {
-                shoot2 = Mega.GetMegaShootID.save2;
-            }
-            if (Mega.GetMegaShootID.save3 == 0)
-            {
-                shoot3 = shoot2;
-            }
-            else
-            {
-                shoot3 = Mega.GetMegaShootID.save3;
-            }
-            if (Mega.GetMegaShootID.save1 == ProjectileID.Bullet)
-            {
-                shoot2 = ProjectileID.Bullet;
-                shoot3 = shoot2;
-            }
-            Projectile.NewProjectile(target.Center.X, target.Center.Y + 300, 0, -90, shoot2, projectile.damage * 8, 0, projectile.owner);
-            Projectile.NewProjectile(target.Center.X, target.Center.Y - 300, 0, 90, shoot2, projectile.damage * 8, 0, projectile.owner);
-            Projectile.NewProjectile(target.Center.X + 300, target.Center.Y, -90, 0, shoot3, projectile.damage * 8, 0, projectile.owner);
-            Projectile.NewProjectile(target.Center.X - 300, target.Center.Y, 90, 0, shoot3, projectile.damage * 8, 0, projectile.owner);
-            foreach (Projectile projectiles in Main.projectile)
-            {
-                if (projectiles.damage == projectile.damage * 8)
-                {
-                    projectiles.tileCollide = false;
-                }
-            }*/
         }
     }
 }

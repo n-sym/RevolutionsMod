@@ -60,47 +60,6 @@ namespace Revolutions.Projectiles
                 (player.Center - target.Center).ToRotation())
                 - 0.5f * (player.Center - target.Center);
             projectile.rotation = (projectile.position - projectile.oldPosition).ToRotation() + 1.571f;
-            //projectile.alpha = 0;
-            /*if (j == 0)
-            {
-                float distanceMax = 500f;
-                foreach (NPC npc in Main.npc)
-                {
-                    if (npc.active && !npc.friendly)
-                    {
-                        float currentDistance = Vector2.Distance(npc.Center, projectile.Center);
-                        if (currentDistance < distanceMax)
-                        {
-                            if (npc.lifeMax > 10)
-                            {
-                                distanceMax = currentDistance;
-                                t = npc;
-                            }
-                        }
-                    }
-                }
-            }
-            if (t != null)
-            {
-                projectile.position = Helper.GetCloser(projectile.position, t.Center, i, 700);
-                if (Vector2.Distance(projectile.position, t.position) >= 500) projectile.position = t.position;
-                Vector2 target = Helper.GetCloser(t.Center, projectile.position, 2, 5);
-                Dust dust = Dust.NewDustDirect(Helper.GetCloser(projectile.position, target, j, 30), 1, 1, mod.DustType("Pixel"), 0, 0, 255 - (int)(255 * j / 30), Helper.GetCloserColor(Helper.GetRainbowColorLinear(j, 25), Color.White, 5, 6), 0.35f + 0.2f * j / 25);
-                j++;
-                if (j == 26)
-                {
-                    j = 0;
-                    i++;
-                }
-                if (t.dontTakeDamage || !t.active)
-                {
-                    projectile.timeLeft = 0;
-                }
-            }
-            else
-            {
-                projectile.timeLeft = 0;
-            }*/
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

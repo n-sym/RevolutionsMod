@@ -1,4 +1,5 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
@@ -34,6 +35,15 @@ namespace Revolutions.Projectiles
             }
 
             return true;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            int a = 0;
+            foreach (CombatText combatText in Main.combatText)
+            {
+                int.TryParse(combatText.text, out a);
+                if (a == damage && !combatText.crit) combatText.color = Color.White;
+            }
         }
 
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)

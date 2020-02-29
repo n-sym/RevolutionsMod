@@ -28,7 +28,6 @@ namespace Revolutions.Items.Weapon
             item.knockBack = 10;
             item.value = Item.sellPrice(0, 36, 0, 0); ;
             item.rare = 11;
-            item.expert = true;
             item.UseSound = SoundID.Item1;
             item.autoReuse = true;
         }

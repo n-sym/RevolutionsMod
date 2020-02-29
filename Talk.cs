@@ -1,4 +1,6 @@
-﻿using Terraria;
+﻿using Microsoft.Xna.Framework;
+using Revolutions.Utils;
+using Terraria;
 
 namespace Revolutions
 {
@@ -11,7 +13,10 @@ namespace Revolutions
                 player.GetModPlayer<RevolutionsPlayer>().nowSaying = type;
                 player.GetModPlayer<RevolutionsPlayer>().talkActive = time;
             }
-
+            if (who > 0)
+            {
+                RevolutionsPlayer.npctalk[0] = new StringTimerInt(type, who, time);
+            }
         }
     }
     public class Mutter

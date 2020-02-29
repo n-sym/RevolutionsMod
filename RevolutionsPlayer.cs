@@ -33,6 +33,7 @@ namespace Revolutions
         public Vector2 instantmove = Vector2.Zero;
         public Color starFlareColor { get; set; } = Color.White;
         public int saviourstatus { get; set; } = 1;
+        public bool evolutionary { get; set; } = false;
         public bool saviourexist { get; set; } = false;
         public static int timer = 0;
         public int justDmgcounter { get; set; } = 0;
@@ -42,6 +43,7 @@ namespace Revolutions
         public int nowBossLife { get; set; } = 0;
         public int nowBossLifeTrue { get; set; } = 0;
         public int nowBossLifeMax { get; set; } = 0;
+        public static StringTimerInt[] npctalk = new StringTimerInt[21];
         public static int logoTimer = 0;
         public override void OnEnterWorld(Player player)
         {
@@ -81,6 +83,10 @@ namespace Revolutions
                 pastMana[j] = pastMana[j - 1];
                 starFlare[j] = starFlare[j - 1];
                 corePower[j] = corePower[j - 1];
+                if (j < 21 && npctalk[j - 1] != null && npctalk[j - 1].timer > 0)
+                {
+                    npctalk[j - 1].timer--;
+                }
             }
             pastPosition[0] = player.position;
             pastCenter[0] = player.Center;
@@ -105,6 +111,7 @@ namespace Revolutions
         public override void ResetEffects()
         {
             saviourexist = false;
+            evolutionary = false;
             Lightning.LightningCfgs.accexists = false;
         }
         int timerw = 0;
@@ -215,6 +222,7 @@ namespace Revolutions
             else { timer2 = 0; nowBossLife = 0; timer3 = 0; }
             if (timer2 == 1 && timer3 == 1 && nowBoss.type != 125) nowBossLife += nowBoss.life;
             if (nowBoss != null && nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
+        if(nowBoss != null && ModLoader.GetMod("Eternalresolve") != null && ModLoader.GetMod("Eternalresolve").NPCType("Omidy") == nowBoss.type && nowBoss.life == 100000) { nowBossLife = 0; nowBossLifeTrue = 0; }
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
@@ -310,24 +318,27 @@ namespace Revolutions
         public override void OnRespawn(Player player)
         {
             Random rd = new Random();
-            int a = rd.Next(0, 6);
+            int a = rd.Next(0, 7);
             if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn01"), 180, player);
             if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn02"), 180, player);
             if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn03"), 180, player);
             if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn04"), 180, player);
             if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn05"), 180, player);
+            if (a == 6) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Respawn06"), 180, player);
         }
         public override void Kill(double damage, int hitDirection, bool pvp, PlayerDeathReason damageSource)
         {
             Random rd = new Random();
-            int a = rd.Next(0, 4);
+            int a = rd.Next(0, 5);
             if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die01"), 180, player);
             if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die02"), 180, player);
             if (a == 3) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die03"), 180, player);
+            if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die07"), 180, player);
             if (nowBoss != null)
             {
                 if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die04"), 180, player);
                 if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die05"), 180, player);
+                if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die06"), 180, player);
             }
         }
         public static void Welcome(object obj)

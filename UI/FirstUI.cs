@@ -26,7 +26,7 @@ namespace Revolutions.UI
             {
                 if (player.active)
                 {
-                    string talk = playera.GetModPlayer<RevolutionsPlayer>().nowSaying;
+                    string talk = player.GetModPlayer<RevolutionsPlayer>().nowSaying;
                     float v = Helper.GetStringLength(Main.fontMouseText, talk, 0.8f);
                     if (player.GetModPlayer<RevolutionsPlayer>().talkActive > 0)
                     {

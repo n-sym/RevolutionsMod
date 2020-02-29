@@ -181,7 +181,7 @@ namespace Revolutions.Items.Acc
             player.rangedCrit += 8;
             player.meleeCrit += 8;
             player.thrownCrit += 8;
-            player.maxMinions += 2;
+            player.maxMinions += 3;
             player.statLifeMax2 = player.statLifeMax2 + 100;
             if (player.position != player.oldPosition)
             {
@@ -197,7 +197,6 @@ namespace Revolutions.Items.Acc
                 player.rangedCrit += 8;
                 player.meleeCrit += 8;
                 player.thrownCrit += 8;
-                player.maxMinions += 2;
             }
         }
     }
