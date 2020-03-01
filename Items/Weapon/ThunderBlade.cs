@@ -12,7 +12,6 @@ namespace Revolutions.Items.Weapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Thunder");
         }
         public override void SetDefaults()
         {

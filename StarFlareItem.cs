@@ -6,6 +6,7 @@ namespace Revolutions
     public abstract class SFitem : ModItem
     {
         public int sfCosume;
+        public bool sf = true;
 
         public override bool CanUseItem(Player player)
         {

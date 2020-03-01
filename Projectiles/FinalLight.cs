@@ -83,12 +83,14 @@ namespace Revolutions.Projectiles
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
             Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width, projectile.height);
-            for (int k = 1; k < 15; k++)
+            for (int k = 0; k < projectile.oldPos.Length - 1; k++)
             {
-                Vector2 drawPositiona = 0.45f * projectile.oldPos[k - 1] + 0.55f * projectile.position;
+                Vector2 drawPositiona = 0.45f * projectile.oldPos[k] + 0.55f * projectile.position;
                 drawPositiona += new Vector2(0f, projectile.gfxOffY - 5f) - Main.screenPosition + drawOrigin;
-                Vector2 drawPositionb = 0.45f * projectile.oldPos[k] + 0.55f * projectile.position;
+                Vector2 drawPositionb = 0.45f * projectile.oldPos[k + 1] + 0.55f * projectile.position;
                 drawPositionb += new Vector2(0f, projectile.gfxOffY - 5f) - Main.screenPosition + drawOrigin;
+                if (projectile.oldPos[k + 1] == Vector2.Zero) drawPositionb += 0.45f * projectile.oldPos[k];
+                else if (drawPositionb == Vector2.Zero) drawPositionb = drawPositiona;
                 float sizeFix = k + 1;
                 sizeFix /= 18;
                 sizeFix = 1 - sizeFix;

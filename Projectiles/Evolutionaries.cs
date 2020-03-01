@@ -18,8 +18,8 @@ namespace Revolutions.Projectiles
         }
         public override void SetDefaults()
         {
-            projectile.width = 16;
-            projectile.height = 16;
+            projectile.width = 32;
+            projectile.height = 32;
             projectile.friendly = true;
             projectile.aiStyle = -1;
             projectile.timeLeft = 3;
@@ -92,7 +92,7 @@ namespace Revolutions.Projectiles
             else if (dis2 < 450f)
             {
                 projectile.rotation += 3.14f / 30;
-                projectile.velocity = 0.6f * projectile.oldVelocity + Helper.ToUnitVector(target.Center - projectile.Center) * Vector2.Distance(target.Center, projectile.Center) / 50f;
+                projectile.velocity = 0.6f * projectile.oldVelocity + Helper.ToUnitVector(target.Center - projectile.Center) * Vector2.Distance(target.Center, projectile.Center) / 15f;
                 projectile.velocity.X += Helper.EntroptPool[projectile.whoAmI + rd.Next(1, 500)] * 0.02f;
                 projectile.velocity.Y += Helper.EntroptPool[projectile.whoAmI + rd.Next(501, 1000)] * 0.02f;
             }
@@ -109,12 +109,14 @@ namespace Revolutions.Projectiles
                 if (timer[0] == 0)
                 {
                     timer[0] += 12;
-                    Projectile.NewProjectile(projectile.Center, projectile.Center, ModContent.ProjectileType<FinalLightSummon>(), projectile.damage * 2, projectile.knockBack, projectile.owner, rd.Next(5, 15), target.whoAmI);
+                    Main.PlaySound(SoundID.Item9);
+                    Projectile.NewProjectile(projectile.Center + projectile.velocity, projectile.Center + projectile.velocity, ModContent.ProjectileType<FinalLightSummon>(), projectile.damage * 3 / 2, projectile.knockBack, projectile.owner, 0, target.whoAmI);
                 }
             }
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            damage = (int)(0.66f * damage);
             crit = true;
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)

@@ -10,7 +10,6 @@ namespace Revolutions.Items.Weapon
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("SE");
         }
         public override void SetDefaults()
         {
@@ -19,13 +18,13 @@ namespace Revolutions.Items.Weapon
             item.width = 40;
             item.crit = 14;
             item.height = 20;
-            item.mana = 10;
+            item.mana = 15;
             item.useTime = 17;
             item.useAnimation = 17;
             item.useStyle = ItemUseStyleID.SwingThrow;
             item.noMelee = true;
             item.autoReuse = true;
-            item.knockBack = 4;
+            item.knockBack = 7;
             item.value = Item.sellPrice(0, 36, 0, 0); ;
             item.rare = 11;
             item.UseSound = SoundID.Item44;

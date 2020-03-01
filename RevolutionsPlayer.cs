@@ -252,11 +252,11 @@ namespace Revolutions
                 }
                 if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.melee)
                 {
-                    Helper.LifeSteal(player, damage, 0.08f);
+                    Helper.LifeSteal(player, damage, 0.12f);
                 }
                 if (player.armor[0].type == ItemType<SaviourSummon>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.minion)
                 {
-                    Helper.LifeSteal(player, damage, 0.08f);
+                    Helper.LifeSteal(player, damage, 0.04f);
                 }
             }
             else if (proj.type != mod.ProjectileType("JustDamage"))
