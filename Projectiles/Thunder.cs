@@ -69,7 +69,7 @@ namespace Revolutions.Projectiles
                         color = Helper.Specialname2Color(Helper.spname);
                     }
                     float sizeFix = i + 1;
-                    sizeFix /= 15;
+                    sizeFix /= 15 / Main.player[projectile.owner].meleeSpeed;
                     color = Color.Multiply(color, sizeFix * projectile.timeLeft / 30);
                     spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(current, target, j, 30) - Main.screenPosition, null, Color.Multiply(color, 1), projectile.rotation, drawOrigin, 0.19f, SpriteEffects.None, 0f);
                     Lighting.AddLight(Helper.GetCloser(current, target, j, 20), color.R / 245, color.G / 245, color.B / 245);

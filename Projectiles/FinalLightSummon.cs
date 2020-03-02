@@ -29,6 +29,9 @@ namespace Revolutions.Projectiles
             projectile.aiStyle = -1;
             projectile.light = 0.5f;
             projectile.scale = 0.8f;
+            projectile.penetrate = 2000;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override bool ShouldUpdatePosition()
         {
@@ -72,9 +75,9 @@ namespace Revolutions.Projectiles
             for (int k = 0; k < projectile.oldPos.Length - 1; k++)
             {
                 Vector2 drawPositiona = 0.45f * projectile.oldPos[k] + 0.55f * projectile.position;
-                drawPositiona += new Vector2(0f, projectile.gfxOffY - 5f) - Main.screenPosition + drawOrigin;
+                drawPositiona -= Main.screenPosition - drawOrigin;
                 Vector2 drawPositionb = 0.45f * projectile.oldPos[k + 1] + 0.55f * projectile.position;
-                drawPositionb += new Vector2(0f, projectile.gfxOffY - 5f) - Main.screenPosition + drawOrigin;
+                drawPositionb -= Main.screenPosition - drawOrigin;
                 if (projectile.oldPos[k + 1] == Vector2.Zero) drawPositionb += 0.45f * projectile.oldPos[k];
                 else if (drawPositionb == Vector2.Zero) drawPositionb = drawPositiona;
                 float sizeFix = k + 1;
@@ -85,15 +88,12 @@ namespace Revolutions.Projectiles
                 int b = rd.Next(1, 2);
                 Color color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(k + a, 18 + (b * a)), Color.White, 5, 6);
                 color = Color.Multiply(color, sizeFix / 1.7f);
-                if (projectile.timeLeft < 28)
+                for (int i = 0; i < 9; i++)
                 {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(drawPositiona, drawPositionb, i, 6), null,
-                        color, projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
-                    }
-
+                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(drawPositiona, drawPositionb, i, 8), null,
+                    color, projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
                 }
+
             }
             return true;
         }

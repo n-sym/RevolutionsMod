@@ -22,6 +22,7 @@ namespace Revolutions
         public int[] pastMana { get; set; } = new int[601];
         public int[] starFlare { get; set; } = new int[601];
         public int[] corePower { get; set; } = new int[601];
+        public float sanity { get; set; } = 100;  
         public int maxStarFlare { get; set; } = 500;
         public int aPTimer { get; set; } = 0;
         public int dPTimer { get; set; } = 0;
@@ -221,8 +222,14 @@ namespace Revolutions
             }
             else { timer2 = 0; nowBossLife = 0; timer3 = 0; }
             if (timer2 == 1 && timer3 == 1 && nowBoss.type != 125) nowBossLife += nowBoss.life;
-            if (nowBoss != null && nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
-        if(nowBoss != null && ModLoader.GetMod("Eternalresolve") != null && ModLoader.GetMod("Eternalresolve").NPCType("Omidy") == nowBoss.type && nowBoss.life == 100000) { nowBossLife = 0; nowBossLifeTrue = 0; }
+            Random rd = new Random();
+            if (nowBoss != null)
+            {
+                if (nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
+                if (ModLoader.GetMod("Eternalresolve") != null && ModLoader.GetMod("Eternalresolve").NPCType("Omidy") == nowBoss.type && nowBoss.life == 100000) { nowBossLife = 0; nowBossLifeTrue = 0; }
+                if (nowBoss.type == Terraria.ID.NPCID.DukeFishron && rd.Next(0, 120) == 1) new Talk(nowBoss.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.DkFsion0" + rd.Next(1, 6).ToString()), 180, null);
+
+            }
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
@@ -349,8 +356,6 @@ namespace Revolutions
                 Main.spriteBatch.Begin();
                 float scale = 0.3f * (float)Math.Cos(0.0174533 * (90 - logoTimer)) + 0.7f;
                 Main.spriteBatch.Draw(Logo, new Vector2(0.5f * Main.screenWidth - 0.25f * scale * Main.UIScale * Logo.Width, 135f + 45f * (float)Math.Cos(0.0174533 * (logoTimer))), new Rectangle(0, 0, (int)(Logo.Width), Logo.Height), Color.White * (float)Math.Cos(0.0174533 * (90 - logoTimer)), 0f, Vector2.Zero, 0.5f * Main.UIScale * scale, SpriteEffects.None, 0f);
-                /*Terraria.Utils.DrawBorderStringFourWay(Main.spriteBatch, Main, "Revolutions",
-                        0.5f * Main.screenWidth - 0.5f, 50f, Color.White, Color.Transparent, Vector2.Zero, 0.8f);*/
                 Main.spriteBatch.End();
             }
         }

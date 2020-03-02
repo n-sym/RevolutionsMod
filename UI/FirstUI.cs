@@ -34,9 +34,21 @@ namespace Revolutions.UI
                         new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor),
                         Color.Black, new Vector2(0, 0), 0.8f * Main.GameZoomTarget);
                     }
+
                 }
             }
-
+            if (RevolutionsPlayer.npctalk[0] != null)
+            {
+                string talk = RevolutionsPlayer.npctalk[0].text;
+                float v = Helper.GetStringLength(Main.fontMouseText, talk, 0.8f);
+                if (RevolutionsPlayer.npctalk[0].timer > 0)
+                {
+                    NPC n = Main.npc[RevolutionsPlayer.npctalk[0].number];
+                    Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, talk, (n.Center.X - Main.screenPosition.X) / Main.UIScale - (0.5f * v * Main.GameZoomTarget), (n.position.Y - Main.screenPosition.Y) / Main.UIScale - (30 * Main.GameZoomTarget),
+                    new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor),
+                    Color.Black, new Vector2(0, 0), 0.8f * Main.GameZoomTarget);
+                }
+            }
         }
     }
 }

@@ -22,9 +22,9 @@ namespace Revolutions.Projectiles
             projectile.height = 12;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.timeLeft = 30;
+            projectile.timeLeft = 17;
             projectile.tileCollide = false;
-            projectile.alpha = 0;
+            projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.aiStyle = -1;
             projectile.light = 0.5f;
@@ -33,32 +33,30 @@ namespace Revolutions.Projectiles
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }
-        int j = 0;
-        int i = 0;
 
-        NPC t = null;
+        public override bool ShouldUpdatePosition()
+        {
+            return false;
+        }
         public override void AI()
         {
+            if (projectile.timeLeft == 15) projectile.alpha = 0;
             if (Main.npc.Length < projectile.ai[1]) projectile.Kill();
             NPC target = Main.npc[(int)projectile.ai[1]];
-            Player player = Main.player[projectile.owner];
-            if (projectile.timeLeft == 150)
-            {
-                PositionSave[1] = projectile.position;
-                Random rd = new Random();
-                PositionSave[0].X = rd.Next(-101, 101) / 50;
-            }
-            projectile.velocity = Vector2.Zero;
-            projectile.position = player.Center +
+            /*projectile.position = player.Center +
                 Curve.GetEllipse((30 - projectile.timeLeft) * 0.10472f,
                 0.5f * Vector2.Distance(player.Center, target.Center),
-                4.2f * projectile.ai[0] * Helper.EntroptPool[(int)projectile.ai[0] * projectile.identity] / 50,
+                4.2f * projectile.ai[0] * Helper.EntroptPool[(int)projectile.ai[0] * projectile.identity] / 75,
                 (player.Center - target.Center).ToRotation())
-                - 0.5f * (player.Center - target.Center);
-            projectile.rotation = (projectile.position - projectile.oldPosition).ToRotation() + 1.571f;
+                - 0.5f * (player.Center - target.Center);*/
+            projectile.rotation = (projectile.position - target.Center).ToRotation() - 1.57f;
+            Vector2 rota = new Vector2(4, 4).RotatedBy(projectile.ai[0]);
+            projectile.position = Helper.GetCloser(projectile.velocity, target.Center + rota , 17 - projectile.timeLeft, 14);
+            
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            projectile.alpha = 255;
             if (target.whoAmI == projectile.ai[1])
             {
                 projectile.damage = 0;
@@ -82,13 +80,13 @@ namespace Revolutions.Projectiles
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {
-            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width, projectile.height);
+            Vector2 drawOrigin = new Vector2(8.5f, 3);
             for (int k = 0; k < projectile.oldPos.Length - 1; k++)
             {
                 Vector2 drawPositiona = 0.45f * projectile.oldPos[k] + 0.55f * projectile.position;
-                drawPositiona += new Vector2(0f, projectile.gfxOffY - 5f) - Main.screenPosition + drawOrigin;
+                drawPositiona -= Main.screenPosition - drawOrigin;
                 Vector2 drawPositionb = 0.45f * projectile.oldPos[k + 1] + 0.55f * projectile.position;
-                drawPositionb += new Vector2(0f, projectile.gfxOffY - 5f) - Main.screenPosition + drawOrigin;
+                drawPositionb -= Main.screenPosition - drawOrigin;
                 if (projectile.oldPos[k + 1] == Vector2.Zero) drawPositionb += 0.45f * projectile.oldPos[k];
                 else if (drawPositionb == Vector2.Zero) drawPositionb = drawPositiona;
                 float sizeFix = k + 1;
@@ -99,14 +97,10 @@ namespace Revolutions.Projectiles
                 int b = rd.Next(1, 2);
                 Color color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(k + a, 18 + (b * a)), Color.White, 5, 6);
                 color = Color.Multiply(color, sizeFix / 1.7f);
-                if (projectile.timeLeft < 28)
+                for (int i = 0; i < 7; i++)
                 {
-                    for (int i = 0; i < 7; i++)
-                    {
-                        spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(drawPositiona, drawPositionb, i, 6), null,
-                        color, projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
-                    }
-
+                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(drawPositiona, drawPositionb, i, 6), null,
+                    color, projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
                 }
             }
             return true;

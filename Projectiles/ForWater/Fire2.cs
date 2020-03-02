@@ -6,11 +6,11 @@ using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles.ForWater
 {
-    public class Fire1 : ModProjectile
+    public class Fire2 : ModProjectile
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("FrozenFlare");
+            DisplayName.SetDefault("CruseFlare");
         }
         public override void SetDefaults()
         {
@@ -28,7 +28,6 @@ namespace Revolutions.Projectiles.ForWater
         }
         public override void AI()
         {
-            if (projectile.wet) projectile.Kill();
             if (projectile.timeLeft > 60)
             {
                 projectile.timeLeft = 60;
@@ -58,16 +57,16 @@ namespace Revolutions.Projectiles.ForWater
                     var height = projectile.height;
                     var speedX = projectile.velocity.X * 0.2f;
                     var speedY = projectile.velocity.Y * 0.2f;
-                    var dust = Dust.NewDust(pos, width, height, 135, speedX, speedY, 0,
+                    var dust = Dust.NewDust(pos, width, height, 75, speedX, speedY, 0,
                         Color.White, 1f);
                     if (Main.rand.Next(3) != 0)
                     {
                         Main.dust[dust].noGravity = true;
-                        Main.dust[dust].scale *= 3f;
+                        Main.dust[dust].scale *= 2f;
                         Main.dust[dust].velocity.X *= 2f;
                         Main.dust[dust].velocity.Y *= 2f;
                     }
-                    Main.dust[dust].scale *= 1.35f;
+                    Main.dust[dust].scale *= 1.85f;
                     Main.dust[dust].velocity.X *= 1.2f;
                     Main.dust[dust].velocity.Y *= 1.2f;
                     Main.dust[dust].scale *= dustscalefix;

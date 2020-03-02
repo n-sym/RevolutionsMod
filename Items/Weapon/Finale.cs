@@ -38,14 +38,14 @@ namespace Revolutions.Items.Weapon
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Random rd = new Random();
-            Projectile.NewProjectile(position.X - 12, position.Y - 12, speedX, speedY, type, damage / 2, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position.X - 4, position.Y - 4, speedX, speedY, type, damage / 2, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("FinalLightAlt"), damage, 1, player.whoAmI);
-            position.Y = position.Y + 4;
-            position.X = position.X + 4;
-            Projectile.NewProjectile(position.X + 8, position.Y + 8, speedX, speedY, type, damage / 2, knockBack, player.whoAmI);
-            return true;
+            Vector2 spd = new Vector2(speedX, speedY);
+            Vector2 rota = new Vector2(4, 4).RotatedBy(spd.ToRotation());
+            Projectile.NewProjectile(position - 3 * rota, spd, type, damage / 2, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position - rota, spd, type, damage / 2, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position + rota, spd, type, damage / 2, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position + 3 * rota, spd, type, damage / 2, knockBack, player.whoAmI);
+            Projectile.NewProjectile(position.X, position.Y + 2, speedX, speedY, mod.ProjectileType("FinalLightAlt"), damage, knockBack, player.whoAmI);
+            return false;
         }
     }
 }

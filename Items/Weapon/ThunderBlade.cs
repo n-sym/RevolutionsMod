@@ -21,7 +21,7 @@ namespace Revolutions.Items.Weapon
             item.crit = 14;
             item.height = 20;
             item.useTime = 9;
-            item.useAnimation = 9;
+            item.useAnimation = 8;
             item.useStyle = 1;
             item.noMelee = false;
             item.knockBack = 10;
@@ -32,7 +32,7 @@ namespace Revolutions.Items.Weapon
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Projectile.NewProjectile(target.Center + new Vector2((600 + Helper.EntroptPool[damage]), -800 + Helper.EntroptPool[damage + 100]), Vector2.Zero, mod.ProjectileType("Thunder"), damage, 0, player.whoAmI, target.Center.X, target.Center.Y);
+            Projectile.NewProjectile(target.Center + new Vector2((600 + Helper.EntroptPool[damage]), -800 + Helper.EntroptPool[damage + 100]), Vector2.Zero, mod.ProjectileType("Thunder"), damage * 3, 0, player.whoAmI, target.Center.X, target.Center.Y);
         }
         public override void UseStyle(Player player)
         {

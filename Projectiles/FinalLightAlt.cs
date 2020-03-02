@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -32,10 +33,13 @@ namespace Revolutions.Projectiles
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             Player player = Main.player[projectile.owner];
+            Random random = new Random();
+            int fix = random.Next(-6, 6);
+            Vector2 rota = new Vector2(4, 4).RotatedBy(player.itemRotation) * fix;
             if (Vector2.Distance(projectile.position, player.position) < 0.5f * Vector2.Distance(Vector2.Zero, new Vector2(Main.screenWidth, Main.screenHeight)))
             {
                 projectile.damage = (int)(projectile.damage * 0.9f);
-                Projectile.NewProjectile(player.Center, Vector2.Zero, mod.ProjectileType("FinalLight"), projectile.damage, 0, projectile.owner, -0.3f * projectile.penetrate + 10, target.whoAmI);
+                Projectile.NewProjectile(player.Center + rota, player.Center + rota, mod.ProjectileType("FinalLight"), projectile.damage, 0, projectile.owner, rota.ToRotation(), target.whoAmI);
             }
         }
     }
