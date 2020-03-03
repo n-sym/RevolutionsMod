@@ -10,6 +10,12 @@
   <Target Name="BuildMod" AfterTargets="Build">
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
+  <ItemGroup>
+    <None Remove="Content\First.fx" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Content\First.fx" />
+  </ItemGroup>
 <ItemGroup>
     <Reference Include="Microsoft.CodeAnalysis">
       <HintPath>D:\Applications\Steam\steamapps\common\Terraria\ModCompile\Microsoft.CodeAnalysis.dll</HintPath>

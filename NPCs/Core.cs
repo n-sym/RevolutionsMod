@@ -1,4 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Revolutions.Utils;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -20,7 +23,7 @@ namespace Revolutions.NPCs
             npc.width = 188;
             npc.height = 188;
             npc.boss = true;
-            npc.aiStyle = -10; // This npc has a completely unique AI, so we set this to -1.
+            npc.aiStyle = -1; // This npc has a completely unique AI, so we set this to -1.
             npc.damage = 0;
             npc.friendly = false;
             npc.defense = 0;
@@ -28,7 +31,7 @@ namespace Revolutions.NPCs
             npc.knockBackResist = 0;
             npc.HitSound = SoundID.NPCHit1;
             npc.DeathSound = SoundID.NPCDeath1;
-            //npc.alpha = 175;
+            npc.alpha = 255;
             //npc.color = new Color(0, 80, 255, 100);
             npc.value = Item.sellPrice(0, 36, 0, 0);
             npc.noGravity = true;
@@ -44,64 +47,67 @@ namespace Revolutions.NPCs
         }
 
         // AdvancedFlutterSlime will need: float in water, diminishing aggo, spawn projectiles.
-        bool first = true;
-        int loop = 0;
-        bool duomode = false;
-        int duotimer = 0;
-        int angry = 0;
-        float pjtvelx, pjtvely, plyvelx, plyvely;
-        int duotimer2 = 0;
-        int backtimer = 0;
-        int xstimer;
-        int smode = 0;
-
-        float wavex = 0, wavey = 0, wave = 6, wavemode = 1;
-        bool danger = false;
         Player target;
         public override void AI()
         {
             target = Main.player[0];
             Lighting.AddLight(npc.Center, 3, 3, 3);
             //AI_Timer++;
-            loop++;
             //Talk(Vector2.Distance(target.Center, npc.Center).ToString());
             //npc.scale = 1f + (float)Math.Sin(AI_Timer * 0.05f) * 0.05f;
-            //npc.visualOffset.Y = 188 + (float)Math.Sin(AI_Timer * 0.05f) * 19.2f;
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.P)) smode++;
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.O)) smode--;
-            if (GetCore.attackerexist == 0)
+            //npc.visualOffset.Y = 188 + (float)Math.Sin(AI_Timer * 0.05f) * 19.2f;if (GetCore.attackerexist == 0)
             {
-                for (int i = 0; i < 8; i++)
+                /*for (int i = 0; i < 8; i++)
                 {
                     NPC.NewNPC((int)npc.position.X, (int)npc.position.Y, mod.NPCType("CoreAttacker"), 0, 0.628f * i, 0, i, 1);
-                }
+                }*/
                 //NPC.NewNPC(0, 0, mod.NPCType("CoreAttacker"), 0, 0, 0, 3);
             }
             GetCore.position = npc.Center;
             GetCore.target = target;
 
         }
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
+        float drawtimer = 0;
+        public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            for (float i = 1.1f; i < 1.25f; i += 0.01f)
+            drawtimer += 0.02f;
+            Color c = Color.White;
+            for (int y = 1; y < 1352; y += 8)
             {
-                Color c = new Color((float)255 / i, (float)255 / i, (float)255 / i);
-                spriteBatch.Draw(Main.npcTexture[npc.type], npc.position - Main.screenPosition + new Vector2( npc.width, npc.height), null, c, 0f, new Vector2(npc.width, npc.height), 1, SpriteEffects.None, 0f);
+                int b = y + (int)(Math.Abs(Math.Sin(drawtimer)) * 10816);
+                Color d = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b, 21632), c, 5, 6);
+                Color e = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 1352, 21632), c, 5, 6);
+                Color f = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 2704, 21632), c, 5, 6);
+                Color g = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 4056, 21632), c, 5, 6);
+                Color h = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 5408, 21632), c, 5, 6);
+                Color i = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 6760, 21632), c, 5, 6);
+                Color j = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 8112, 21632), c, 5, 6);
+                Color k = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 9464, 21632), c, 5, 6);
+                Vector2 pos = new Vector2(y, 1350 / y);
+                for (float z = pos.Y; z >= 0; z -= 8)
+                {
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.X, pos.Y - z), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.X, pos.Y - z), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.X, -pos.Y + z), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.X, -pos.Y + z), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.Y - z, pos.X), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.Y - z, -pos.X), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.Y + z, pos.X), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y + z, -pos.X), new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+
+                }
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.X, pos.Y), new Rectangle(0, 0, 8, 8), d, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.X, pos.Y), new Rectangle(0, 0, 8, 8), g, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.X, -pos.Y), new Rectangle(0, 0, 8, 8), k, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.X, -pos.Y), new Rectangle(0, 0, 8, 8), h, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.Y, pos.X), new Rectangle(0, 0, 8, 8), e, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.Y, -pos.X), new Rectangle(0, 0, 8, 8), f, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.Y, pos.X), new Rectangle(0, 0, 8, 8), j, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y, -pos.X), new Rectangle(0, 0, 8, 8), i, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+
+                //spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + Curve.GetHyperbola(i, 70, 70, -0.7854f), new Rectangle(0, 0, 8, 8), Color.White, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
             }
             return true;
-        }*/
-        private void Talk(string message)
-        {
-            if (Main.netMode != 2)
-            {
-                string text = message;
-                Main.NewText(text, 150, 250, 150);
-            }
-            else
-            {
-                NetworkText text = NetworkText.FromKey(message);
-                NetMessage.BroadcastChatMessage(text, new Color(150, 250, 150));
-            }
         }
 
     }
