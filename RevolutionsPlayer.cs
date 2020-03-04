@@ -22,7 +22,8 @@ namespace Revolutions
         public int[] pastMana { get; set; } = new int[601];
         public int[] starFlare { get; set; } = new int[601];
         public int[] corePower { get; set; } = new int[601];
-        public float sanity { get; set; } = 100;  
+        public float sanity { get; set; } = 100;
+        public int difficulty { get; set; } = 0;
         public int maxStarFlare { get; set; } = 500;
         public int aPTimer { get; set; } = 0;
         public int dPTimer { get; set; } = 0;
@@ -46,6 +47,7 @@ namespace Revolutions
         public int nowBossLifeMax { get; set; } = 0;
         public static StringTimerInt[] npctalk = new StringTimerInt[21];
         public static int logoTimer = 0;
+        public static int hitcounter = 0;
         public override void OnEnterWorld(Player player)
         {
             logoTimer += 90;
@@ -105,7 +107,9 @@ namespace Revolutions
             {
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
+                if (hitcounter == 0 && nowBoss != null) difficulty++;
             }
+            Helper.Print("Difficulty:" + difficulty.ToString());
 
         }
 
@@ -113,6 +117,7 @@ namespace Revolutions
         {
             saviourexist = false;
             evolutionary = false;
+            hitcounter = 0;
             Lightning.LightningCfgs.accexists = false;
         }
         int timerw = 0;
@@ -194,9 +199,9 @@ namespace Revolutions
                 }
                 if (nowBoss == null && npc.type == 13) nowBoss = npc;
                 //增加boss组件生命值
-                //石巨人
-                if (nowBoss != null && nowBoss.active)
+                if (nowBoss != null && nowBoss.active && npc.active)
                 {
+                    //石巨人
                     if (nowBoss.type == 245 && (npc.type == 246 || npc.type == 247 || npc.type == 248)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
                     //骷髅王
                     if (nowBoss.type == 35 && npc.type == 36) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
@@ -346,6 +351,22 @@ namespace Revolutions
                 if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die04"), 180, player);
                 if (a == 2) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die05"), 180, player);
                 if (a == 4) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Die06"), 180, player);
+            }
+        }
+        public override void OnHitByNPC(NPC npc, int damage, bool crit)
+        {
+            if (nowBoss != null)
+            {
+                difficulty--;
+                hitcounter++;
+            }
+        }
+        public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
+        {
+            if (nowBoss != null)
+            {
+                difficulty--;
+                hitcounter++;
             }
         }
         public static void Welcome(object obj)

@@ -4,6 +4,7 @@ using Revolutions.Utils;
 using System;
 using Terraria;
 using Terraria.Localization;
+using Terraria.ModLoader;
 using Terraria.UI;
 
 namespace Revolutions.UI
@@ -37,6 +38,7 @@ namespace Revolutions.UI
                 Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, text,
                     0.5f * (Main.screenWidth + scale * Bar.Width) - v, 70f, Color.White, Color.Transparent, Vector2.Zero, 0.8f);
                 spriteBatch.Draw(Bar, new Vector2(0.5f * Main.screenWidth - 0.5f * scale * Bar.Width, 102.5f), new Rectangle(0, 0, (int)(Bar.Width), Bar.Height), Color.White * 0.33f, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                if (boss.type == ModContent.NPCType<NPCs.Core>()) Bar = Revolutions.mod.GetTexture("UI/RainbowLine");
                 spriteBatch.Draw(Bar, new Vector2(0.5f * Main.screenWidth - 0.5f * scale * Bar.Width, 102.5f), new Rectangle(0, 0, (int)a, Bar.Height), Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
             }
             else
