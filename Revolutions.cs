@@ -5,6 +5,9 @@ using Revolutions.Utils;
 //using ReLogic.Graphics;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
+using Terraria.Graphics.Shaders;
+using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Revolutions
@@ -29,6 +32,16 @@ namespace Revolutions
                 Helper.EntroptPool[i] = rd.Next(-101, 101);
             }
             Helper.WriteXML("12345", "12345");
+            if (Main.netMode != NetmodeID.Server)
+            {
+                Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
+                Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
+                Filters.Scene["Shockwave"].Load();
+                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/Core"));
+                Filters.Scene["Core"] = new Filter(new ScreenShaderData(screenRef2, "Core"), EffectPriority.VeryHigh);
+                Filters.Scene["Core"].Load();
+            }
+
         }
         public override void Unload()
         {

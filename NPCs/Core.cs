@@ -73,30 +73,55 @@ namespace Revolutions.NPCs
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
             if(!Main.gamePaused) drawtimer += 0.02f;
-            Color c = Color.White;
+            Color c = new Color(255, 255, 255, 255);
             float x = (float)Math.Asin(Math.Abs(Math.Sin(drawtimer))) / 15.71f + 0.9f;
+            float rota = (npc.Center - Main.player[0].Center).ToRotation();
+            for (int alpha = 0; alpha < 211; alpha++)
+            {
+                float zeta = alpha + 1;
+                zeta /= 210;
+                zeta = 1 - zeta;
+                zeta *= 0.8f;
+                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+            }
+            rota += 1.57f;
+            for (int alpha = 0; alpha < 161; alpha++)
+            {
+                float zeta = alpha + 1;
+                zeta /= 160;
+                zeta = 1 - zeta;
+                zeta *= 0.8f;
+                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+            }
             for (int y = 1; y < 1353; y += 8)
             {
+                float a = y + 1;
+                a /= 1352;
+                a = 1 - a;
+                if(y > 500)a *= 0f;
                 Vector2 pos = new Vector2(y, 1352 / y);
                 int b = y + (int)(Math.Abs(Math.Sin(drawtimer)) * 10816);
-                Color d = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b, 21632), c, 5, 6);
-                Color e = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 1352, 21632), c, 5, 6);
-                Color f = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 2704, 21632), c, 5, 6);
-                Color g = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 4056, 21632), c, 5, 6);
-                Color h = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 5408, 21632), c, 5, 6);
-                Color i = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 6760, 21632), c, 5, 6);
-                Color j = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 8112, 21632), c, 5, 6);
-                Color k = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 9464, 21632), c, 5, 6);
-                for (float z = pos.Y; z >= 0; z -= 8)
+                Color d = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b, 21632), c, 5, 6) * a;
+                Color e = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 1352, 21632), c, 5, 6) * a;
+                Color f = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 2704, 21632), c, 5, 6) * a;
+                Color g = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 4056, 21632), c, 5, 6) * a;
+                Color h = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 5408, 21632), c, 5, 6) * a;
+                Color i = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 6760, 21632), c, 5, 6) * a;
+                Color j = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 8112, 21632), c, 5, 6) * a;
+                Color k = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b + 9464, 21632), c, 5, 6) * a;
+                Color l = c * a;
+                for (float z = pos.Y; z > 0; z -= 8)
                 {
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.X, pos.Y - z) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.X, pos.Y - z) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.X, -pos.Y + z) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.X, -pos.Y + z) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.Y - z, pos.X) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.Y - z, -pos.X) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.Y + z, pos.X) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y + z, -pos.X) * x, new Rectangle(0, 0, 8, 8), c, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.X, pos.Y - z) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.X, pos.Y - z) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.X, -pos.Y + z) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.X, -pos.Y + z) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.Y - z, pos.X) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(pos.Y - z, -pos.X) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition - new Vector2(-pos.Y + z, pos.X) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                    spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y + z, -pos.X) * x, new Rectangle(0, 0, 8, 8), l, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
 
                 }
                 spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.X, pos.Y) * x, new Rectangle(0, 0, 8, 8), d, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
@@ -104,14 +129,17 @@ namespace Revolutions.NPCs
                 spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.X, pos.Y) * x, new Rectangle(0, 0, 8, 8), g, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
                 spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.X, -pos.Y) * x, new Rectangle(0, 0, 8, 8), h, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
                 spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.Y, pos.X) * x, new Rectangle(0, 0, 8, 8), e, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y, pos.X) * x, new Rectangle(0, 0, 8, 8), g, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y, pos.X) * x, new Rectangle(0, 0, 8, 8), f, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
                 spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(pos.Y, -pos.X) * x, new Rectangle(0, 0, 8, 8), j, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
                 spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + new Vector2(-pos.Y, -pos.X) * x, new Rectangle(0, 0, 8, 8), i, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
-
                 //spriteBatch.Draw(Main.magicPixel, npc.Center - Main.screenPosition + Curve.GetHyperbola(i, 70, 70, -0.7854f), new Rectangle(0, 0, 8, 8), Color.White, 0f, new Vector2(1, 1), 1, SpriteEffects.None, 0);
             }
             return true;
         }
-
+        public override void BossLoot(ref string name, ref int potionType)
+        {
+            Projectile.NewProjectile(npc.Center, Vector2.Zero, ModContent.ProjectileType<Projectiles.Dev.Dev02>(), 0, 0);
+            base.BossLoot(ref name, ref potionType);
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Revolutions.Items.DevTools
             item.rare = 5;
             item.shootSpeed = 30f;
             item.autoReuse = true;
-            item.shoot = ModContent.ProjectileType<Dev01>();
+            item.shoot = ModContent.ProjectileType<Projectiles.Dev.Dev01>();
         }
         int timer = 0;
 

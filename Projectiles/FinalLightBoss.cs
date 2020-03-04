@@ -36,20 +36,7 @@ namespace Revolutions.Projectiles
         NPC t = null;
         public override void AI()
         {
-            Player player = null;
-            float distance = 800f;
-            foreach (Player p in Main.player)
-            {
-                if(Vector2.Distance(p.Center, projectile.Center) < distance)
-                {
-                    distance = Vector2.Distance(p.Center, projectile.Center);
-                    player = p;
-                }
-            }
-            int fix = player.GetModPlayer<RevolutionsPlayer>().difficulty - 60;
-            fix *= -1;
-            if (fix < 0) fix = 0;
-            if(player != null) projectile.position = Helper.GetCloser(projectile.velocity, player.GetModPlayer<RevolutionsPlayer>().pastCenter[fix] + player.GetModPlayer<RevolutionsPlayer>().pastSpeed[fix] * fix + 0.5f * new Vector2(Helper.EntroptPool[projectile.whoAmI], Helper.EntroptPool[100 + projectile.whoAmI]), 25 - projectile.timeLeft, 23);
+            projectile.position = Helper.GetCloser(projectile.velocity.X, projectile.velocity.Y, projectile.ai[0], projectile.ai[1], 25 - projectile.timeLeft, 23);
         }
         public override void OnHitPlayer(Player target, int damage, bool crit)
         {

@@ -2,7 +2,7 @@
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Revolutions.Projectiles
+namespace Revolutions.Projectiles.Dev
 {
     public class Dev01 : ModProjectile
     {

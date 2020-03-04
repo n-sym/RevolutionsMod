@@ -109,7 +109,7 @@ namespace Revolutions
                 else starFlare[0] += 1;
                 if (hitcounter == 0 && nowBoss != null) difficulty++;
             }
-            Helper.Print("Difficulty:" + difficulty.ToString());
+            //Helper.Print("Difficulty:" + difficulty.ToString());
 
         }
 

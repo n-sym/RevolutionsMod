@@ -60,7 +60,7 @@ namespace Revolutions.NPCs
                         new Vector2(Helper.EntroptPool[npc.whoAmI], Helper.EntroptPool[100 + npc.whoAmI]), (float)Math.Abs(20 * Math.Sin(npc.ai[1] / 19.6f)), 20);
                     if (npc.ai[1] % 12 == 0 && npc.ai[1] != 0)
                     {
-                        Projectile.NewProjectile(npc.Center, npc.Center, ModContent.ProjectileType<Projectiles.FinalLightBoss>(), npc.damage / 5, 3, target.whoAmI);
+                        Projectile.NewProjectile(npc.Center, npc.Center, ModContent.ProjectileType<Projectiles.FinalLightBoss>(), npc.damage / 5, 3, target.whoAmI, target.position.X + target.velocity.X * 23, target.position.Y + target.velocity.Y * 23);
                     }
                     npc.ai[1]++;
                     if (npc.ai[1] > 60)
