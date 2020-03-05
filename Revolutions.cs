@@ -37,9 +37,9 @@ namespace Revolutions
                 Ref<Effect> screenRef = new Ref<Effect>(GetEffect("Effects/ShockwaveEffect")); // The path to the compiled shader file.
                 Filters.Scene["Shockwave"] = new Filter(new ScreenShaderData(screenRef, "Shockwave"), EffectPriority.VeryHigh);
                 Filters.Scene["Shockwave"].Load();
-                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/Core"));
-                Filters.Scene["Core"] = new Filter(new ScreenShaderData(screenRef2, "Core"), EffectPriority.VeryHigh);
-                Filters.Scene["Core"].Load();
+                Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/Blur"));
+                Filters.Scene["Blur"] = new Filter(new ScreenShaderData(screenRef2, "Blur"), EffectPriority.VeryHigh);
+                Filters.Scene["Blur"].Load();
             }
 
         }
@@ -50,6 +50,9 @@ namespace Revolutions
         }
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
+            if (Main.gamePaused && !Filters.Scene["Blur"].IsActive()) Filters.Scene.Activate("Blur", Vector2.Zero);
+            if (Filters.Scene["Blur"].IsActive() && !Main.gamePaused) Filters.Scene["Blur"].Deactivate();
+
             if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
             FirstUI firstUI = new FirstUI();
             firstUI.Draw(spriteBatch);

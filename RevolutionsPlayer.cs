@@ -6,6 +6,7 @@ using Revolutions.Utils;
 using System;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.Graphics.Effects;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
@@ -48,8 +49,10 @@ namespace Revolutions
         public static StringTimerInt[] npctalk = new StringTimerInt[21];
         public static int logoTimer = 0;
         public static int hitcounter = 0;
+        bool blured = false;
         public override void OnEnterWorld(Player player)
         {
+            blured = false;
             logoTimer += 90;
 
             Main.OnPostDraw += new Action<GameTime>(Welcome);

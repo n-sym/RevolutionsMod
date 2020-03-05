@@ -30,21 +30,72 @@ float cvtnumx(float f)
     return (f / uScreenResolution.x);
 }
 
-float cvtnumY(float f)
+float cvtnumy(float f)
 {
     return (f / uScreenResolution.y);
 }
 
-float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float2 uv : TEXCOORD0) : COLOR0
 {
-    float4 color = tex2D(uImage0, coords);
-    float2 a = - uScreenPosition + uTargetPosition + (8, 8);
-    float2 b = - uScreenPosition + uTargetPosition - (8, 8);
-    if (coords.x <= cvtnumx(a.x) && coords.x >= cvtnumx(b.x) && coords.y <= cvtnumx(a.y) && coords.y >= cvtnumx(b.y))
+    float4 color = tex2D(uImage0, uv);
+    float2 a = 0;
+    float2 b = 0;
+    for (int i = 0; i < 3; i++)
     {
-        color = 0;
+        a.x += 0.001;
+        color += tex2D(uImage0, uv + a);
     }
-    return color;
+    a = 0;
+    i = 0;
+    for (; i < 3; i++)
+    {
+        a.x -= 0.001;
+        color += tex2D(uImage0, uv + a);
+    }
+    i = 0;
+    for (; i < 3; i++)
+    {
+        b.y += 0.001;
+        color += tex2D(uImage0, uv + a + b);
+    }
+    b = 0;
+    i = 0;
+    for (; i < 3; i++)
+    {
+        b.y -= 0.001;
+        color += tex2D(uImage0, uv + a + b);
+    }
+    b = 0;
+    i = 0;
+    a.x += 0.002;
+    for (; i < 3; i++)
+    {
+        b.y += 0.001;
+        color += tex2D(uImage0, uv + a + b);
+    }
+    b = 0;
+    i = 0;
+    for (; i < 3; i++)
+    {
+        b.y -= 0.001;
+        color += tex2D(uImage0, uv + a + b);
+    }
+    b = 0;
+    i = 0;
+    a.x += 0.002;
+    for (; i < 3; i++)
+    {
+        b.y += 0.001;
+        color += tex2D(uImage0, uv + a + b);
+    }
+    b = 0;
+    i = 0;
+    for (; i < 3; i++)
+    {
+        b.y -= 0.001;
+        color += tex2D(uImage0, uv + a + b);
+    }
+    return color / 25;
 }
 
 /*
@@ -57,7 +108,7 @@ float4 color = tex2D(uImage0, coords);
 
 technique Technique1
 {
-    pass Core
+    pass Blur
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }

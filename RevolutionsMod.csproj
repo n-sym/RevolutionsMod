@@ -11,10 +11,12 @@
     <Exec Command="&quot;$(tMLBuildServerPath)&quot; -build $(ProjectDir) -eac $(TargetPath) -define $(DefineConstants) -unsafe $(AllowUnsafeBlocks)" />
   </Target>
   <ItemGroup>
-    <None Remove="Effects\Core.fx" />
+    <None Remove="Effects\Blur.fx" />
+    <None Remove="Effects\Shadow.fx" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Effects\Core.fx" />
+    <Resource Include="Effects\Blur.fx" />
+    <Resource Include="Effects\Shadow.fx" />
   </ItemGroup>
 <ItemGroup>
     <Reference Include="Microsoft.CodeAnalysis">

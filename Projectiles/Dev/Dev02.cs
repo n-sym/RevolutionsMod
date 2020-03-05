@@ -45,9 +45,9 @@ namespace Revolutions.Projectiles.Dev
                     projectile.alpha = 255; // Make the projectile invisible.
                     projectile.friendly = false; // Stop the bomb from hurting enemies.
 
-                    if (Main.netMode != NetmodeID.Server && !Filters.Scene["Shockwave"].IsActive())
+                    if (Main.netMode != NetmodeID.Server && !Filters.Scene["Blur"].IsActive())
                     {
-                        Filters.Scene.Activate("Shockwave", projectile.Center).GetShader().UseColor(rippleCount, rippleSize, rippleSpeed).UseTargetPosition(projectile.Center);
+                        Filters.Scene.Activate("Blur", projectile.Center).GetShader().UseColor(rippleCount, rippleSize, rippleSpeed).UseTargetPosition(projectile.Center);
                     }
                 }
 
