@@ -10,7 +10,6 @@ namespace Revolutions.Dusts
             dust.noGravity = true;
             dust.noLight = true;
         }
-        int kill = 0;
         public override bool Update(Dust dust)
         {
             Lighting.AddLight(dust.position, dust.color.R / 250, dust.color.G / 250, dust.color.B / 250);

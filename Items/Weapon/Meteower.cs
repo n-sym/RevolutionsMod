@@ -1,5 +1,3 @@
-using Microsoft.Xna.Framework;
-using Revolutions.Utils;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -44,7 +42,7 @@ namespace Revolutions.Items.Weapon
         }
         public override void OnCraft(Recipe recipe)
         {
-            
+
             base.OnCraft(recipe);
         }
     }

@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
 using System;
 using Terraria;
-using Terraria.Graphics.Effects;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Revolutions.NPCs
@@ -73,7 +71,7 @@ namespace Revolutions.NPCs
         float drawtimer = 0;
         public override bool PreDraw(SpriteBatch spriteBatch, Color drawColor)
         {
-            if(!Main.gamePaused) drawtimer += 0.02f;
+            if (!Main.gamePaused) drawtimer += 0.02f;
             Color c = new Color(255, 255, 255, 255);
             float x = (float)Math.Asin(Math.Abs(Math.Sin(drawtimer))) / 15.71f + 0.9f;
             float rota = (npc.Center - Main.player[0].Center).ToRotation();
@@ -101,7 +99,7 @@ namespace Revolutions.NPCs
                 float a = y + 1;
                 a /= 1352;
                 a = 1 - a;
-                if(y > 500)a *= 0f;
+                if (y > 500) a *= 0f;
                 Vector2 pos = new Vector2(y, 1352 / y);
                 int b = y + (int)(Math.Abs(Math.Sin(drawtimer)) * 10816);
                 Color d = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b, 21632), c, 5, 6) * a;

@@ -38,7 +38,7 @@ namespace Revolutions.Projectiles
         }
         public override void AI()
         {
-            if(timer[0] > 0) timer[0]--;
+            if (timer[0] > 0) timer[0]--;
             if (switches[0]) timer[1]++;
             else timer[1] = 0;
             Player player = Main.player[projectile.owner];
@@ -57,7 +57,7 @@ namespace Revolutions.Projectiles
             foreach (NPC npc in Main.npc)
             {
                 if (Vector2.Distance(player.Center, npc.Center) < dis2
-                    &&npc.type != NPCID.TargetDummy && npc.active
+                    && npc.type != NPCID.TargetDummy && npc.active
                     && Vector2.Distance(player.Center, projectile.Center) < 800f
                     && !npc.friendly
                     && npc.CanBeChasedBy(projectile))
@@ -82,7 +82,7 @@ namespace Revolutions.Projectiles
                 }
                 if (Vector2.Distance(player.Center, projectile.Center) < 250f)
                 {
-                    projectile.velocity = 0.4f * player.velocity + 0.5f * projectile.velocity + 7 * Curve.DerivativeGetEllipse(PositionSave[0].X + (timer[1] / 7) , 1, 1f, projectile.ai[0]) + Helper.ToUnitVector(player.Center - projectile.Center) * 3f;
+                    projectile.velocity = 0.4f * player.velocity + 0.5f * projectile.velocity + 7 * Curve.DerivativeGetEllipse(PositionSave[0].X + (timer[1] / 7), 1, 1f, projectile.ai[0]) + Helper.ToUnitVector(player.Center - projectile.Center) * 3f;
                     switches[0] = true;
                 }
                 //projectile.velocity.X += Helper.EntroptPool[projectile.whoAmI + rd.Next(1, 500)] * 0.005f;

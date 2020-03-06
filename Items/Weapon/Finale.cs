@@ -1,6 +1,5 @@
 using Microsoft.Xna.Framework;
 using Revolutions.Projectiles;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;

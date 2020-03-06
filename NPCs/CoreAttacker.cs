@@ -56,7 +56,7 @@ namespace Revolutions.NPCs
                     }
                     break;
                 case 1:
-                    npc.Center = Helper.GetCloser(npc.Center, (target.Center + target.velocity - position) / 1.5f * size + position + 
+                    npc.Center = Helper.GetCloser(npc.Center, (target.Center + target.velocity - position) / 1.5f * size + position +
                         new Vector2(Helper.EntroptPool[npc.whoAmI], Helper.EntroptPool[100 + npc.whoAmI]), (float)Math.Abs(20 * Math.Sin(npc.ai[1] / 19.6f)), 20);
                     if (npc.ai[1] % 12 == 0 && npc.ai[1] != 0)
                     {

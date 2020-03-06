@@ -1,7 +1,5 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -41,8 +39,8 @@ namespace Revolutions.Items.Weapon
         }
         public void draw(object ob)
         {
-            
+
         }
-        
+
     }
 }

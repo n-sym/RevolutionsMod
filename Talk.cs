@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Revolutions.Utils;
-using Terraria;
+﻿using Terraria;
 
 namespace Revolutions
 {

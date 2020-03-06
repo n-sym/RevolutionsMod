@@ -1,7 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
-using Revolutions.Utils;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles.ForWater

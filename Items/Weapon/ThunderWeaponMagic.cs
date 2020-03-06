@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using Revolutions.Utils;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -33,7 +32,7 @@ namespace Revolutions.Items.Weapon
         }
         public override bool CanUseItem(Player player)
         {
-            foreach(NPC t in Main.npc)
+            foreach (NPC t in Main.npc)
             {
                 if (t.active && Vector2.Distance(t.position, player.position) < 800f) return true;
             }

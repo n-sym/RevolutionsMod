@@ -30,7 +30,7 @@ namespace Revolutions.UI
                 float v = Helper.GetStringLength(Main.fontDeathText, text, 0.8f);
                 Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontDeathText, text,
                     0.5f * Main.screenWidth - 0.5f * v, 50f, Color.White, Color.Transparent, Vector2.Zero, 0.8f);
-                text = Main.player[0].GetModPlayer<RevolutionsPlayer>().nowBossLifeTrue.ToString() +"/" + Main.player[0].GetModPlayer<RevolutionsPlayer>().nowBossLifeMax.ToString();
+                text = Main.player[0].GetModPlayer<RevolutionsPlayer>().nowBossLifeTrue.ToString() + "/" + Main.player[0].GetModPlayer<RevolutionsPlayer>().nowBossLifeMax.ToString();
                 v = Helper.GetStringLength(Main.fontMouseText, text, 0.8f);
                 float a = (float)(Bar.Width * Helper.GetCloserSingle(Main.player[0].GetModPlayer<RevolutionsPlayer>().nowBossLife
                    , Main.player[0].GetModPlayer<RevolutionsPlayer>().nowBossLifeTrue

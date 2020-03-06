@@ -51,8 +51,8 @@ namespace Revolutions.Projectiles
                 - 0.5f * (player.Center - target.Center);*/
             projectile.rotation = (projectile.position - target.Center).ToRotation() - 1.57f;
             Vector2 rota = new Vector2(4, 4).RotatedBy(projectile.ai[0]);
-            projectile.position = Helper.GetCloser(projectile.velocity, target.Center + rota , 17 - projectile.timeLeft, 14);
-            
+            projectile.position = Helper.GetCloser(projectile.velocity, target.Center + rota, 17 - projectile.timeLeft, 14);
+
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
