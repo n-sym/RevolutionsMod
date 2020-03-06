@@ -1,4 +1,5 @@
 using Microsoft.Xna.Framework;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,9 +35,13 @@ namespace Revolutions.Items.Weapon
         {
             foreach (NPC t in Main.npc)
             {
-                if (t.active && Vector2.Distance(t.position, player.position) < 800f) return true;
+                if (!t.dontTakeDamage && (!t.friendly || t.type == Terraria.ID.NPCID.TargetDummy) && t.active && Vector2.Distance(t.position, player.position) < 700f) return true;
             }
             return false;
+        }
+        public override void UpdateInventory(Player player)
+        {
+            if(player.HeldItem == item)RevolutionsPlayer.drawcircler = 700f;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

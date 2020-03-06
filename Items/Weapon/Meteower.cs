@@ -40,10 +40,13 @@ namespace Revolutions.Items.Weapon
             recipe.SetResult(this);
             recipe.AddRecipe();
         }
-        public override void OnCraft(Recipe recipe)
+        public override void UpdateInventory(Player player)
         {
-
-            base.OnCraft(recipe);
+            if (player.HeldItem == item && Revolutions.Settings.rangeIndex == 2)
+            {
+                RevolutionsPlayer.drawcircler = 370f;
+                RevolutionsPlayer.drawcircletype = 1;
+            }
         }
     }
 }

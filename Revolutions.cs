@@ -17,6 +17,10 @@ namespace Revolutions
         public static Mod mod;
         public static ModHotKey TimeTravelingPotion;
         public static bool TTPHP;
+        public static class Settings
+        {
+            public static int rangeIndex = 1;
+        }
         public Revolutions()
         {
         }
@@ -44,10 +48,13 @@ namespace Revolutions
                 Filters.Scene["Filter"] = new Filter(new ScreenShaderData(screenRef3, "Filter"), EffectPriority.VeryHigh);
                 Filters.Scene["Filter"].Load();
             }
-
+            Main.OnPostDraw += new Action<GameTime>(Welcome);
+            Main.OnPostDraw += new Action<GameTime>(DrawCircle);
         }
         public override void Unload()
         {
+            Main.OnPostDraw -= new Action<GameTime>(Welcome);
+            Main.OnPostDraw -= new Action<GameTime>(DrawCircle);
             Helper.EntroptPool = new int[0];
             TimeTravelingPotion = null;
         }
@@ -67,6 +74,51 @@ namespace Revolutions
 
         }
 
+        private static void Welcome(object obj)
+        {
+            if (RevolutionsPlayer.logoTimer >= 0)
+            {
+                Texture2D Logo = Revolutions.mod.GetTexture("UI/Revolutions");
+                Main.spriteBatch.Begin();
+                float scale = 0.3f * (float)Math.Cos(0.0174533 * (90 - RevolutionsPlayer.logoTimer)) + 0.7f;
+                Main.spriteBatch.Draw(Logo, new Vector2(0.5f * Main.screenWidth - 0.25f * scale * Main.UIScale * Logo.Width, 135f + 45f * (float)Math.Cos(0.0174533 * (RevolutionsPlayer.logoTimer))), new Rectangle(0, 0, (int)(Logo.Width), Logo.Height), Color.White * (float)Math.Cos(0.0174533 * (90 - RevolutionsPlayer.logoTimer)), 0f, Vector2.Zero, 0.5f * Main.UIScale * scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.End();
+            }
+        }
+        float timer = 0;
+        private void DrawCircle(object obj)
+        {
+            if (!Main.playerInventory && RevolutionsPlayer.drawcircler > 0)
+            {
+                timer += 0.01f;
+                float theta = 6.283f;
+                theta /= RevolutionsPlayer.drawcircler * 1.6f * Main.GameZoomTarget;
+                Vector2 drawOrigin = new Vector2(1, 1);
+                SpriteBatch spriteBatch = Main.spriteBatch;
+                spriteBatch.Begin();
+                for (int i = 0; i < RevolutionsPlayer.drawcircler * 1.6f * Main.GameZoomTarget; i++)
+                {
+                    Color color = Color.White;
+                    if (RevolutionsPlayer.drawcircletype == 0)
+                    {
+                        if (Helper.Specialname2Color(Helper.spname) == Color.White)
+                        {
+                            color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(i, (int)(RevolutionsPlayer.drawcircler * 1.6f * Main.GameZoomTarget)), Color.White, 6, 7);
+                        }
+                        else
+                        {
+                            color = Helper.Specialname2Color(Helper.spname);
+                        }
+                    }
+                    if (RevolutionsPlayer.drawcircletype == 1) color = Helper.GetCloserColor(new Color(126, 171, 243), color,1, 2);
+                    color *= (float)Math.Abs(Math.Sin(theta * i + timer));
+                    Vector2 drawPos = Main.player[0].Center + new Vector2((float)Math.Cos(theta * i) * RevolutionsPlayer.drawcircler * Main.GameZoomTarget, (float)Math.Sin(theta * i) * RevolutionsPlayer.drawcircler * Main.GameZoomTarget) - Main.screenPosition;
+                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")],
+                        drawPos, null, color, 0f, drawOrigin, 0.19f, SpriteEffects.None, 0f);
+                }
+                spriteBatch.End();
+            }
+        }
     }
 }
 

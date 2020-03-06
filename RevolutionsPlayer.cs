@@ -48,10 +48,11 @@ namespace Revolutions
         public static StringTimerInt[] npctalk = new StringTimerInt[21];
         public static int logoTimer = 0;
         public static int hitcounter = 0;
+        public static float drawcircler = 0;
+        public static float drawcircletype = 0;
         public override void OnEnterWorld(Player player)
         {
             logoTimer += 90;
-            Main.OnPostDraw += new Action<GameTime>(Welcome);
             Helper.spname = Helper.Name2Specialname(player.name);
             for (int i = 0; i < 601; i++)
             {
@@ -69,7 +70,8 @@ namespace Revolutions
         }
         public override TagCompound Save()
         {
-            Main.OnPostDraw -= new Action<GameTime>(Welcome);
+            logoTimer = 0;
+            drawcircler = 0;
             return base.Save();
         }
         public override void PreUpdate()
@@ -117,7 +119,9 @@ namespace Revolutions
             evolutionary = false;
             hitcounter = 0;
             Lightning.LightningCfgs.accexists = false;
-        }
+            drawcircler = 0;
+            drawcircletype = 0;
+    }
         int timerw = 0;
         //W按下的计时器
         int timers = 0;
@@ -367,18 +371,7 @@ namespace Revolutions
                 hitcounter++;
             }
         }
-        public static void Welcome(object obj)
-        {
-            if (logoTimer >= 0)
-            {
-                Texture2D Logo = Revolutions.mod.GetTexture("UI/Revolutions");
-                Main.spriteBatch.Begin();
-                float scale = 0.3f * (float)Math.Cos(0.0174533 * (90 - logoTimer)) + 0.7f;
-                Main.spriteBatch.Draw(Logo, new Vector2(0.5f * Main.screenWidth - 0.25f * scale * Main.UIScale * Logo.Width, 135f + 45f * (float)Math.Cos(0.0174533 * (logoTimer))), new Rectangle(0, 0, (int)(Logo.Width), Logo.Height), Color.White * (float)Math.Cos(0.0174533 * (90 - logoTimer)), 0f, Vector2.Zero, 0.5f * Main.UIScale * scale, SpriteEffects.None, 0f);
-                Main.spriteBatch.End();
-            }
-        }
-
+        
     }
 }
 

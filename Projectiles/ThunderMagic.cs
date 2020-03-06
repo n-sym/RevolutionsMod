@@ -45,7 +45,7 @@ namespace Revolutions.Projectiles
             PositionSave[0] = new Vector2(projectile.ai[0], projectile.ai[1]);
             foreach (NPC target in Main.npc)
             {
-                if ((!target.friendly || target.type == Terraria.ID.NPCID.TargetDummy) && projectile.timeLeft == 90 && target.active && Vector2.Distance(target.position, projectile.position) < distance && !hitednpc.Contains(target) && counter < 9)
+                if (!target.dontTakeDamage && (!target.friendly || target.type == Terraria.ID.NPCID.TargetDummy) && projectile.timeLeft == 90 && target.active && Vector2.Distance(target.position, projectile.position) < distance && !hitednpc.Contains(target) && counter < 9)
                 {
                     hitednpc.Add(target);
                     PositionSave[counter + counter2] = target.Center;
@@ -95,7 +95,10 @@ namespace Revolutions.Projectiles
                         sizeFix /= hitednpc.Count * 150;
                         sizeFix += 0.2f;
                         color *= sizeFix * (float)projectile.timeLeft / 90;
-                        spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(current, target, i, Vector2.Distance(c, target) / 3) - Main.screenPosition, null, color, projectile.rotation, drawOrigin, 0.19f, SpriteEffects.None, 0f);
+                        Vector2 drawPos = Helper.GetCloser(current, target, i, Vector2.Distance(c, target) / 3);
+                        spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], drawPos - Main.screenPosition, null, color, projectile.rotation, drawOrigin, 0.19f, SpriteEffects.None, 0f);
+                        Lighting.AddLight(drawPos, color.R / 245, color.G / 245, color.B / 245);
+                        Lighting.AddLight(drawPos, 0.55f, 0.55f, 0.55f);
                     }
                 }
             }
