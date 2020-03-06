@@ -40,6 +40,9 @@ namespace Revolutions
                 Ref<Effect> screenRef2 = new Ref<Effect>(GetEffect("Effects/Blur"));
                 Filters.Scene["Blur"] = new Filter(new ScreenShaderData(screenRef2, "Blur"), EffectPriority.VeryHigh);
                 Filters.Scene["Blur"].Load();
+                Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Filter"));
+                Filters.Scene["Filter"] = new Filter(new ScreenShaderData(screenRef3, "Filter"), EffectPriority.VeryHigh);
+                Filters.Scene["Filter"].Load();
             }
 
         }
@@ -52,7 +55,7 @@ namespace Revolutions
         {
             if (Main.gamePaused && !Filters.Scene["Blur"].IsActive()) Filters.Scene.Activate("Blur", Vector2.Zero);
             if (Filters.Scene["Blur"].IsActive() && !Main.gamePaused) Filters.Scene["Blur"].Deactivate();
-
+            //if (!Filters.Scene["Filter"].IsActive()) Filters.Scene.Activate("Filter", Vector2.Zero).GetShader().UseColor(1f, 1f, 1f);
             if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
             FirstUI firstUI = new FirstUI();
             firstUI.Draw(spriteBatch);

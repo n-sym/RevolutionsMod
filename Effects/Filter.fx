@@ -35,15 +35,13 @@ float cvtnumy(float f)
     return (f / uScreenResolution.y);
 }
 
-float4 PixelShaderFunction(float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     float4 color = tex2D(uImage0, coords);
-    float2 a = - uScreenPosition + uTargetPosition + (8, 8);
-    float2 b = - uScreenPosition + uTargetPosition - (8, 8);
-    if (coords.x <= cvtnumx(a.x) && coords.x >= cvtnumx(b.x) && coords.y <= cvtnumy(a.y) && coords.y >= cvtnumy(b.y))
-    {
-        color = 0;
-    }
+    float a = color.r + color.g + color.b;
+    a /= 3;
+    color = (a, a, a, a);
+    color.xyz *= uColor;
     return color;
 }
 
@@ -57,7 +55,7 @@ float4 color = tex2D(uImage0, coords);
 
 technique Technique1
 {
-    pass Shadow
+    pass Filter
     {
         PixelShader = compile ps_2_0 PixelShaderFunction();
     }

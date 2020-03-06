@@ -81,7 +81,7 @@ namespace Revolutions.Projectiles
                 if (projectile.oldPos[k + 1] == Vector2.Zero) drawPositionb += 0.45f * projectile.oldPos[k];
                 else if (drawPositionb == Vector2.Zero) drawPositionb = drawPositiona;
                 float sizeFix = k + 1;
-                sizeFix /= 18;
+                sizeFix /= projectile.oldPos.Length;
                 sizeFix = 1 - sizeFix;
                 Random rd = new Random();
                 int a = rd.Next(0, 20);

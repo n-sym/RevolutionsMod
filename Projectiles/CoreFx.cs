@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -20,46 +22,42 @@ namespace Revolutions.Projectiles
             projectile.height = 1;
             projectile.friendly = true;
             projectile.ranged = true;
-            projectile.extraUpdates = 20;
-            projectile.timeLeft = 45000;
+            projectile.timeLeft = 16;
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.aiStyle = -1;
         }
-        int j = 0;
-        int i = 0;
-        Vector2 a = Vector2.Zero;
-        Vector2 target = Vector2.Zero;
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            projectile.position = Helper.GetCloser(projectile.position, player.Center, i, 2000) + player.velocity / 20;
-            if (Vector2.Distance(projectile.position, player.Center) <= 5) projectile.Kill();
-            target = Helper.GetCloser(player.Center, projectile.position, 2, 7);
-            Dust dust = Dust.NewDustDirect(Helper.GetCloser(projectile.position, target, j, 30), 1, 1, mod.DustType("Pixel"), 0, 0, 255 - (int)(255 * j / 30), Helper.GetCloserColor(Helper.GetRainbowColorLinear(j, 30), Color.White, 5, 6), 0.4f + 0.2f * j / 30);
+            projectile.position = Helper.GetCloser(projectile.position, player.itemLocation + 0.5f * new Vector2(player.direction * player.itemWidth, player.itemHeight), 16 - projectile.timeLeft, 40) + player.velocity;
 
-            j++;
-            if (j == 20)
+        }
+        public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
+        {
+            Vector2 drawOrigin = new Vector2(Main.projectileTexture[projectile.type].Width, projectile.height);
+            for (int k = 0; k < projectile.oldPos.Length - 1; k++)
             {
-                j = 0;
-                i++;
+                Vector2 drawPositiona = 0.45f * projectile.oldPos[k] + 0.55f * projectile.position;
+                drawPositiona -= Main.screenPosition - drawOrigin;
+                Vector2 drawPositionb = 0.45f * projectile.oldPos[k + 1] + 0.55f * projectile.position;
+                drawPositionb -= Main.screenPosition - drawOrigin;
+                if (projectile.oldPos[k + 1] == Vector2.Zero) drawPositionb += 0.45f * projectile.oldPos[k];
+                else if (drawPositionb == Vector2.Zero) drawPositionb = drawPositiona;
+                float sizeFix = k + 1;
+                sizeFix /= projectile.oldPos.Length;
+                sizeFix = 1 - sizeFix;
+                Random rd = new Random();
+                int a = rd.Next(0, 20);
+                int b = rd.Next(1, 2);
+                Color color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(k + a, 18 + (b * a)), Color.White, 5, 6);
+                color = Color.Multiply(color, sizeFix / 2.5f);
+                for (int i = 0; i < 9; i++)
+                {
+                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(drawPositiona, drawPositionb, i, 8), null,
+                    color, projectile.rotation, drawOrigin, projectile.scale * 0.17f, SpriteEffects.None, 0f);
+                }
             }
         }
-        /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
-        {
-            Player player = Main.player[projectile.owner];
-            SpriteBatch s = new SpriteBatch(spriteBatch.GraphicsDevice);
-            for (int k = 0; k < 1; k++)
-            {
-                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("CoreFx")], Helper.GetCloser(projectile.position, player.position, k, 30), null, Helper.GetCloserColor(Helper.GetRainbowColorLinear(k, 30), Color.White, 5, 6), projectile.rotation, new Vector2(8, 8), 0.5f, SpriteEffects.None, 0f);
-                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("UltimateStar")], Helper.GetCloser(projectile.position, player.position, k, 30), null, Helper.GetCloserColor(Helper.GetRainbowColorLinear(k, 30), Color.White, 5, 6), projectile.rotation, new Vector2(8, 8), 0.5f, SpriteEffects.None, 0f);
-
-                //Helper.Print(k.ToString());
-            }
-            spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("CoreFx")], Helper.GetCloser(projectile.position, player.position, 1, 30), null, Helper.GetCloserColor(Helper.GetRainbowColorLinear(1, 30), Color.White, 5, 6), projectile.rotation, new Vector2(8, 8), 0.5f, SpriteEffects.None, 0f);
-            spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("UltimateStar")], Helper.GetCloser(projectile.position, player.position, 1, 30), null, Helper.GetCloserColor(Helper.GetRainbowColorLinear(1, 30), Color.White, 5, 6), projectile.rotation, new Vector2(8, 8), 0.5f, SpriteEffects.None, 0f);
-
-            return true;
-        }*/
     }
 }

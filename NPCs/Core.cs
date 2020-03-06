@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
 using System;
 using Terraria;
+using Terraria.Graphics.Effects;
 using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
