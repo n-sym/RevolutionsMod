@@ -261,14 +261,14 @@ namespace Revolutions.Utils
             return new Vector2(current.X + target.X, current.Y + target.Y);
         }
         /// <summary>
-		/// 将指定向量转化为单位向量，只保留方向而设大小为一
+		/// 将指定向量转化为单位向量，只用写一行
 		/// </summary>
         public static Vector2 ToUnitVector(Vector2 vector)
         {
             return vector / vector.Length();
         }
         /// <summary>
-		/// 将指定向量转化为单位向量，只保留方向而设大小为一
+		/// 将指定向量转化为单位向量，只用写一行
 		/// </summary>
         public static Vector2 ToUnitVector(float x, float y)
         {

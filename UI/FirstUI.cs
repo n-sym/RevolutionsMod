@@ -15,11 +15,11 @@ namespace Revolutions.UI
             Player playera = Main.player[0];
             string text = Language.GetTextValue("Mods.Revolutions.Corepower:");
             text += playera.GetModPlayer<RevolutionsPlayer>().corePower[0].ToString();
-            Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, text, -440 + Main.screenWidth, 6f, new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor,
+            Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, text, -460 + Main.screenWidth, 6f, new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor,
                             (int)Main.mouseTextColor, (int)Main.mouseTextColor), Color.Transparent, Vector2.Zero, 1f);
             text = Language.GetTextValue("Mods.Revolutions.Starflare:");
             text += playera.GetModPlayer<RevolutionsPlayer>().starFlare[0].ToString() + "/" + playera.GetModPlayer<RevolutionsPlayer>().maxStarFlare.ToString();
-            Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, text, -440 + Main.screenWidth, 30f, new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor,
+            Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, text, -460 + Main.screenWidth, 30f, new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor,
                             (int)Main.mouseTextColor, (int)Main.mouseTextColor), Color.Transparent, Vector2.Zero, 1f);
 
             foreach (Player player in Main.player)

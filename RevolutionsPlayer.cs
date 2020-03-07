@@ -61,10 +61,9 @@ namespace Revolutions
                 pastMana[i] = player.statMana;
                 pastCenter[i] = player.Center;
                 pastSpeed[i] = player.velocity;
-                starFlare[i] = 0;
+                if(i != 0)starFlare[i] = 0;
                 corePower[i] = 0;
             }
-            starFlare[0] = maxStarFlare;
             //Core.GetCore.attackerexist = 0;
             Lightning.LightningCfgs.projexists = false;
         }
@@ -72,7 +71,19 @@ namespace Revolutions
         {
             logoTimer = 0;
             drawcircler = 0;
-            return base.Save();
+            TagCompound tag = new TagCompound();
+            tag.Add("sf", starFlare[0]);
+            tag.Add("sfmax", maxStarFlare);
+            return tag;
+        }
+        public override void Load(TagCompound tag)
+        {
+            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax"))
+            {
+                starFlare[0] = tag.GetAsInt("sf");
+                maxStarFlare = tag.GetAsInt("sfmax");
+            }
+            base.Load(tag);
         }
         public override void PreUpdate()
         {

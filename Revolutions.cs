@@ -20,6 +20,8 @@ namespace Revolutions
         public static class Settings
         {
             public static int rangeIndex = 1;
+            public static bool dist = false;
+            public static bool blur = false;
         }
         public Revolutions()
         {
@@ -60,9 +62,10 @@ namespace Revolutions
         }
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
-            if (Main.gamePaused && !Filters.Scene["Blur"].IsActive()) Filters.Scene.Activate("Blur", Vector2.Zero);
+            if (Settings.blur && Main.gamePaused && !Filters.Scene["Blur"].IsActive()) Filters.Scene.Activate("Blur", Vector2.Zero);
             if (Filters.Scene["Blur"].IsActive() && !Main.gamePaused) Filters.Scene["Blur"].Deactivate();
-            //if (!Filters.Scene["Filter"].IsActive()) Filters.Scene.Activate("Filter", Vector2.Zero).GetShader().UseColor(1f, 1f, 1f);
+            if (!Filters.Scene["Filter"].IsActive() && Settings.dist) Filters.Scene.Activate("Filter", Vector2.Zero).GetShader().UseColor(1f, 1f, 1f);
+            if (Filters.Scene["Filter"].IsActive() && !Settings.dist) Filters.Scene["Filter"].Deactivate();
             if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
             FirstUI firstUI = new FirstUI();
             firstUI.Draw(spriteBatch);

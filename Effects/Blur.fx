@@ -37,65 +37,15 @@ float cvtnumy(float f)
 
 float4 PixelShaderFunction(float2 uv : TEXCOORD0) : COLOR0
 {
-    float4 color = tex2D(uImage0, uv);
-    float2 a = 0;
-    float2 b = 0;
-    for (int i = 0; i < 3; i++)
+    float4 color = 0;
+    for (float i = -0.002; i <= 0.002; i += 0.002)
     {
-        a.x += 0.001;
-        color += tex2D(uImage0, uv + a);
+        for (float j = -0.002; j <= 0.002; j += 0.002)
+        {
+            color += tex2D(uImage0, float2(uv.x + i, uv.y + j));
+        }
     }
-    a = 0;
-    i = 0;
-    for (; i < 3; i++)
-    {
-        a.x -= 0.001;
-        color += tex2D(uImage0, uv + a);
-    }
-    i = 0;
-    for (; i < 3; i++)
-    {
-        b.y += 0.001;
-        color += tex2D(uImage0, uv + a + b);
-    }
-    b = 0;
-    i = 0;
-    for (; i < 3; i++)
-    {
-        b.y -= 0.001;
-        color += tex2D(uImage0, uv + a + b);
-    }
-    b = 0;
-    i = 0;
-    a.x += 0.002;
-    for (; i < 3; i++)
-    {
-        b.y += 0.001;
-        color += tex2D(uImage0, uv + a + b);
-    }
-    b = 0;
-    i = 0;
-    for (; i < 3; i++)
-    {
-        b.y -= 0.001;
-        color += tex2D(uImage0, uv + a + b);
-    }
-    b = 0;
-    i = 0;
-    a.x += 0.002;
-    for (; i < 3; i++)
-    {
-        b.y += 0.001;
-        color += tex2D(uImage0, uv + a + b);
-    }
-    b = 0;
-    i = 0;
-    for (; i < 3; i++)
-    {
-        b.y -= 0.001;
-        color += tex2D(uImage0, uv + a + b);
-    }
-    return color / 25;
+    return color / 9;
 }
 
 /*

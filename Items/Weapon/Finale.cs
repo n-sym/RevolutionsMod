@@ -38,9 +38,6 @@ namespace Revolutions.Items.Weapon
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Projectile.NewProjectile(position + new Vector2(Main.rand.Next(-120, 120), Main.rand.Next(-120, 120)), Vector2.Zero, ModContent.ProjectileType<CoreFx>(), 0, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position + new Vector2(Main.rand.Next(-120, 120), Main.rand.Next(-120, 120)), Vector2.Zero, ModContent.ProjectileType<CoreFx>(), 0, knockBack, player.whoAmI);
-            Projectile.NewProjectile(position + new Vector2(Main.rand.Next(-120, 120), Main.rand.Next(-120, 120)), Vector2.Zero, ModContent.ProjectileType<CoreFx>(), 0, knockBack, player.whoAmI);
             Vector2 spd = new Vector2(speedX, speedY);
             Vector2 rota = new Vector2(4, 4).RotatedBy(spd.ToRotation());
             Projectile.NewProjectile(position - 3 * rota, spd, type, damage / 2, knockBack, player.whoAmI);

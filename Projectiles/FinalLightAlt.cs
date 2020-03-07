@@ -41,6 +41,12 @@ namespace Revolutions.Projectiles
                 projectile.damage = (int)(projectile.damage * 0.9f);
                 Projectile.NewProjectile(player.Center + rota, player.Center + rota, mod.ProjectileType("FinalLight"), projectile.damage, 0, projectile.owner, rota.ToRotation(), target.whoAmI);
             }
+            if(projectile.penetrate == 20)
+            {
+                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-120, 120), Main.rand.Next(-120, 120)), Vector2.Zero, ModContent.ProjectileType<CoreFx>(), 0, projectile.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-120, 120), Main.rand.Next(-120, 120)), Vector2.Zero, ModContent.ProjectileType<CoreFx>(), 0, projectile.knockBack, player.whoAmI);
+                Projectile.NewProjectile(player.Center + new Vector2(Main.rand.Next(-120, 120), Main.rand.Next(-120, 120)), Vector2.Zero, ModContent.ProjectileType<CoreFx>(), 0, projectile.knockBack, player.whoAmI);
+            }
         }
     }
 }
