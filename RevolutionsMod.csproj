@@ -12,10 +12,12 @@
   </Target>
   <ItemGroup>
     <None Remove="Effects\Blur.fx" />
+    <None Remove="Effects\ExtraEfts.fx" />
     <None Remove="Effects\Filter.fx" />
     <None Remove="Effects\Shadow.fx" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Effects\ExtraEfts.fx" />
     <Resource Include="Effects\Blur.fx" />
     <Resource Include="Effects\Filter.fx" />
     <Resource Include="Effects\Shadow.fx" />

@@ -28,12 +28,17 @@ namespace Revolutions.Projectiles
         }
         public override void AI()
         {
-            for(int i = 0;i < 10; i++)
-            {
-                Dust d = Dust.NewDustDirect(projectile.Center, 14, 14, MyDustId.Water);
-                d.noGravity = true;
-                Dust e = Dust.NewDustDirect(projectile.Center, 14, 14, MyDustId.BlueCircle);
-                e.noGravity = true;
+            if (projectile.position.X > Main.screenPosition.X && projectile.position.Y > Main.screenPosition.Y && projectile.position.X < Main.screenPosition.X + Main.screenWidth && projectile.position.Y < Main.screenPosition.Y + Main.screenHeight)
+            { 
+                for (int i = 0; i < 10; i++)
+                {
+                    Dust d = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.Water);
+                    d.noGravity = true;
+                    Dust e = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.BlueCircle);
+                    e.noGravity = true;
+                }
+                Dust f = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.BlueWhiteBubble, 0, 0, 0, default(Color), 0.6f);
+                f.noGravity = true;
             }
         }
     }

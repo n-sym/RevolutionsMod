@@ -49,6 +49,9 @@ namespace Revolutions
                 Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Filter"));
                 Filters.Scene["Filter"] = new Filter(new ScreenShaderData(screenRef3, "Filter0"), EffectPriority.VeryHigh);
                 Filters.Scene["Filter"].Load();
+                Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/ExtraEfts"));
+                Filters.Scene["Extra"] = new Filter(new ScreenShaderData(screenRef4, "LikePE"), EffectPriority.VeryHigh);
+                Filters.Scene["Extra"].Load();
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);
@@ -66,6 +69,9 @@ namespace Revolutions
             if (Filters.Scene["Blur"].IsActive() && !Main.gamePaused) Filters.Scene["Blur"].Deactivate();
             if (!Filters.Scene["Filter"].IsActive() && Settings.dist) Filters.Scene.Activate("Filter", Vector2.Zero).GetShader().UseColor(1f, 1f, 1f);
             if (Filters.Scene["Filter"].IsActive() && !Settings.dist) Filters.Scene["Filter"].Deactivate();
+            if (RevolutionsPlayer.logoTimer >= 30 && !Filters.Scene["Extra"].IsActive()) Filters.Scene.Activate("Extra", Vector2.Zero);
+            if (RevolutionsPlayer.logoTimer < 30 && Filters.Scene["Extra"].IsActive()) Filters.Scene["Extra"].Deactivate();
+            if (Filters.Scene["Extra"].IsActive()) Filters.Scene["Extra"].GetShader().UseProgress(-((float)RevolutionsPlayer.logoTimer - 30) * ((float)RevolutionsPlayer.logoTimer - 30) / 7200 + 1f);
             if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
             FirstUI firstUI = new FirstUI();
             firstUI.Draw(spriteBatch);
@@ -103,7 +109,7 @@ namespace Revolutions
         float timer = 0;
         private void DrawCircle(object obj)
         {
-            if (!Main.playerInventory && RevolutionsPlayer.drawcircler > 0)
+            if (!Main.playerInventory && RevolutionsPlayer.drawcircler > 0 && !Main.mapFullscreen)
             {
                 timer += 0.01f;
                 float theta = 6.283f;

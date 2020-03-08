@@ -20,7 +20,11 @@ float uSaturation;
 float4 uSourceRect; // Doesn't seem to be used, but included for parity.
 float2 uZoom;
 
-float2 cvtpos(float2 f)
+float2 cvtuv2pos(float2 f)
+{
+    return (f.x * uScreenResolution.x, f.y * uScreenResolution.y);
+}
+float2 cvtpos2uv(float2 f)
 {
     return (f.x / uScreenResolution.x, f.y / uScreenResolution.y);
 }
@@ -106,6 +110,47 @@ float4 PixelShaderFunction3(float4 sampleColor : COLOR0, float2 coords : TEXCOOR
     float4 color = tex2D(uImage0, float2(a, b));
     return color;
 }
+float4 PixelShaderFunction4(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+{
+    /*float4 color = tex2D(uImage0, coords);
+    float a = color.r + color.g + color.b;
+    a /= 3;
+    color = (a, a, a, a);
+    color.xyz *= uColor;*/
+    float2 targetCoords = float2(0.25, 0.25);
+    float dis = distance(targetCoords, coords);
+    float a = 0;
+    float b = 0;
+    float2 ab = 0;
+    if(coords.x < 0.5 && coords.y < 0.5)
+    {
+        ab = (coords - targetCoords);
+        if(ab.x > 0)
+        {
+            ab.x = ((4 * ab.x - 1) * (4 * ab.x - 1) + 1) * ab.x;
+        }
+        else
+        {
+            ab.x = ((4 * ab.x + 1) * (4 * ab.x + 1) + 1) * ab.x;
+        }
+        if (ab.y > 0)
+        {
+            ab.y = ((4 * ab.y - 1) * (4 * ab.y - 1) + 1) * ab.y;
+        }
+        else
+        {
+            ab.y = ((4 * ab.y + 1) * (4 * ab.y + 1) + 1) * ab.y;
+        }
+        ab += targetCoords;
+    }
+    else
+    {
+        ab = coords;
+    }
+    float4 color = tex2D(uImage0, ab);
+    return color;
+}
+
 /*
 float4 color = tex2D(uImage0, coords);
     float a = color.r + color.g + color.b;
@@ -135,6 +180,10 @@ technique Technique1
     pass Filter100
     {
         PixelShader = compile ps_2_0 PixelShaderFunction100();
+    }
+    pass Filter4
+    {
+        PixelShader = compile ps_2_0 PixelShaderFunction4();
     }
 
 }
