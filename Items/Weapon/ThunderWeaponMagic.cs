@@ -26,7 +26,6 @@ namespace Revolutions.Items.Weapon
             item.knockBack = 2;
             item.value = Item.sellPrice(0, 36, 0, 0); ;
             item.rare = 11;
-            item.UseSound = SoundID.Item9;
             item.autoReuse = true;
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<Projectiles.ThunderMagic>();
@@ -42,10 +41,17 @@ namespace Revolutions.Items.Weapon
         public override void UpdateInventory(Player player)
         {
             if(player.HeldItem == item)RevolutionsPlayer.drawcircler = 700f;
+            if (soundcd > 0) soundcd--;
         }
+        int soundcd = 0;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             Projectile.NewProjectile(position.X, position.Y, speedX, speedY, type, damage, knockBack, player.whoAmI, position.X, position.Y);
+            if (soundcd == 0)
+            {
+                Main.PlaySound(SoundLoader.customSoundType, player.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/electric" + Main.rand.Next(1, 3).ToString()));
+                soundcd += 30;
+            }
             return false;
         }
     }

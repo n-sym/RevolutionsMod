@@ -47,7 +47,7 @@ namespace Revolutions
                 Filters.Scene["Blur"] = new Filter(new ScreenShaderData(screenRef2, "Blur"), EffectPriority.VeryHigh);
                 Filters.Scene["Blur"].Load();
                 Ref<Effect> screenRef3 = new Ref<Effect>(GetEffect("Effects/Filter"));
-                Filters.Scene["Filter"] = new Filter(new ScreenShaderData(screenRef3, "Filter"), EffectPriority.VeryHigh);
+                Filters.Scene["Filter"] = new Filter(new ScreenShaderData(screenRef3, "Filter0"), EffectPriority.VeryHigh);
                 Filters.Scene["Filter"].Load();
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
@@ -76,7 +76,19 @@ namespace Revolutions
         {
 
         }
+        public override void UpdateMusic(ref int music, ref MusicPriority priority)
+        {
+            if (Main.myPlayer == -1 || Main.gameMenu || !Main.LocalPlayer.active)
+            {
+                return;
+            }
+            /*if (Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().nowBoss != null && Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().nowBoss.type == NPCID.DukeFishron)
+            {
+                music = GetSoundSlot(SoundType.Music, "Sounds/Music/battletower");
+                priority = MusicPriority.BossLow;
+            }*/
 
+        }
         private static void Welcome(object obj)
         {
             if (RevolutionsPlayer.logoTimer >= 0)

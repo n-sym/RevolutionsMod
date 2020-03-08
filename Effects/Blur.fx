@@ -38,14 +38,30 @@ float cvtnumy(float f)
 float4 PixelShaderFunction(float2 uv : TEXCOORD0) : COLOR0
 {
     float4 color = 0;
-    for (float i = -0.002; i <= 0.002; i += 0.002)
+    if(uScreenResolution.x > 1500)
     {
-        for (float j = -0.002; j <= 0.002; j += 0.002)
+        for (float i = -0.002; i <= 0.002; i += 0.001)
         {
-            color += tex2D(uImage0, float2(uv.x + i, uv.y + j));
+            for (float j = -0.002; j <= 0.002; j += 0.001)
+            {
+                color += tex2D(uImage0, float2(uv.x + i, uv.y + j));
+            }
         }
+        return color / 25;
     }
-    return color / 9;
+    else
+    {
+        for (float i = -0.002; i <= 0.002; i += 0.002)
+        {
+            for (float j = -0.002; j <= 0.002; j += 0.002)
+            {
+                color += tex2D(uImage0, float2(uv.x + i, uv.y + j));
+            
+            }
+        }
+        return color / 9;
+    }
+ 
 }
 
 /*

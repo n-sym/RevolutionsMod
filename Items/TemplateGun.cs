@@ -99,7 +99,7 @@ namespace Revolutions.Items
 
             // 决定枪射出点什么和射出的速度的量
             // 这里我让枪射出子弹，并且以 （7像素 / 帧） 的速度射出去 
-            item.shoot = mod.ProjectileType("CoreFx");
+            item.shoot = mod.ProjectileType("WaterArrow");
             item.shootSpeed = 7f;
 
             // 选择这个枪射出（的时候消耗什么作为弹药，这里选择子弹

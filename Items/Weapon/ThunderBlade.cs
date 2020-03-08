@@ -25,7 +25,7 @@ namespace Revolutions.Items.Weapon
             item.knockBack = 10;
             item.value = Item.sellPrice(0, 36, 0, 0); ;
             item.rare = 11;
-            item.UseSound = SoundID.Item1;
+            item.UseSound = SoundID.Item60;
             item.autoReuse = true;
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)

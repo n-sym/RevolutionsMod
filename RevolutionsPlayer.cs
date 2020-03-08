@@ -245,7 +245,7 @@ namespace Revolutions
             {
                 if (nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
                 if (ModLoader.GetMod("Eternalresolve") != null && ModLoader.GetMod("Eternalresolve").NPCType("Omidy") == nowBoss.type && nowBoss.life == 100000) { nowBossLife = 0; nowBossLifeTrue = 0; }
-                if (nowBoss.type == Terraria.ID.NPCID.DukeFishron && rd.Next(0, 120) == 1) new Talk(nowBoss.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.DkFsion0" + rd.Next(1, 6).ToString()), 180, null);
+                if (nowBoss.type == Terraria.ID.NPCID.DukeFishron && rd.Next(0, 600) == 1) new Talk(nowBoss.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.DkFsion0" + rd.Next(1, 3).ToString()), 180, null);
 
             }
         }

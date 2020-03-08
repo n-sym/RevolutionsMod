@@ -93,16 +93,15 @@ namespace Revolutions.Utils
             if (!Revolutions.Settings.dist || args.Length == 0)Revolutions.Settings.dist = !Revolutions.Settings.dist;
             if(args.Length != 0 && Revolutions.Settings.dist)
             {
-                int a = 0;
+                if (args[0] == "-1") args[0] = "100";
                 try
                 {
-                    int.TryParse(args[0], out a);
+                    Filters.Scene["Filter"].GetShader().SwapProgram("Filter" + args[0]);
                 }
                 catch (Exception e)
                 {
                     Helper.Print(e.Message);
                 }
-                Filters.Scene["Filter"].GetShader().UseProgress(a);
             }
         }
     }

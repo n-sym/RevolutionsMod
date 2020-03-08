@@ -35,7 +35,7 @@ float cvtnumy(float f)
     return (f / uScreenResolution.y);
 }
 
-float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+float4 PixelShaderFunction0(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
 {
     /*float4 color = tex2D(uImage0, coords);
     float a = color.r + color.g + color.b;
@@ -44,55 +44,68 @@ float4 PixelShaderFunction(float4 sampleColor : COLOR0, float2 coords : TEXCOORD
     color.xyz *= uColor;*/
     float a = 0;
     float b = 0;
-    if (uProgress == 0)
-    {
-        a = 2 * coords.x - 1;
-        a = asin(a) / 3.141;
-        a += 0.5;
-        b = 2 * coords.y - 1;
-        b = asin(b) / 3.141;
-        b += 0.5;
-    }
-    if (uProgress == 1)
-    {
-        a = coords.x - 0.5;
-        a *= 1.587;
-        a *= a * a;
-        a += 0.5;
-        b = coords.y - 0.5;
-        b *= 1.587;
-        b *= b * b;
-        b += 0.5;
-    }
-    if (uProgress == -1)
-    {
-        a = 1 - coords.x;
-        b = 1 - coords.y;
-    }
-    if (uProgress == 2)
-    {
-        a = 1;
-        a -= (coords.x - 1) * (coords.x - 1);
-        a = sqrt(a);
-        b = 1;
-        b -= (coords.y - 1) * (coords.y - 1);
-        b = sqrt(b);
-    }
-    if (uProgress == 3)
-    {
-        a = 1;
-        a -= coords.x * coords.x;
-        a = -sqrt(a);
-        a += 1;
-        b = 1;
-        b -= coords.y * coords.y;
-        b = -sqrt(b);
-        b += 1;
-    }
+    a = 2 * coords.x - 1;
+    a = asin(a) / 3.141;
+    a += 0.5;
+    b = 2 * coords.y - 1;
+    b = asin(b) / 3.141;
+    b += 0.5;
     float4 color = tex2D(uImage0, float2(a, b));
     return color;
 }
 
+float4 PixelShaderFunction1(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+{
+    float a = 0;
+    float b = 0;
+    a = coords.x - 0.5;
+    a *= 1.587;
+    a *= a * a;
+    a += 0.5;
+    b = coords.y - 0.5;
+    b *= 1.587;
+    b *= b * b;
+    b += 0.5;
+    float4 color = tex2D(uImage0, float2(a, b));
+    return color;
+}
+float4 PixelShaderFunction100(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+{
+    float a = 0;
+    float b = 0;
+    a = 1 - coords.x;
+    b = 1 - coords.y;
+    float4 color = tex2D(uImage0, float2(a, b));
+    return color;
+}
+float4 PixelShaderFunction2(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+{
+    float a = 0;
+    float b = 0;
+    a = 1;
+    a -= (coords.x - 1) * (coords.x - 1);
+    a = sqrt(a);
+    b = 1;
+    b -= (coords.y - 1) * (coords.y - 1);
+    b = sqrt(b);
+    float4 color = tex2D(uImage0, float2(a, b));
+    return color;
+}
+float4 PixelShaderFunction3(float4 sampleColor : COLOR0, float2 coords : TEXCOORD0) : COLOR0
+{
+    float a = 0;
+    float b = 0;
+    a = 1;
+    a -= coords.x * coords.x;
+    a = -sqrt(a);
+    a += 1;
+    b = 1;
+    b -= coords.y * coords.y;
+    b = -sqrt(b);
+    b += 1;
+    float4 color = tex2D(uImage0, float2(a, b));
+    return color;
+}
 /*
 float4 color = tex2D(uImage0, coords);
     float a = color.r + color.g + color.b;
@@ -103,8 +116,25 @@ float4 color = tex2D(uImage0, coords);
 
 technique Technique1
 {
-    pass Filter
+    pass Filter0
     {
-        PixelShader = compile ps_2_0 PixelShaderFunction();
+        PixelShader = compile ps_2_0 PixelShaderFunction0();
     }
+    pass Filter1
+    {
+        PixelShader = compile ps_2_0 PixelShaderFunction1();
+    }
+    pass Filter2
+    {
+        PixelShader = compile ps_2_0 PixelShaderFunction2();
+    }
+    pass Filter3
+    {
+        PixelShader = compile ps_2_0 PixelShaderFunction3();
+    }
+    pass Filter100
+    {
+        PixelShader = compile ps_2_0 PixelShaderFunction100();
+    }
+
 }
