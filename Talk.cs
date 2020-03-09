@@ -13,7 +13,7 @@ namespace Revolutions
             }
             if (who > 0)
             {
-                RevolutionsPlayer.npctalk[0] = new StringTimerInt(type, who, time);
+                RevolutionsPlayer.npctalk.Add(new StringTimerInt(type, who, time));
             }
         }
     }

@@ -2,7 +2,7 @@ using Microsoft.Xna.Framework.Audio;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace ExampleMod.Sounds.Custom
+namespace Revolutions.Sounds.Custom
 {
 	public class electric2 : ModSound
 	{

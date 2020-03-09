@@ -20,7 +20,6 @@ namespace Revolutions.NPCs
             {
                 case NPCID.DukeFishron:
                     if(Main.rand.Next(1, 600) == 1)new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.DkFsion0" + Main.rand.Next(1, 4).ToString()), 180, null);
-                    
                     if (npc.ai[0] == -1 || npc.ai[0] == 4 || npc.ai[0] == 9) npc.dontTakeDamage = true;
                     if (npc.ai[0] == 6 && npc.ai[2] == 20)
                     {
@@ -33,9 +32,6 @@ namespace Revolutions.NPCs
                     break;
                 case NPCID.Plantera:
                     if (Main.rand.Next(1, 600) == 1) new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Plantera0" + Main.rand.Next(1, 3).ToString()), 180, null);
-                    break;
-                case NPCID.GreenSlime:
-                    if (Main.rand.Next(1, 600) == 1) new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Slime" + Main.rand.Next(1, 7).ToString()), 180, null);
                     break;
             }
         }

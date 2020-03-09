@@ -62,7 +62,7 @@ namespace Revolutions.Items.Acc
                 if (player.GetModPlayer<RevolutionsPlayer>().dPTimer == 0)
                 {
                     Vector2 vector2 = new Vector2(player.position.X - Math.Abs(25 * player.velocity.X) - 200, player.position.Y + 17 * player.velocity.Y);
-                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active())
+                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active() || !Main.tileSolid[Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].type] || Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].actuator())
                     {
                         for (int i = 0; i < 71; i++)
                         {
@@ -88,7 +88,7 @@ namespace Revolutions.Items.Acc
                 else
                 {
                     Vector2 vector2 = new Vector2(player.position.X + Math.Abs(25 * player.velocity.X) + 200, player.position.Y + 17 * player.velocity.Y);
-                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active())
+                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active() || !Main.tileSolid[Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].type] || Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].actuator())
                     {
                         for (int i = 0; i < 71; i++)
                         {
@@ -117,7 +117,7 @@ namespace Revolutions.Items.Acc
                 if (player.GetModPlayer<RevolutionsPlayer>().aPTimer == 0)
                 {
                     Vector2 vector2 = new Vector2(player.position.X + Math.Abs(25 * player.velocity.X) + 200, player.position.Y + 17 * player.velocity.Y);
-                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active())
+                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active() || !Main.tileSolid[Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].type] || Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].actuator())
                     {
                         for (int i = 0; i < 71; i++)
                         {
@@ -143,7 +143,7 @@ namespace Revolutions.Items.Acc
                 else
                 {
                     Vector2 vector2 = new Vector2(player.position.X - Math.Abs(25 * player.velocity.X) - 200, player.position.Y + 17 * player.velocity.Y);
-                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active())
+                    if (!Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].active() || !Main.tileSolid[Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].type] || Main.tile[(int)(vector2.X / 16), (int)(vector2.Y / 16)].actuator())
                     {
                         for (int i = 0; i < 71; i++)
                         {

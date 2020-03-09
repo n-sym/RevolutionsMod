@@ -16,17 +16,17 @@ namespace Revolutions.Utils
         public static int[] EntroptPool = new int[10001];
         public static string spname;
         /// <summary>
-		/// 把t显示于屏幕左下角
+		/// 把t转化为字符串显示于屏幕左下角
 		/// </summary>
-        public static void Print(string t)
+        public static void Print(object t)
         {
             if (Main.netMode != 2)
             {
-                Main.NewText(t, 255, 255, 255);
+                Main.NewText(t.ToString(), 255, 255, 255);
             }
             else
             {
-                NetworkText te = NetworkText.FromKey(t);
+                NetworkText te = NetworkText.FromKey(t.ToString());
                 NetMessage.BroadcastChatMessage(te, Color.White);
             }
         }
@@ -313,10 +313,17 @@ namespace Revolutions.Utils
                 player.HealEffect(damage);
             }
         }
-
+        public static Point ToTilesPos(Vector2 position)
+        {
+            return new Point((int)(position.X / 16), (int)(position.Y / 16));
+        }
         public static float GetStringLength(DynamicSpriteFont font, string text, float scale)
         {
             return font.MeasureString(text).X * scale;
+        }
+        public static bool CanShowExtraUI()
+        {
+            return !Main.mapFullscreen && !Main.ingameOptionsWindow && !Main.inFancyUI && !Main.playerInventory;
         }
     }
 }

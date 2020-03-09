@@ -4,11 +4,14 @@ using Revolutions.Items.Acc;
 using Revolutions.Items.Armor;
 using Revolutions.Utils;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.DataStructures;
+using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
+using Microsoft.Xna.Framework.Input;
 using static Terraria.ModLoader.ModContent;
 
 namespace Revolutions
@@ -45,7 +48,7 @@ namespace Revolutions
         public int nowBossLife { get; set; } = 0;
         public int nowBossLifeTrue { get; set; } = 0;
         public int nowBossLifeMax { get; set; } = 0;
-        public static StringTimerInt[] npctalk = new StringTimerInt[21];
+        public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
         public static int hitcounter = 0;
         public static float drawcircler = 0;
@@ -64,7 +67,6 @@ namespace Revolutions
                 if(i != 0)starFlare[i] = 0;
                 corePower[i] = 0;
             }
-            //Core.GetCore.attackerexist = 0;
             Lightning.LightningCfgs.projexists = false;
         }
         public override TagCompound Save()
@@ -85,9 +87,10 @@ namespace Revolutions
             }
             base.Load(tag);
         }
+        List<Point> justOpenDoors = new List<Point>();
         public override void PreUpdate()
         {
-
+            //过去的属性
             for (int j = 600; j > 0; j--)
             {
                 pastPosition[j] = pastPosition[j - 1];
@@ -97,10 +100,11 @@ namespace Revolutions
                 pastMana[j] = pastMana[j - 1];
                 starFlare[j] = starFlare[j - 1];
                 corePower[j] = corePower[j - 1];
-                if (j < 21 && npctalk[j - 1] != null && npctalk[j - 1].timer > 0)
-                {
-                    npctalk[j - 1].timer--;
-                }
+            }
+            for(int i = 0; i < npctalk.Count; i++)
+            {
+                if (npctalk[i].timer > 0) npctalk[i].timer--;
+                else npctalk.RemoveAt(i);
             }
             pastPosition[0] = player.position;
             pastCenter[0] = player.Center;
@@ -108,22 +112,44 @@ namespace Revolutions
             pastLife[0] = player.statLife;
             pastMana[0] = player.statMana;
             if (talkActive > 0) talkActive--;
+            //周期性事件
             if (timer == 60)
             {
                 timer = 0;
                 justDmgcounter = 0;
             }
             else timer++;
+            //周期性事件
             if (timer % 20 == 0 && timer != 0)
             {
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
                 if (hitcounter == 0 && nowBoss != null) difficulty++;
             }
-            //Helper.Print("Difficulty:" + difficulty.ToString());
-
+            //自动开关门
+            for (int i = 0; i < justOpenDoors.Count; i++)
+            {
+                var door = justOpenDoors.ToArray()[i];
+                if(Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) > 5)
+                {
+                    WorldGen.CloseDoor(door.X, door.Y);
+                    justOpenDoors.RemoveAt(i);
+                }
+                
+            }
+            if (Main.tile[Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
+            {
+                if(!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, player.direction))
+                WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
+                justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y));
+            }
+            if (Main.tile[Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
+            {
+                if(!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, player.direction))
+                WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
+                justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y));
+            }
         }
-
         public override void ResetEffects()
         {
             saviourexist = false;
@@ -142,19 +168,19 @@ namespace Revolutions
         int cd;
         public override void SetControls()
         {
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.A))
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
                 aPTimer++;
             else
                 aPTimer = 0;
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.D))
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
                 dPTimer++;
             else
                 dPTimer = 0;
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W))
                 wPTimer++;
             else
                 wPTimer = 0;
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.S))
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
                 sPTimer++;
             else
                 sPTimer = 0;
@@ -310,6 +336,7 @@ namespace Revolutions
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
+            
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
             if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.GoForTheEyes"), 180, player);

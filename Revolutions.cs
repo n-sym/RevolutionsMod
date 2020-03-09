@@ -4,11 +4,14 @@ using Revolutions.UI;
 using Revolutions.Utils;
 //using ReLogic.Graphics;
 using System;
+using System.Collections.Generic;
 using Terraria;
+using Terraria.Graphics.Capture;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI;
 
 namespace Revolutions
 {
@@ -17,6 +20,9 @@ namespace Revolutions
         public static Mod mod;
         public static ModHotKey TimeTravelingPotion;
         public static bool TTPHP;
+        public UserInterface RevUI;
+        static SecondUI secondUI = new SecondUI();
+
         public static class Settings
         {
             public static int rangeIndex = 1;
@@ -52,6 +58,10 @@ namespace Revolutions
                 Ref<Effect> screenRef4 = new Ref<Effect>(GetEffect("Effects/ExtraEfts"));
                 Filters.Scene["Extra"] = new Filter(new ScreenShaderData(screenRef4, "LikePE"), EffectPriority.VeryHigh);
                 Filters.Scene["Extra"].Load();
+                FirstUI firstUI = new FirstUI();
+                firstUI.Activate();
+                RevUI = new UserInterface();
+                RevUI.SetState(firstUI);
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);
@@ -63,6 +73,7 @@ namespace Revolutions
             Helper.EntroptPool = new int[0];
             TimeTravelingPotion = null;
         }
+        int a = 0;
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
             if (Settings.blur && Main.gamePaused && !Filters.Scene["Blur"].IsActive()) Filters.Scene.Activate("Blur", Vector2.Zero);
@@ -73,10 +84,32 @@ namespace Revolutions
             if (RevolutionsPlayer.logoTimer < 30 && Filters.Scene["Extra"].IsActive()) Filters.Scene["Extra"].Deactivate();
             if (Filters.Scene["Extra"].IsActive()) Filters.Scene["Extra"].GetShader().UseProgress(-((float)RevolutionsPlayer.logoTimer - 30) * ((float)RevolutionsPlayer.logoTimer - 30) / 7200 + 1f);
             if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
-            FirstUI firstUI = new FirstUI();
-            firstUI.Draw(spriteBatch);
-            SecondUI secondUI = new SecondUI();
+            secondUI = new SecondUI();
             secondUI.Draw(spriteBatch);
+        }
+        public override void UpdateUI(GameTime gameTime)
+        {
+            RevUI.Update(gameTime);
+            if (Main.ingameOptionsWindow)
+            {
+
+            }
+        }
+        public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
+        {
+            int mouseTextIndex = layers.FindIndex(layer => layer.Name.Equals("Vanilla: Mouse Text"));
+            if (mouseTextIndex != -1)
+            {
+                layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
+                    "Revolutions: RevUI",
+                    delegate
+                    {
+                        RevUI.Draw(Main.spriteBatch, new GameTime());
+                        return true;
+                    },
+                    InterfaceScaleType.UI)
+                );
+            }
         }
         public override void HotKeyPressed(string name)
         {
@@ -97,7 +130,7 @@ namespace Revolutions
         }
         private static void Welcome(object obj)
         {
-            if (RevolutionsPlayer.logoTimer >= 0)
+            if (RevolutionsPlayer.logoTimer >= 0 && Helper.CanShowExtraUI())
             {
                 Texture2D Logo = Revolutions.mod.GetTexture("UI/Revolutions");
                 Main.spriteBatch.Begin();
@@ -107,9 +140,11 @@ namespace Revolutions
             }
         }
         float timer = 0;
+
+
         private void DrawCircle(object obj)
         {
-            if (!Main.playerInventory && RevolutionsPlayer.drawcircler > 0 && !Main.mapFullscreen)
+            if (RevolutionsPlayer.drawcircler > 0 && Helper.CanShowExtraUI())
             {
                 timer += 0.01f;
                 float theta = 6.283f;
