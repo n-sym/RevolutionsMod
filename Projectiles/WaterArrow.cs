@@ -1,8 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles
@@ -29,7 +27,7 @@ namespace Revolutions.Projectiles
         public override void AI()
         {
             if (projectile.position.X > Main.screenPosition.X && projectile.position.Y > Main.screenPosition.Y && projectile.position.X < Main.screenPosition.X + Main.screenWidth && projectile.position.Y < Main.screenPosition.Y + Main.screenHeight)
-            { 
+            {
                 for (int i = 0; i < 10; i++)
                 {
                     Dust d = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.Water);

@@ -50,7 +50,7 @@ namespace Revolutions.NPCs
             Main.spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.LinearClamp, DepthStencilState.Default, RasterizerState.CullNone, null, Main.GameViewMatrix.ZoomMatrix);
 
             drawPosition += -Main.screenPosition;
-                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], drawPosition, null, new Color((126), (int)(171), (int)(243), (int)(255 * npc.scale)), npc.rotation, drawOrigin, 10f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, new Color((126), (int)(171), (int)(243), (int)(255 * npc.scale)), npc.rotation, drawOrigin, 10f, SpriteEffects.None, 0f);
          
             return false;
         }*/
@@ -75,10 +75,6 @@ namespace Revolutions.NPCs
                 npc.position.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + extraDrawY + origin.Y * npc.scale + npc.gfxOffY),
                 npc.frame,
                 npc.GetAlpha(drawColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
-            if (npc.color != default(Color))
-            {
-                Main.spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], new Vector2(npc.position.X - Main.screenPosition.X + npc.width / 2 - Main.npcTexture[npc.type].Width * npc.scale / 2f + origin.X * npc.scale, npc.position.Y - Main.screenPosition.Y + npc.height - Main.npcTexture[npc.type].Height * npc.scale / Main.npcFrameCount[npc.type] + 4f + extraDrawY + origin.Y * npc.scale + npc.gfxOffY), npc.frame, npc.GetColor(drawColor), npc.rotation, origin, npc.scale, spriteEffects, 0f);
-            }
 
             // Restart spriteBatch to reset applied shaders
             Main.spriteBatch.End();

@@ -54,7 +54,7 @@ namespace Revolutions.Projectiles
                 color = Color.Multiply(color, sizeFix / 2.5f);
                 for (int i = 0; i < 9; i++)
                 {
-                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], Helper.GetCloser(drawPositiona, drawPositionb, i, 8), null,
+                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(drawPositiona, drawPositionb, i, 8), null,
                     color, projectile.rotation, drawOrigin, projectile.scale * 0.17f, SpriteEffects.None, 0f);
                 }
             }

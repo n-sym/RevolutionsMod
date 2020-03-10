@@ -5,6 +5,7 @@ using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Revolutions.Projectiles.RareWeapon;
 
 namespace Revolutions.NPCs
 {
@@ -81,8 +82,8 @@ namespace Revolutions.NPCs
                 zeta /= 210;
                 zeta = 1 - zeta;
                 zeta *= 0.8f;
-                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
-                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
             }
             rota += 1.57f;
             for (int alpha = 0; alpha < 161; alpha++)
@@ -91,8 +92,8 @@ namespace Revolutions.NPCs
                 zeta /= 160;
                 zeta = 1 - zeta;
                 zeta *= 0.8f;
-                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
-                spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
             }
             for (int y = 1; y < 1353; y += 8)
             {

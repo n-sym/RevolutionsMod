@@ -1,6 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using System;
-using Terraria;
+﻿using System;
 using Terraria.Graphics.Effects;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -90,8 +88,8 @@ namespace Revolutions.Utils
 
         public override void Action(CommandCaller caller, string input, string[] args)
         {
-            if (!Revolutions.Settings.dist || args.Length == 0)Revolutions.Settings.dist = !Revolutions.Settings.dist;
-            if(args.Length != 0 && Revolutions.Settings.dist)
+            if (!Revolutions.Settings.dist || args.Length == 0) Revolutions.Settings.dist = !Revolutions.Settings.dist;
+            if (args.Length != 0 && Revolutions.Settings.dist)
             {
                 if (args[0] == "-1") args[0] = "100";
                 try

@@ -66,7 +66,7 @@ namespace Revolutions.Projectiles
                 //实际上修复颜色
                 if (Vector2.Distance(projectile.position, player.position) < 0.5f * Vector2.Distance(Vector2.Zero, new Vector2(Main.screenWidth, Main.screenHeight)))
                 {
-                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")], drawPosition, null, new Color((126), (int)(171), (int)(243), (int)(255 * sizeFix)), projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, new Color((126), (int)(171), (int)(243), (int)(255 * sizeFix)), projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
                 }
             }
             return true;

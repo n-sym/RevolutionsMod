@@ -1,6 +1,6 @@
 ﻿displayName = Revolutions Mod Nightly
 author = B.I.T.G
-version = 0.1087
+version = 0.1089
 hideResources = false
 hideCode = false
 includeSource = true

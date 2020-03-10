@@ -6,7 +6,6 @@ using Revolutions.Utils;
 using System;
 using System.Collections.Generic;
 using Terraria;
-using Terraria.Graphics.Capture;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
@@ -20,14 +19,18 @@ namespace Revolutions
         public static Mod mod;
         public static ModHotKey TimeTravelingPotion;
         public static bool TTPHP;
-        public UserInterface RevUI;
+        public UserInterface AlphaUI;
+        public UserInterface BetaUI;
         static SecondUI secondUI = new SecondUI();
 
         public static class Settings
         {
             public static int rangeIndex = 1;
             public static bool dist = false;
-            public static bool blur = false;
+            public static bool blur = true;
+            public static bool autodoor = true;
+            public static bool mutter = true;
+            public static bool autoreuse = false;
         }
         public Revolutions()
         {
@@ -60,8 +63,9 @@ namespace Revolutions
                 Filters.Scene["Extra"].Load();
                 FirstUI firstUI = new FirstUI();
                 firstUI.Activate();
-                RevUI = new UserInterface();
-                RevUI.SetState(firstUI);
+                AlphaUI = new UserInterface();
+                AlphaUI.SetState(firstUI);
+
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);
@@ -89,11 +93,20 @@ namespace Revolutions
         }
         public override void UpdateUI(GameTime gameTime)
         {
-            RevUI.Update(gameTime);
+            AlphaUI.Update(gameTime);
+            ThirdUI thirdUI = new ThirdUI();
+            thirdUI.Activate();
             if (Main.ingameOptionsWindow)
             {
-
+                Main.InGameUI.SetState(thirdUI);
+                //IngameOptions.Close();
+                Main.inFancyUI = true;
             }
+        }
+        public override void PreSaveAndQuit()
+        {
+            Main.InGameUI = new UserInterface();
+            Main.inFancyUI = false;
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
@@ -101,10 +114,10 @@ namespace Revolutions
             if (mouseTextIndex != -1)
             {
                 layers.Insert(mouseTextIndex, new LegacyGameInterfaceLayer(
-                    "Revolutions: RevUI",
+                    "Revolutions: AlphaUI",
                     delegate
                     {
-                        RevUI.Draw(Main.spriteBatch, new GameTime());
+                        AlphaUI.Draw(Main.spriteBatch, new GameTime());
                         return true;
                     },
                     InterfaceScaleType.UI)
@@ -166,10 +179,10 @@ namespace Revolutions
                             color = Helper.Specialname2Color(Helper.spname);
                         }
                     }
-                    if (RevolutionsPlayer.drawcircletype == 1) color = Helper.GetCloserColor(new Color(126, 171, 243), color,1, 2);
+                    if (RevolutionsPlayer.drawcircletype == 1) color = Helper.GetCloserColor(new Color(126, 171, 243), color, 1, 2);
                     color *= (float)Math.Abs(Math.Sin(theta * i + timer));
                     Vector2 drawPos = Main.player[0].Center + new Vector2((float)Math.Cos(theta * i) * RevolutionsPlayer.drawcircler * Main.GameZoomTarget, (float)Math.Sin(theta * i) * RevolutionsPlayer.drawcircler * Main.GameZoomTarget) - Main.screenPosition;
-                    spriteBatch.Draw(Main.projectileTexture[mod.ProjectileType("MeteowerHelper")],
+                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<Projectiles.RareWeapon.MeteowerHelper>()],
                         drawPos, null, color, 0f, drawOrigin, 0.19f, SpriteEffects.None, 0f);
                 }
                 spriteBatch.End();

@@ -15,7 +15,7 @@ namespace Revolutions.Buffs
         public override void Update(Player player, ref int buffIndex)
         {
             RevolutionsPlayer modPlayer = player.GetModPlayer<RevolutionsPlayer>();
-            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.Evolutionaries>()] > 0)
+            if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.CoreWeapon.Evolutionaries>()] > 0)
             {
                 modPlayer.evolutionary = true;
             }

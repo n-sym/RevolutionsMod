@@ -1,13 +1,12 @@
 using Terraria;
 using Terraria.ModLoader;
-
 namespace Revolutions.Items.BluePrints
 {
-    public class MtwerBP : ModItem
+    public class Treestickblueprint : ModItem
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("BP");
+            Tooltip.SetDefault("LW");
         }
         public override void SetDefaults()
         {
@@ -15,6 +14,5 @@ namespace Revolutions.Items.BluePrints
             item.rare = 7;
             item.material = true;
         }
-
     }
 }

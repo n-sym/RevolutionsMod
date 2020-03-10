@@ -1,6 +1,6 @@
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Revolutions.Items.Acc;
+using Microsoft.Xna.Framework.Input;
+using Revolutions.Items.Accessory;
 using Revolutions.Items.Armor;
 using Revolutions.Utils;
 using System;
@@ -11,7 +11,6 @@ using Terraria.ID;
 using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.ModLoader.IO;
-using Microsoft.Xna.Framework.Input;
 using static Terraria.ModLoader.ModContent;
 
 namespace Revolutions
@@ -64,7 +63,7 @@ namespace Revolutions
                 pastMana[i] = player.statMana;
                 pastCenter[i] = player.Center;
                 pastSpeed[i] = player.velocity;
-                if(i != 0)starFlare[i] = 0;
+                if (i != 0) starFlare[i] = 0;
                 corePower[i] = 0;
             }
             Lightning.LightningCfgs.projexists = false;
@@ -101,7 +100,7 @@ namespace Revolutions
                 starFlare[j] = starFlare[j - 1];
                 corePower[j] = corePower[j - 1];
             }
-            for(int i = 0; i < npctalk.Count; i++)
+            for (int i = 0; i < npctalk.Count; i++)
             {
                 if (npctalk[i].timer > 0) npctalk[i].timer--;
                 else npctalk.RemoveAt(i);
@@ -130,23 +129,23 @@ namespace Revolutions
             for (int i = 0; i < justOpenDoors.Count; i++)
             {
                 var door = justOpenDoors.ToArray()[i];
-                if(Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) > 5)
+                if (Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) > 5)
                 {
                     WorldGen.CloseDoor(door.X, door.Y);
                     justOpenDoors.RemoveAt(i);
                 }
-                
+
             }
             if (Main.tile[Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
             {
-                if(!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, player.direction))
-                WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
+                if (!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, player.direction))
+                    WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
                 justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y));
             }
             if (Main.tile[Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
             {
-                if(!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, player.direction))
-                WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
+                if (!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, player.direction))
+                    WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
                 justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y));
             }
         }
@@ -158,7 +157,7 @@ namespace Revolutions
             Lightning.LightningCfgs.accexists = false;
             drawcircler = 0;
             drawcircletype = 0;
-    }
+        }
         int timerw = 0;
         //W按下的计时器
         int timers = 0;
@@ -336,7 +335,7 @@ namespace Revolutions
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-            
+
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
             if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.GoForTheEyes"), 180, player);
@@ -409,7 +408,7 @@ namespace Revolutions
                 hitcounter++;
             }
         }
-        
+
     }
 }
 

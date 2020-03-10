@@ -6,9 +6,9 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Revolutions.Projectiles
+namespace Revolutions.Projectiles.CoreWeapon
 {
-    public class FinalLightBoss : PowerProj
+    public class FinalLightSummon : PowerProj
     {
         public override void SetStaticDefaults()
         {
@@ -20,14 +20,18 @@ namespace Revolutions.Projectiles
         {
             projectile.width = 12;
             projectile.height = 12;
-            projectile.hostile = true;
-            projectile.timeLeft = 25;
+            projectile.friendly = true;
+            projectile.minion = true;
+            projectile.timeLeft = 30;
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.aiStyle = -1;
             projectile.light = 0.5f;
             projectile.scale = 0.8f;
+            projectile.penetrate = 2000;
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = -1;
         }
         public override bool ShouldUpdatePosition()
         {
@@ -36,9 +40,12 @@ namespace Revolutions.Projectiles
         NPC t = null;
         public override void AI()
         {
-            projectile.position = Helper.GetCloser(projectile.velocity.X, projectile.velocity.Y, projectile.ai[0], projectile.ai[1], 25 - projectile.timeLeft, 23);
+            if (Main.npc.Length < projectile.ai[1]) projectile.Kill();
+            NPC target = Main.npc[(int)projectile.ai[1]];
+            Player player = Main.player[projectile.owner];
+            projectile.position = Helper.GetCloser(projectile.velocity, target.Center, 30 - projectile.timeLeft, 28);
         }
-        public override void OnHitPlayer(Player target, int damage, bool crit)
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             if (target.whoAmI == projectile.ai[1])
             {
@@ -56,6 +63,11 @@ namespace Revolutions.Projectiles
                     d.noGravity = true;
                 }
             }
+        }
+        public override void Kill(int timeLeft)
+        {
+            NPC target = Main.npc[(int)projectile.ai[1]];
+            if (timeLeft == 0) Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamage2>(), projectile.damage, 0, projectile.owner);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

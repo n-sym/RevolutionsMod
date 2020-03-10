@@ -2,11 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 using Revolutions.Utils;
 using Terraria;
-using Terraria.GameContent.UI.Elements;
 using Terraria.Localization;
 using Terraria.UI;
-using Microsoft.Xna.Framework.Input;
-using Terraria.ModLoader;
 
 namespace Revolutions.UI
 {
@@ -33,7 +30,7 @@ namespace Revolutions.UI
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if(RevolutionsPlayer.logoTimer == 90)
+            if (RevolutionsPlayer.logoTimer == 90)
             {
                 dragableUIPanel.Left.Set(Main.screenWidth - 460, 0f);
             }
@@ -64,7 +61,7 @@ namespace Revolutions.UI
             text += playera.GetModPlayer<RevolutionsPlayer>().starFlare[0].ToString() + "/" + playera.GetModPlayer<RevolutionsPlayer>().maxStarFlare.ToString();
             Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, text, myPos.X, myPos.Y + 24f, new Color((int)Main.mouseTextColor, (int)Main.mouseTextColor,
                             (int)Main.mouseTextColor, (int)Main.mouseTextColor), Color.Transparent, Vector2.Zero, 1f);
-            if(FirstUI.cesfTips)
+            if (FirstUI.cesfTips)
             {
                 myPos = Main.MouseWorld - Main.screenPosition;
                 text = Language.GetTextValue("Mods.Revolutions.cetip");
@@ -76,31 +73,34 @@ namespace Revolutions.UI
                             (int)Main.mouseTextColor, (int)Main.mouseTextColor), Color.Transparent, Vector2.Zero, 1f);
 
             }
-            foreach (Player player in Main.player)
+            if (Revolutions.Settings.mutter)
             {
-                if (player.active)
+                foreach (Player player in Main.player)
                 {
-                    string talk = player.GetModPlayer<RevolutionsPlayer>().nowSaying;
-                    float v = Helper.GetStringLength(Main.fontMouseText, talk, 0.8f);
-                    if (player.GetModPlayer<RevolutionsPlayer>().talkActive > 0)
+                    if (player.active)
                     {
-                        Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, talk, (player.Center.X - Main.screenPosition.X) / Main.UIScale - (0.5f * v * Main.GameZoomTarget), (player.position.Y - Main.screenPosition.Y) / Main.UIScale - (30 * Main.GameZoomTarget),
+                        string talk = player.GetModPlayer<RevolutionsPlayer>().nowSaying;
+                        float v = Helper.GetStringLength(Main.fontMouseText, talk, 0.8f);
+                        if (player.GetModPlayer<RevolutionsPlayer>().talkActive > 0)
+                        {
+                            Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, talk, (player.Center.X - Main.screenPosition.X) / Main.UIScale - (0.5f * v * Main.GameZoomTarget), (player.position.Y - Main.screenPosition.Y) / Main.UIScale - (30 * Main.GameZoomTarget),
+                            new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor),
+                            Color.Black, new Vector2(0, 0), 0.8f * Main.GameZoomTarget);
+                        }
+
+                    }
+                }
+                for (int i = 0; i < RevolutionsPlayer.npctalk.Count; i++)
+                {
+                    string talk = RevolutionsPlayer.npctalk[i].text;
+                    float v = Helper.GetStringLength(Main.fontMouseText, talk, 0.8f);
+                    if (RevolutionsPlayer.npctalk[0].timer > 0)
+                    {
+                        NPC n = Main.npc[RevolutionsPlayer.npctalk[i].number];
+                        Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, talk, (n.Center.X - Main.screenPosition.X) / Main.UIScale - (0.5f * v * Main.GameZoomTarget), (n.position.Y - Main.screenPosition.Y) / Main.UIScale - (30 * Main.GameZoomTarget),
                         new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor),
                         Color.Black, new Vector2(0, 0), 0.8f * Main.GameZoomTarget);
                     }
-
-                }
-            }
-            for (int i = 0; i < RevolutionsPlayer.npctalk.Count; i++)
-            {
-                string talk = RevolutionsPlayer.npctalk[i].text;
-                float v = Helper.GetStringLength(Main.fontMouseText, talk, 0.8f);
-                if (RevolutionsPlayer.npctalk[0].timer > 0)
-                {
-                    NPC n = Main.npc[RevolutionsPlayer.npctalk[i].number];
-                    Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, talk, (n.Center.X - Main.screenPosition.X) / Main.UIScale - (0.5f * v * Main.GameZoomTarget), (n.position.Y - Main.screenPosition.Y) / Main.UIScale - (30 * Main.GameZoomTarget),
-                    new Color(Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor, Main.mouseTextColor),
-                    Color.Black, new Vector2(0, 0), 0.8f * Main.GameZoomTarget);
                 }
             }
         }
