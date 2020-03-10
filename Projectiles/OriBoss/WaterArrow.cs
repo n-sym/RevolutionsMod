@@ -3,7 +3,7 @@ using Revolutions.Utils;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Revolutions.Projectiles
+namespace Revolutions.Projectiles.OriBoss
 {
     public class WaterArrow : ModProjectile
     {
@@ -35,9 +35,24 @@ namespace Revolutions.Projectiles
                     Dust e = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.BlueCircle);
                     e.noGravity = true;
                 }
-                Dust f = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.BlueWhiteBubble, 0, 0, 0, default(Color), 0.6f);
+                Dust f = Dust.NewDustDirect(projectile.Center, 15, 15, MyDustId.BlueWhiteBubble, 0, 0, 0, default(Color), 0.5f);
                 f.noGravity = true;
             }
+        }
+        public override void Kill(int timeLeft)
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Dust d = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.Water);
+                d.noGravity = true;
+                d.velocity *= 2;
+                Dust e = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.BlueCircle);
+                e.noGravity = true;
+                e.velocity *= 2;
+            }
+            Dust f = Dust.NewDustDirect(projectile.Center, 15, 15, MyDustId.BlueWhiteBubble, 0, 0, 0, default(Color), 0.5f);
+            f.noGravity = true;
+            f.velocity *= 2;
         }
     }
 }

@@ -4,7 +4,7 @@ using Revolutions.Utils;
 using Terraria;
 using Terraria.ModLoader;
 
-namespace Revolutions.Projectiles
+namespace Revolutions.Projectiles.StarFlareWeapon
 {
     public class UltimateStar : ModProjectile
     {

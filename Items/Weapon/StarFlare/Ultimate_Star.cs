@@ -14,7 +14,7 @@ namespace Revolutions.Items.Weapon.StarFlare
         int shoottime = 0;
         public override void SetDefaults()
         {
-            item.damage = 512;
+            item.damage = 256;
             item.crit = 16;
             item.channel = true;
             item.ranged = true;
@@ -62,7 +62,7 @@ namespace Revolutions.Items.Weapon.StarFlare
             }
             if (shoottime < 501)
             {
-                item.damage = (shoottime * 512 + 256000) / 500;
+                item.damage = (shoottime * 512 + 256000) / 1000;
             }
             if (shoottime < 501)
             {

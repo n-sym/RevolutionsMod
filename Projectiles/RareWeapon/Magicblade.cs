@@ -30,7 +30,8 @@ namespace Revolutions.Projectiles.RareWeapon
             projectile.tileCollide = true;
             projectile.penetrate = 3;
             projectile.scale = 0.7f;
-
+            projectile.usesLocalNPCImmunity = true;
+            projectile.localNPCHitCooldown = 10;
         }
         public override void AI()
         {
@@ -76,7 +77,7 @@ namespace Revolutions.Projectiles.RareWeapon
                     }
                 }
             }
-            if (target != null&& projectile.timeLeft < 579)
+            if (target != null && projectile.timeLeft < 579)
             {
                 Vector2 targetVec = target.Center - projectile.Center;
                 targetVec.Normalize();
@@ -84,12 +85,10 @@ namespace Revolutions.Projectiles.RareWeapon
                 projectile.velocity = (projectile.velocity * 30f + targetVec) / 31f; 
             }
         }
-         /* public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
-          {
-          target.AddBuff(BuffID.xxxx, 10);
-          Dust dust1 = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, MyDustId.Fire, 0f, 0f, 100, Color.YellowGreen , 0.5f);
-          }
-          */
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            projectile.damage /= 2;
+        }
         public override void Kill(int timeLeft)
         {   
             Dust dust = Dust.NewDustDirect(projectile.position, projectile.width, projectile.height, MyDustId.PurpleHighFx, 0f, 0f, 100, Color.Purple , 3f); 

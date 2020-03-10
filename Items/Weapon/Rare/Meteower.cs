@@ -13,13 +13,13 @@ namespace Revolutions.Items.Weapon.Rare
         }
         public override void SetDefaults()
         {
-            item.damage = 16;
+            item.damage = 14;
             item.magic = true;
             item.width = 40;
             item.crit = 6;
             item.height = 20;
             item.useTime = 10;
-            item.mana = 12;
+            item.mana = 9;
             item.useAnimation = 10;
             item.useStyle = 5;
             item.noMelee = true;

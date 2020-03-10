@@ -20,12 +20,12 @@ namespace Revolutions.Items.Weapon.Rare
         }
         public override void SetDefaults() 
         {
-            item.damage = 53;
-            item.knockBack = 0.25f;
-            item.crit = 10;
+            item.damage = 30;
+            item.knockBack = 0f;
+            item.crit = 8;
             item.rare = 8;
-            item.useTime = 15;
-            item.useAnimation = 15;
+            item.useTime = 19;
+            item.useAnimation = 19;
             item.useStyle = 5;
             item.autoReuse = true;
             item.magic  = true;
@@ -37,7 +37,7 @@ namespace Revolutions.Items.Weapon.Rare
             item.noMelee = true;
             item.shoot = mod.ProjectileType("Magicblade");
             item.shootSpeed = 8f;
-            item.mana = 10;
+            item.mana = 4;
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {

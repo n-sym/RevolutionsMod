@@ -126,27 +126,30 @@ namespace Revolutions
                 if (hitcounter == 0 && nowBoss != null) difficulty++;
             }
             //自动开关门
-            for (int i = 0; i < justOpenDoors.Count; i++)
+            if (Revolutions.Settings.autodoor)
             {
-                var door = justOpenDoors.ToArray()[i];
-                if (Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) > 5)
+                for (int i = 0; i < justOpenDoors.Count; i++)
                 {
-                    WorldGen.CloseDoor(door.X, door.Y);
-                    justOpenDoors.RemoveAt(i);
-                }
+                    var door = justOpenDoors.ToArray()[i];
+                    if (Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) > 5)
+                    {
+                        WorldGen.CloseDoor(door.X, door.Y);
+                        justOpenDoors.RemoveAt(i);
+                    }
 
-            }
-            if (Main.tile[Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
-            {
-                if (!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, player.direction))
-                    WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
-                justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y));
-            }
-            if (Main.tile[Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
-            {
-                if (!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, player.direction))
-                    WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
-                justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y));
+                }
+                if (Main.tile[Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
+                {
+                    if (!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, player.direction))
+                        WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
+                    justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y));
+                }
+                if (Main.tile[Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
+                {
+                    if (!WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, player.direction))
+                        WorldGen.OpenDoor(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y, -player.direction);
+                    justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y));
+                }
             }
         }
         public override void ResetEffects()
