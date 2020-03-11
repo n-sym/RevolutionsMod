@@ -67,6 +67,7 @@ namespace Revolutions
                 corePower[i] = 0;
             }
             Lightning.LightningCfgs.projexists = false;
+            Helper.GetSetting();
         }
         public override TagCompound Save()
         {
@@ -79,10 +80,11 @@ namespace Revolutions
         }
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax"))
+           if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax"))
             {
                 starFlare[0] = tag.GetAsInt("sf");
                 maxStarFlare = tag.GetAsInt("sfmax");
+                //Helper.Array2Setting(tag.Get<bool[]>("setting"));
             }
             base.Load(tag);
         }

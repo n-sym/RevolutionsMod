@@ -25,12 +25,13 @@ namespace Revolutions
 
         public static class Settings
         {
-            public static int rangeIndex = 1;
+            public static int rangeIndex = 0;
             public static bool dist = false;
             public static bool blur = true;
             public static bool autodoor = true;
             public static bool mutter = true;
             public static bool autoreuse = false;
+            public static bool hthbar = true;
         }
         public Revolutions()
         {
@@ -88,8 +89,11 @@ namespace Revolutions
             if (RevolutionsPlayer.logoTimer < 30 && Filters.Scene["Extra"].IsActive()) Filters.Scene["Extra"].Deactivate();
             if (Filters.Scene["Extra"].IsActive()) Filters.Scene["Extra"].GetShader().UseProgress(-((float)RevolutionsPlayer.logoTimer - 30) * ((float)RevolutionsPlayer.logoTimer - 30) / 7200 + 1f);
             if (RevolutionsPlayer.logoTimer > 0) RevolutionsPlayer.logoTimer--;
-            secondUI = new SecondUI();
-            secondUI.Draw(spriteBatch);
+            if (Settings.hthbar)
+            {
+                secondUI = new SecondUI();
+                secondUI.Draw(spriteBatch);
+            }
         }
         public override void UpdateUI(GameTime gameTime)
         {
@@ -107,6 +111,7 @@ namespace Revolutions
         {
             Main.InGameUI = new UserInterface();
             Main.inFancyUI = false;
+            Helper.SaveSettings();
         }
         public override void ModifyInterfaceLayers(List<GameInterfaceLayer> layers)
         {
@@ -157,7 +162,7 @@ namespace Revolutions
 
         private void DrawCircle(object obj)
         {
-            if (RevolutionsPlayer.drawcircler > 0 && Helper.CanShowExtraUI())
+            if (RevolutionsPlayer.drawcircler > 0 && Helper.CanShowExtraUI() && Settings.rangeIndex != 2)
             {
                 timer += 0.01f;
                 float theta = 6.283f;

@@ -16,7 +16,6 @@ namespace Revolutions.Items.Weapon.StarFlare
         {
             item.damage = 256;
             item.crit = 16;
-            item.channel = true;
             item.ranged = true;
             item.width = 40;
             item.height = 20;
@@ -31,7 +30,7 @@ namespace Revolutions.Items.Weapon.StarFlare
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 40f;
-            sfCosume = 3;
+            sfCosume = 2;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -39,9 +38,8 @@ namespace Revolutions.Items.Weapon.StarFlare
         }
 
         int likechain = 20;
-        bool isshoot;
         int timer = 0;
-        float sfix, spfix;
+        float sfix;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
             if (timer == 0)
@@ -62,7 +60,7 @@ namespace Revolutions.Items.Weapon.StarFlare
             }
             if (shoottime < 501)
             {
-                item.damage = (shoottime * 512 + 256000) / 1000;
+                item.damage = (shoottime * 512 + 256000) / 512;
             }
             if (shoottime < 501)
             {

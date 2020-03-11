@@ -325,5 +325,53 @@ namespace Revolutions.Utils
         {
             return !Main.mapFullscreen && !Main.ingameOptionsWindow && !Main.inFancyUI && !Main.playerInventory;
         }
+        public static void GetSetting()
+        {
+            try
+            {
+                string filePath = Main.SavePath + @"\revosets";
+                StreamReader streamReader = new StreamReader(filePath);
+                bool[] array = new bool[9];
+                for (int i = 0; i < 9; i++)
+                {
+                    array[i] = bool.Parse(streamReader.ReadLine());
+                }
+                if (array[0]) Revolutions.Settings.rangeIndex = 0;
+                if (array[1]) Revolutions.Settings.rangeIndex = 1;
+                if (array[2]) Revolutions.Settings.rangeIndex = 2;
+                Revolutions.Settings.dist = array[3];
+                Revolutions.Settings.blur = array[4];
+                Revolutions.Settings.autodoor = array[5];
+                Revolutions.Settings.mutter = array[6];
+                Revolutions.Settings.autoreuse = array[7];
+                Revolutions.Settings.hthbar = array[8];
+            }
+            catch
+            {
+
+            }
+        }
+        public static void SaveSettings()
+        {
+            bool[] array = new bool[9];
+            array[0] = false;
+            array[1] = false;
+            array[2] = false;
+            array[Revolutions.Settings.rangeIndex] = true;
+            array[3] = Revolutions.Settings.dist;
+            array[4] = Revolutions.Settings.blur;
+            array[5] = Revolutions.Settings.autodoor;
+            array[6] = Revolutions.Settings.mutter;
+            array[7] = Revolutions.Settings.autoreuse;
+            array[8] = Revolutions.Settings.hthbar;
+            string filePath = Main.SavePath + @"\revosets";
+            StreamWriter streamWriter = new StreamWriter(filePath, false);
+            for (int i = 0; i < 9; i++)
+            {
+                streamWriter.WriteLine(array[i].ToString());
+            }
+            streamWriter.Close();
+            streamWriter.Dispose();
+        }
     }
 }

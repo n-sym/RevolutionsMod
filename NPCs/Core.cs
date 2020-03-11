@@ -1,11 +1,11 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Revolutions.Projectiles.RareWeapon;
 using Revolutions.Utils;
 using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
-using Revolutions.Projectiles.RareWeapon;
 
 namespace Revolutions.NPCs
 {

@@ -1,9 +1,4 @@
-﻿using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Revolutions.Utils;
-using Terraria;
-using Terraria.ID;
-using Terraria.Localization;
+﻿using Terraria;
 using Terraria.ModLoader;
 
 namespace Revolutions.NPCs

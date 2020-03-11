@@ -77,7 +77,7 @@ namespace Revolutions.Projectiles.CoreWeapon
             Player player = Main.player[projectile.owner];
             Vector2 drawOrigin = new Vector2(1f, 1f);
             drawPos2 = player.Bottom;
-            if(!Main.gamePaused)k++;
+            if (!Main.gamePaused) k++;
             for (int i = 0; i < 16; i++)
             {
 

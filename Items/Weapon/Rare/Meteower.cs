@@ -43,7 +43,7 @@ namespace Revolutions.Items.Weapon.Rare
         }
         public override void UpdateInventory(Player player)
         {
-            if (player.HeldItem == item && Revolutions.Settings.rangeIndex == 2)
+            if (player.HeldItem == item && Revolutions.Settings.rangeIndex == 1)
             {
                 RevolutionsPlayer.drawcircler = 370f;
                 RevolutionsPlayer.drawcircletype = 1;

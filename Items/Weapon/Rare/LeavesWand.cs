@@ -1,24 +1,21 @@
 ﻿using Microsoft.Xna.Framework;
-using System;
-using System.Collections.Generic;
+using Revolutions.Items.BluePrints;
 using Terraria;
 using Terraria.ID;
-using Terraria.Localization;
 using Terraria.ModLoader;
-using Revolutions.Items.BluePrints;
 
 namespace Revolutions.Items.Weapon.Rare
 {
-    public class LeavesWand : ModItem 
+    public class LeavesWand : ModItem
     {
 
-        public override void SetStaticDefaults() 
+        public override void SetStaticDefaults()
         {
             base.SetStaticDefaults();
             DisplayName.SetDefault("Leaves wand");
             Tooltip.SetDefault("Summon Tracking Magic Blade to attack enemies...");
         }
-        public override void SetDefaults() 
+        public override void SetDefaults()
         {
             item.damage = 30;
             item.knockBack = 0f;
@@ -28,7 +25,7 @@ namespace Revolutions.Items.Weapon.Rare
             item.useAnimation = 19;
             item.useStyle = 5;
             item.autoReuse = true;
-            item.magic  = true;
+            item.magic = true;
             item.value = Item.sellPrice(0, 1, 0, 0);
             item.UseSound = SoundID.Item9;
             item.width = 40;
@@ -44,9 +41,9 @@ namespace Revolutions.Items.Weapon.Rare
             int numberProjectiles = 4 + Main.rand.Next(2);
             for (int i = 0; i < numberProjectiles; i++)
             {
-                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(30)); 
+                Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(30));
                 float scale = 1f - (Main.rand.NextFloat() * .3f);
-                perturbedSpeed = perturbedSpeed * scale; 
+                perturbedSpeed = perturbedSpeed * scale;
                 Projectile.NewProjectile(position.X, position.Y, perturbedSpeed.X, perturbedSpeed.Y, type, damage, knockBack, player.whoAmI);
             }
             return false;

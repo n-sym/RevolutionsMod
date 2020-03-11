@@ -12,10 +12,12 @@ namespace Revolutions.UI
     {
         UIPanel UIPanel1;
         UIText UIText1;
-        UIText Blurset;
-        UIText ADset;
-        UIText MTset;
-        UIText AUset;
+        UIText BlurSet;
+        UIText AutoDoorSet;
+        UIText MutterSet;
+        UIText AutoReuseSet;
+        UIText HthBarSet;
+        UIText RangeIndexSet;
         UIText Exit;
         public static bool cesfTips;
         public override void OnInitialize()
@@ -32,30 +34,42 @@ namespace Revolutions.UI
             UIText1.Top.Set(25, 0f);
             UIText1.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, UIText1.Text, 0.7f), 0f);
             UIPanel1.Append(UIText1);
-            Blurset = new UIText(Language.GetTextValue("Mods.Revolutions.UI.Blur" + Revolutions.Settings.blur.ToString()));
-            Blurset.Top.Set(80, 0f);
-            Blurset.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, Blurset.Text, 0.4f), 0f);
-            Blurset.OnClick += Click;
-            Blurset.OnMouseOver += Hover;
-            UIPanel1.Append(Blurset);
-            ADset = new UIText(Language.GetTextValue("Mods.Revolutions.UI.AutoDoor" + Revolutions.Settings.autodoor.ToString()));
-            ADset.Top.Set(120, 0f);
-            ADset.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, ADset.Text, 0.4f), 0f);
-            ADset.OnClick += Click;
-            ADset.OnMouseOver += Hover;
-            UIPanel1.Append(ADset);
-            MTset = new UIText(Language.GetTextValue("Mods.Revolutions.UI.Mutter" + Revolutions.Settings.mutter.ToString()));
-            MTset.Top.Set(160, 0f);
-            MTset.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, MTset.Text, 0.4f), 0f);
-            MTset.OnClick += Click;
-            MTset.OnMouseOver += Hover;
-            UIPanel1.Append(MTset);
-            AUset = new UIText(Language.GetTextValue("Mods.Revolutions.UI.AutoReuse" + Revolutions.Settings.autoreuse.ToString()));
-            AUset.Top.Set(200, 0f);
-            AUset.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, AUset.Text, 0.4f), 0f);
-            AUset.OnClick += Click;
-            AUset.OnMouseOver += Hover;
-            UIPanel1.Append(AUset);
+            BlurSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.Blur" + Revolutions.Settings.blur.ToString()));
+            BlurSet.Top.Set(80, 0f);
+            BlurSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, BlurSet.Text, 0.4f), 0f);
+            BlurSet.OnClick += Click;
+            BlurSet.OnMouseOver += Hover;
+            UIPanel1.Append(BlurSet);
+            AutoDoorSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.AutoDoor" + Revolutions.Settings.autodoor.ToString()));
+            AutoDoorSet.Top.Set(120, 0f);
+            AutoDoorSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, AutoDoorSet.Text, 0.4f), 0f);
+            AutoDoorSet.OnClick += Click;
+            AutoDoorSet.OnMouseOver += Hover;
+            UIPanel1.Append(AutoDoorSet);
+            MutterSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.Mutter" + Revolutions.Settings.mutter.ToString()));
+            MutterSet.Top.Set(160, 0f);
+            MutterSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, MutterSet.Text, 0.4f), 0f);
+            MutterSet.OnClick += Click;
+            MutterSet.OnMouseOver += Hover;
+            UIPanel1.Append(MutterSet);
+            AutoReuseSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.AutoReuse" + Revolutions.Settings.autoreuse.ToString()));
+            AutoReuseSet.Top.Set(200, 0f);
+            AutoReuseSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, AutoReuseSet.Text, 0.4f), 0f);
+            AutoReuseSet.OnClick += Click;
+            AutoReuseSet.OnMouseOver += Hover;
+            UIPanel1.Append(AutoReuseSet);
+            HthBarSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.HealthBar" + Revolutions.Settings.hthbar.ToString()));
+            HthBarSet.Top.Set(240, 0f);
+            HthBarSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, HthBarSet.Text, 0.4f), 0f);
+            HthBarSet.OnClick += Click;
+            HthBarSet.OnMouseOver += Hover;
+            UIPanel1.Append(HthBarSet);
+            RangeIndexSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.RangeIndex" + Revolutions.Settings.rangeIndex.ToString()));
+            RangeIndexSet.Top.Set(280, 0f);
+            RangeIndexSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, RangeIndexSet.Text, 0.4f), 0f);
+            RangeIndexSet.OnClick += Click;
+            RangeIndexSet.OnMouseOver += Hover;
+            UIPanel1.Append(RangeIndexSet);
             Exit = new UIText(Language.GetTextValue("LegacyMenu.118"), 0.4f, true);
             Exit.Top.Set(440, 0f);
             Exit.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, Exit.Text, 0.4f), 0f);
@@ -71,14 +85,18 @@ namespace Revolutions.UI
                 UIPanel1.Left.Set(Main.screenWidth / 2 - 320, 0f);
                 UIPanel1.Top.Set(Main.screenHeight / 2 - 240, 0f);
             }
-            Blurset.SetText(Language.GetTextValue("Mods.Revolutions.UI.Blur" + Revolutions.Settings.blur.ToString()), 0.4f, true);
-            if (Blurset.IsMouseHovering) Blurset.TextColor = Color.White; else Blurset.TextColor = Color.Gray;
-            ADset.SetText(Language.GetTextValue("Mods.Revolutions.UI.AutoDoor" + Revolutions.Settings.autodoor.ToString()), 0.4f, true);
-            if (ADset.IsMouseHovering) ADset.TextColor = Color.White; else ADset.TextColor = Color.Gray;
-            MTset.SetText(Language.GetTextValue("Mods.Revolutions.UI.Mutter" + Revolutions.Settings.mutter.ToString()), 0.4f, true);
-            if (MTset.IsMouseHovering) MTset.TextColor = Color.White; else MTset.TextColor = Color.Gray;
-            AUset.SetText(Language.GetTextValue("Mods.Revolutions.UI.AutoReuse" + Revolutions.Settings.autoreuse.ToString()), 0.4f, true);
-            if (AUset.IsMouseHovering) AUset.TextColor = Color.White; else AUset.TextColor = Color.Gray;
+            BlurSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.Blur" + Revolutions.Settings.blur.ToString()), 0.4f, true);
+            if (BlurSet.IsMouseHovering) BlurSet.TextColor = Color.White; else BlurSet.TextColor = Color.Gray;
+            AutoDoorSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.AutoDoor" + Revolutions.Settings.autodoor.ToString()), 0.4f, true);
+            if (AutoDoorSet.IsMouseHovering) AutoDoorSet.TextColor = Color.White; else AutoDoorSet.TextColor = Color.Gray;
+            MutterSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.Mutter" + Revolutions.Settings.mutter.ToString()), 0.4f, true);
+            if (MutterSet.IsMouseHovering) MutterSet.TextColor = Color.White; else MutterSet.TextColor = Color.Gray;
+            AutoReuseSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.AutoReuse" + Revolutions.Settings.autoreuse.ToString()), 0.4f, true);
+            if (AutoReuseSet.IsMouseHovering) AutoReuseSet.TextColor = Color.White; else AutoReuseSet.TextColor = Color.Gray;
+            HthBarSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.HealthBar" + Revolutions.Settings.hthbar.ToString()), 0.4f, true);
+            if (HthBarSet.IsMouseHovering) HthBarSet.TextColor = Color.White; else HthBarSet.TextColor = Color.Gray;
+            RangeIndexSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.RangeIndex" + Revolutions.Settings.rangeIndex.ToString()), 0.4f, true);
+            if (RangeIndexSet.IsMouseHovering) RangeIndexSet.TextColor = Color.White; else RangeIndexSet.TextColor = Color.Gray;
 
             if (Exit.IsMouseHovering) Exit.TextColor = Color.White; else Exit.TextColor = Color.Gray;
             if (Main.inFancyUI) DrawChildren(spriteBatch);
@@ -86,7 +104,7 @@ namespace Revolutions.UI
         public void Click(UIMouseEvent evt, UIElement listeningElement)
         {
             Main.soundInstanceMenuTick.Play();
-            switch(listeningElement.Top.GetValue(0f))
+            switch (listeningElement.Top.GetValue(0f))
             {
                 case 80:
                     Revolutions.Settings.blur = !Revolutions.Settings.blur;
@@ -99,6 +117,13 @@ namespace Revolutions.UI
                     break;
                 case 200:
                     Revolutions.Settings.autoreuse = !Revolutions.Settings.autoreuse;
+                    break;
+                case 240:
+                    Revolutions.Settings.hthbar = !Revolutions.Settings.hthbar ;
+                    break;
+                case 280:
+                    Revolutions.Settings.rangeIndex++;
+                    if (Revolutions.Settings.rangeIndex == 3) Revolutions.Settings.rangeIndex = 0;
                     break;
                 case 440:
                     Main.InGameUI = new UserInterface();
