@@ -119,7 +119,7 @@ namespace Revolutions.UI
                     Revolutions.Settings.autoreuse = !Revolutions.Settings.autoreuse;
                     break;
                 case 240:
-                    Revolutions.Settings.hthbar = !Revolutions.Settings.hthbar ;
+                    Revolutions.Settings.hthbar = !Revolutions.Settings.hthbar;
                     break;
                 case 280:
                     Revolutions.Settings.rangeIndex++;

@@ -82,25 +82,22 @@ namespace Revolutions.NPCs
                 zeta /= 210;
                 zeta = 1 - zeta;
                 zeta *= 0.8f;
-                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
-                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.8f * zeta + 0.1f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.8f * zeta + 0.1f, SpriteEffects.None, 0);
             }
             rota += 1.57f;
-            for (int alpha = 0; alpha < 161; alpha++)
+            for (int alpha = 0; alpha < 211; alpha++)
             {
                 float zeta = alpha + 1;
-                zeta /= 160;
+                zeta /= 210;
                 zeta = 1 - zeta;
                 zeta *= 0.8f;
-                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
-                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.33f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition + new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.8f * zeta + 0.1f, SpriteEffects.None, 0);
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<MeteowerHelper>()], npc.Center - Main.screenPosition - new Vector2(4f, 4f).RotatedBy(rota) * alpha, null, c * zeta, 0f, new Vector2(1, 1), 0.8f * zeta + 0.1f, SpriteEffects.None, 0);
             }
             for (int y = 1; y < 1353; y += 8)
             {
-                float a = y + 1;
-                a /= 1352;
-                a = 1 - a;
-                if (y > 500) a *= 0f;
+                float a = 1;
                 Vector2 pos = new Vector2(y, 1352 / y);
                 int b = y + (int)(Math.Abs(Math.Sin(drawtimer)) * 10816);
                 Color d = Helper.GetCloserColor(Helper.GetRainbowColorLinear(b, 21632), c, 5, 6) * a;

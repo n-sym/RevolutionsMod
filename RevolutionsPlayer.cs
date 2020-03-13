@@ -80,7 +80,7 @@ namespace Revolutions
         }
         public override void Load(TagCompound tag)
         {
-           if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax"))
+            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax"))
             {
                 starFlare[0] = tag.GetAsInt("sf");
                 maxStarFlare = tag.GetAsInt("sfmax");
@@ -133,7 +133,7 @@ namespace Revolutions
                 for (int i = 0; i < justOpenDoors.Count; i++)
                 {
                     var door = justOpenDoors.ToArray()[i];
-                    if (Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) > 5)
+                    if (Vector2.Distance(door.ToVector2(), Helper.ToTilesPos(player.Center).ToVector2()) >= 3)
                     {
                         WorldGen.CloseDoor(door.X, door.Y);
                         justOpenDoors.RemoveAt(i);

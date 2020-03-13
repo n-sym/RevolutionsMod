@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles
@@ -9,9 +8,7 @@ namespace Revolutions.Projectiles
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Damage");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
-            ProjectileID.Sets.TrailingMode[projectile.type] = 0;
+            DisplayName.SetDefault("Saviour Bonus");
         }
         public override void SetDefaults()
         {
@@ -58,6 +55,7 @@ namespace Revolutions.Projectiles
             {
                 player.GetModPlayer<RevolutionsPlayer>().justDmgcounter++;
             }
+            if (damage - (int)((target.lifeMax - target.life) * 0.0025f) >= 500) damage = (int)((target.lifeMax - target.life) * 0.0025f);
         }
     }
 }

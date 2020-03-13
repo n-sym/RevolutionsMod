@@ -1,5 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Revolutions.NPCs;
 using Revolutions.UI;
 using Revolutions.Utils;
 //using ReLogic.Graphics;
@@ -105,6 +106,14 @@ namespace Revolutions
                 Main.InGameUI.SetState(thirdUI);
                 //IngameOptions.Close();
                 Main.inFancyUI = true;
+            }
+        }
+        public override void MidUpdatePlayerNPC()
+        {
+            for (int i = 0; i < RevolutionsGlobalNPC.myTalkCD.Length; i++)
+            {
+                if (RevolutionsGlobalNPC.myTalkCD[i] <= 0) continue;
+                RevolutionsGlobalNPC.myTalkCD[i]--;
             }
         }
         public override void PreSaveAndQuit()
