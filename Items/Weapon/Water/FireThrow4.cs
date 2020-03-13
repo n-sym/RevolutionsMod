@@ -4,7 +4,7 @@ using Terraria.Localization;
 using Terraria.ModLoader;
 namespace Revolutions.Items.Weapon.Water
 {
-    public class FireThrow3 : ModItem
+    public class FireThrow4 : ModItem
     {
         public override void SetStaticDefaults()
         {
@@ -18,7 +18,7 @@ namespace Revolutions.Items.Weapon.Water
             item.useTime = 5;
             item.width = 50;
             item.height = 18;
-            item.shoot = ModContent.ProjectileType<Projectiles.ForWater.Fire1>();
+            item.shoot = ModContent.ProjectileType<Projectiles.ForWater.Fire2>();
             item.useAmmo = AmmoID.Gel;
             item.UseSound = SoundID.Item34;
             item.damage = 33;
@@ -28,11 +28,6 @@ namespace Revolutions.Items.Weapon.Water
             item.value = 650000;
             item.rare = 6;
             item.ranged = true;
-        }
-        public override bool CanUseItem(Player player)
-        {
-            if (player.wet) return false;
-            else return true;
         }
         public override bool ConsumeAmmo(Player player)
         {

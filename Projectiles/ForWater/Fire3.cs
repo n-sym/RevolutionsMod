@@ -18,6 +18,7 @@ namespace Revolutions.Projectiles.ForWater
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 5;
+            projectile.ignoreWater = true;
             projectile.extraUpdates = 2;
             projectile.ranged = true;
             projectile.timeLeft = 60;
@@ -48,7 +49,7 @@ namespace Revolutions.Projectiles.ForWater
                 }
 
                 projectile.ai[0] += 1f;
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < 3; i++)
                 {
                     var pos = new Vector2(projectile.position.X, projectile.position.Y);
                     var width = projectile.width;
@@ -64,8 +65,8 @@ namespace Revolutions.Projectiles.ForWater
                         Main.dust[dust].velocity.X *= 2f;
                         Main.dust[dust].velocity.Y *= 2f;
                     }
-                    Main.dust[dust].velocity.X *= 1.2f;
-                    Main.dust[dust].velocity.Y *= 1.2f;
+                    Main.dust[dust].velocity.X *= 0.5f;
+                    Main.dust[dust].velocity.Y *= 0.5f;
                     Main.dust[dust].scale *= dustscalefix;
                     Main.dust[dust].noGravity = true;
                 }
@@ -79,7 +80,7 @@ namespace Revolutions.Projectiles.ForWater
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(44, 240);
+            target.AddBuff(69, 240);
         }
     }
 }

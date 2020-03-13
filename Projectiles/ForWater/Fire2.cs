@@ -18,6 +18,7 @@ namespace Revolutions.Projectiles.ForWater
             projectile.friendly = true;
             projectile.alpha = 255;
             projectile.penetrate = 5;
+            projectile.ignoreWater = true;
             projectile.extraUpdates = 2;
             projectile.ranged = true;
             projectile.timeLeft = 60;
@@ -48,27 +49,24 @@ namespace Revolutions.Projectiles.ForWater
                 }
 
                 projectile.ai[0] += 1f;
-                for (int i = 0; i < 1; i++)
+                var pos = new Vector2(projectile.position.X, projectile.position.Y);
+                var width = projectile.width;
+                var height = projectile.height;
+                var speedX = projectile.velocity.X * 0.2f;
+                var speedY = projectile.velocity.Y * 0.2f;
+                var dust = Dust.NewDust(pos, width, height, 75, speedX, speedY, 0,
+                    Color.White, 1f);
+                if (Main.rand.Next(3) != 0)
                 {
-                    var pos = new Vector2(projectile.position.X, projectile.position.Y);
-                    var width = projectile.width;
-                    var height = projectile.height;
-                    var speedX = projectile.velocity.X * 0.2f;
-                    var speedY = projectile.velocity.Y * 0.2f;
-                    var dust = Dust.NewDust(pos, width, height, 75, speedX, speedY, 0,
-                        Color.White, 1f);
-                    if (Main.rand.Next(3) != 0)
-                    {
-                        Main.dust[dust].noGravity = true;
-                        Main.dust[dust].scale *= 2f;
-                        Main.dust[dust].velocity.X *= 2f;
-                        Main.dust[dust].velocity.Y *= 2f;
-                    }
-                    Main.dust[dust].scale *= 1.85f;
-                    Main.dust[dust].velocity.X *= 1.2f;
-                    Main.dust[dust].velocity.Y *= 1.2f;
-                    Main.dust[dust].scale *= dustscalefix;
+                    Main.dust[dust].noGravity = true;
+                    Main.dust[dust].scale *= 2f;
+                    Main.dust[dust].velocity.X *= 2f;
+                    Main.dust[dust].velocity.Y *= 2f;
                 }
+                Main.dust[dust].scale *= 1.85f;
+                Main.dust[dust].velocity.X *= 1.2f;
+                Main.dust[dust].velocity.Y *= 1.2f;
+                Main.dust[dust].scale *= dustscalefix;
             }
             else
             {
@@ -79,7 +77,7 @@ namespace Revolutions.Projectiles.ForWater
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            target.AddBuff(44, 240);
+            target.AddBuff(39, 240);
         }
     }
 }

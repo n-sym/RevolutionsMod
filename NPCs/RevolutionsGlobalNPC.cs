@@ -128,7 +128,7 @@ namespace Revolutions.NPCs
                 {
                     case NPCID.Guide:
                         cooldown = 19;
-                        randExtraCooldown = Main.rand.Next(0, 10);
+                        randExtraCooldown = Main.rand.Next(0, 5);
                         break;
                     case NPCID.ArmsDealer:
                         cooldown = 10;
