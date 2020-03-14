@@ -18,6 +18,7 @@ namespace Revolutions.UI
         UIText AutoReuseSet;
         UIText HthBarSet;
         UIText RangeIndexSet;
+        UIText SpColorSet;
         UIText Exit;
         public static bool cesfTips;
         public override void OnInitialize()
@@ -70,6 +71,12 @@ namespace Revolutions.UI
             RangeIndexSet.OnClick += Click;
             RangeIndexSet.OnMouseOver += Hover;
             UIPanel1.Append(RangeIndexSet);
+            SpColorSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.SpColor" + Revolutions.Settings.spcolor.ToString()));
+            SpColorSet.Top.Set(320, 0f);
+            SpColorSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, SpColorSet.Text, 0.4f), 0f);
+            SpColorSet.OnClick += Click;
+            SpColorSet.OnMouseOver += Hover;
+            UIPanel1.Append(SpColorSet);
             Exit = new UIText(Language.GetTextValue("LegacyMenu.118"), 0.4f, true);
             Exit.Top.Set(440, 0f);
             Exit.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, Exit.Text, 0.4f), 0f);
@@ -97,6 +104,9 @@ namespace Revolutions.UI
             if (HthBarSet.IsMouseHovering) HthBarSet.TextColor = Color.White; else HthBarSet.TextColor = Color.Gray;
             RangeIndexSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.RangeIndex" + Revolutions.Settings.rangeIndex.ToString()), 0.4f, true);
             if (RangeIndexSet.IsMouseHovering) RangeIndexSet.TextColor = Color.White; else RangeIndexSet.TextColor = Color.Gray;
+            SpColorSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.SpColor" + Revolutions.Settings.spcolor.ToString()), 0.4f, true);
+            if (Helper.Name2Specialname(Main.LocalPlayer.name) == "none" && UIPanel1.HasChild(SpColorSet)) UIPanel1.RemoveChild(SpColorSet);
+            if (SpColorSet.IsMouseHovering) SpColorSet.TextColor = Color.White; else SpColorSet.TextColor = Color.Gray;
 
             if (Exit.IsMouseHovering) Exit.TextColor = Color.White; else Exit.TextColor = Color.Gray;
             if (Main.inFancyUI) DrawChildren(spriteBatch);
@@ -124,6 +134,9 @@ namespace Revolutions.UI
                 case 280:
                     Revolutions.Settings.rangeIndex++;
                     if (Revolutions.Settings.rangeIndex == 3) Revolutions.Settings.rangeIndex = 0;
+                    break;
+                case 320:
+                    Revolutions.Settings.spcolor = !Revolutions.Settings.spcolor;
                     break;
                 case 440:
                     Main.InGameUI = new UserInterface();

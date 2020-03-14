@@ -48,17 +48,17 @@ namespace Revolutions.Projectiles.CoreWeapon
                 Vector2 current = Helper.GetCloser(projectile.position.X, projectile.position.Y + 23, projectile.ai[0], projectile.ai[1], i - 1, 15);
                 current.X += Helper.EntroptPool[i + (int)PositionSave[0].X] / 3;
                 current.Y += Helper.EntroptPool[i + (int)PositionSave[0].X] / 8;
-                for (int j = 0; j < 31; j++)
+                for (int j = 0; j < 30; j++)
                 {
                     Random rd = new Random();
                     Color color = Color.White;
-                    if (Helper.Specialname2Color(Helper.spname) == Color.White)
+                    if (Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname) == Color.White)
                     {
-                        color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(470 - (j + i * 30), 470 + rd.Next(-100, 100)), Color.White, 9, 10);
+                        color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(680 - (j + i * 30), 500), Color.White, 7, 8);
                     }
                     else
                     {
-                        color = Helper.Specialname2Color(Helper.spname);
+                        color = Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname);
                     }
                     float sizeFix = i + 1;
                     sizeFix /= 15;

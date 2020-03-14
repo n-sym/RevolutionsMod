@@ -45,7 +45,7 @@ namespace Revolutions.Items.Accessory
         public override void UpdateAccessory(Player player, bool hideVisual)
         {
 
-            LightningCfgs.accexists = !hideVisual;
+            player.GetModPlayer<RevolutionsPlayer>().lightning = !hideVisual;
             if (player.dash != 0) cd = 2;
             if (cd > 0) cd--;
             if (player.GetModPlayer<RevolutionsPlayer>().aPTimer == 1 || player.GetModPlayer<RevolutionsPlayer>().aPTimer == 2) timera++;
@@ -54,7 +54,7 @@ namespace Revolutions.Items.Accessory
             if (player.GetModPlayer<RevolutionsPlayer>().dPTimer == 1 || player.GetModPlayer<RevolutionsPlayer>().dPTimer == 2) timerd++;
             else timerd = 0;
             if (timerd > 1) counterd += 12;
-            Color color = Helper.Specialname2Color(Helper.spname);
+            Color color = Helper.Specialname2Color(player.GetModPlayer<RevolutionsPlayer>().spname);
             if (countera > 12 && cd == 0)
             {
                 countera = 0;
@@ -167,12 +167,12 @@ namespace Revolutions.Items.Accessory
             }
             if (countera > 0) countera--;
             if (counterd > 0) counterd--;
-            if (LightningCfgs.accexists)
+            if (player.GetModPlayer<RevolutionsPlayer>().lightning)
             {
-                if (!LightningCfgs.projexists)
+                if (!player.GetModPlayer<RevolutionsPlayer>().lightningproj)
                 {
                     Projectile.NewProjectile(player.Bottom.X, player.Bottom.Y, 0, 0, mod.ProjectileType("Lightningfx"), 0, 0, player.whoAmI);
-                    Lightning.LightningCfgs.projexists = true;
+                    player.GetModPlayer<RevolutionsPlayer>().lightning = true;
                 }
             }
             player.maxRunSpeed *= 3.15f;

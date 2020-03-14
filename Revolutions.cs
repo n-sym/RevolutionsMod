@@ -33,6 +33,7 @@ namespace Revolutions
             public static bool mutter = true;
             public static bool autoreuse = false;
             public static bool hthbar = true;
+            public static bool spcolor = true;
         }
         public Revolutions()
         {
@@ -184,13 +185,13 @@ namespace Revolutions
                     Color color = Color.White;
                     if (RevolutionsPlayer.drawcircletype == 0)
                     {
-                        if (Helper.Specialname2Color(Helper.spname) == Color.White)
+                        if (Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().spname == "none")
                         {
-                            color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(i, (int)(RevolutionsPlayer.drawcircler * 1.6f * Main.GameZoomTarget)), Color.White, 6, 7);
+                            color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(i, (int)(RevolutionsPlayer.drawcircler * 1.6f * Main.GameZoomTarget)), Color.White, 5, 6);
                         }
                         else
                         {
-                            color = Helper.Specialname2Color(Helper.spname);
+                            color = Helper.Specialname2Color(Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().spname);
                         }
                     }
                     if (RevolutionsPlayer.drawcircletype == 1) color = Helper.GetCloserColor(new Color(126, 171, 243), color, 1, 2);

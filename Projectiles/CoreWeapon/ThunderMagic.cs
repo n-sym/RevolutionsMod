@@ -81,30 +81,30 @@ namespace Revolutions.Projectiles.CoreWeapon
                     if (PositionSave[z + 1] == Vector2.Zero) continue;
                     target = PositionSave[z + 1];
                     Color color;
-                    for (int i = 0; i < Vector2.Distance(current, target) / 50; i++)
+                    for (int i = 0; i < Vector2.Distance(current, target) / 40; i++)
                     {
-                        Vector2 targetPos = Helper.GetCloser(current, target, i, Vector2.Distance(current, target) / 50);
+                        Vector2 targetPos = Helper.GetCloser(current, target, i, Vector2.Distance(current, target) / 40);
                         targetPos.X += Helper.EntroptPool[i + 1 + (int)(PositionSave[0].X / 32) + projectile.whoAmI * 2] / 3;
                         targetPos.Y += Helper.EntroptPool[i + 1 + (int)(PositionSave[0].X / 32) + projectile.whoAmI * 2] / 8;
-                        Vector2 currentPos = Helper.GetCloser(current, target, i - 1, Vector2.Distance(current, target) / 50);
+                        Vector2 currentPos = Helper.GetCloser(current, target, i - 1, Vector2.Distance(current, target) / 40);
                         currentPos.X += Helper.EntroptPool[i + (int)(PositionSave[0].X / 32) + projectile.whoAmI * 2] / 3;
                         currentPos.Y += Helper.EntroptPool[i + (int)(PositionSave[0].X / 32) + projectile.whoAmI * 2] / 8;
                         if (i == 0) currentPos = ts;
                         for (int j = 0; j < 30; j++)
                         {
-                            if (Helper.Specialname2Color(Helper.spname) == Color.White)
+                            if (Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname) == Color.White)
                             {
-                                color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + z * 180, 1250), Color.White, 9, 10);
+                                color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + z * 180 + 1100, 1950), Color.White, 8, 9);
                             }
                             else
                             {
-                                color = Helper.Specialname2Color(Helper.spname);
+                                color = Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname);
                             }
                             float sizeFix = j + i * 30 + z * 180;
-                            sizeFix /= 1250;
+                            sizeFix /= 1150;
                             sizeFix += 0.1f;
                             color *= sizeFix * (float)projectile.timeLeft / 90;
-                            spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(currentPos, targetPos, j, 30) - Main.screenPosition, null, Color.Multiply(color, 1), projectile.rotation, drawOrigin, 0.19f, SpriteEffects.None, 0f);
+                            spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(currentPos, targetPos, j, 30) - Main.screenPosition, null, Color.Multiply(color, 1), projectile.rotation, drawOrigin, 0.19f * (1.4f - 1.2f * sizeFix), SpriteEffects.None, 0f);
                             Lighting.AddLight(Helper.GetCloser(current, target, j, 20), color.R / 245, color.G / 245, color.B / 245);
                             Lighting.AddLight(Helper.GetCloser(current, target, j, 20), 0.55f, 0.55f, 0.55f);
                             ts = targetPos;

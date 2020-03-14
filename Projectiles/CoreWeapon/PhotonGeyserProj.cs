@@ -62,13 +62,13 @@ namespace Revolutions.Projectiles.CoreWeapon
 
                 for (int j = 0; j < 30; j++)
                 {
-                    if (Helper.Specialname2Color(Helper.spname) == Color.White)
+                    if (Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname) == Color.White)
                     {
                         color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(450 - (j + i * 30), 450 + rd.Next(-100, 100)), Color.White, 9, 10);
                     }
                     else
                     {
-                        color = Helper.Specialname2Color(Helper.spname);
+                        color = Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname);
                     }
                     float sizeFix = i + 1;
                     sizeFix /= 15 / Main.player[projectile.owner].meleeSpeed;

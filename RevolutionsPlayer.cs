@@ -47,6 +47,9 @@ namespace Revolutions
         public int nowBossLife { get; set; } = 0;
         public int nowBossLifeTrue { get; set; } = 0;
         public int nowBossLifeMax { get; set; } = 0;
+        public string spname { get; set; } = "none";
+        public bool lightning { get; set; } = false;
+        public bool lightningproj { get; set; } = false;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
         public static int hitcounter = 0;
@@ -55,7 +58,6 @@ namespace Revolutions
         public override void OnEnterWorld(Player player)
         {
             logoTimer += 90;
-            Helper.spname = Helper.Name2Specialname(player.name);
             for (int i = 0; i < 601; i++)
             {
                 pastPosition[i] = player.position;
@@ -66,7 +68,7 @@ namespace Revolutions
                 if (i != 0) starFlare[i] = 0;
                 corePower[i] = 0;
             }
-            Lightning.LightningCfgs.projexists = false;
+            lightning = false;
             Helper.GetSetting();
         }
         public override TagCompound Save()
@@ -91,6 +93,8 @@ namespace Revolutions
         List<Point> justOpenDoors = new List<Point>();
         public override void PreUpdate()
         {
+            if (Revolutions.Settings.spcolor) spname = Helper.Name2Specialname(player.name);
+            else spname = "none";
             //过去的属性
             for (int j = 600; j > 0; j--)
             {

@@ -46,39 +46,47 @@ namespace Revolutions.Projectiles.CoreWeapon
                 PositionSave[0].X = projectile.whoAmI + projectile.damage + (int)(projectile.ai[0] / 16);
             }
             if (PositionSave[0].X > 9000) PositionSave[0].X = 0;
-            float a = (Vector2.Distance(projectile.position, new Vector2(projectile.ai[0], projectile.ai[1])) / 67);
-            for (int i = 0; i < 16 - a; i++)
+            float a = (Vector2.Distance(projectile.position, new Vector2(projectile.ai[0], projectile.ai[1])) / 50);
+            for (int i = 0; i < 24 - a; i++)
             {
 
-                Vector2 target = Helper.GetCloser(projectile.ai[0] + 600 + Helper.EntroptPool[projectile.damage], projectile.ai[1] - 800 + Helper.EntroptPool[projectile.damage + 100], projectile.ai[0], projectile.ai[1], i, 15);
-                target.X += Helper.EntroptPool[i + 1 + (int)PositionSave[0].X] / 3;
+                Vector2 target = Helper.GetCloser(projectile.ai[0] + 600 + Helper.EntroptPool[projectile.damage], projectile.ai[1] - 800 + Helper.EntroptPool[projectile.damage + 100], projectile.ai[0], projectile.ai[1], i, 23);
+                target.X += Helper.EntroptPool[i + 1 + (int)PositionSave[0].X] / 5;
                 target.Y += Helper.EntroptPool[i + 1000 + (int)PositionSave[0].X] / 4;
-                Vector2 current = Helper.GetCloser(projectile.ai[0] + 600 + Helper.EntroptPool[projectile.damage], projectile.ai[1] - 800 + Helper.EntroptPool[projectile.damage + 100], projectile.ai[0], projectile.ai[1], i - 1, 15);
-                current.X += Helper.EntroptPool[i + (int)PositionSave[0].X] / 3;
+                Vector2 current = Helper.GetCloser(projectile.ai[0] + 600 + Helper.EntroptPool[projectile.damage], projectile.ai[1] - 800 + Helper.EntroptPool[projectile.damage + 100], projectile.ai[0], projectile.ai[1], i - 1, 23);
+                current.X += Helper.EntroptPool[i + (int)PositionSave[0].X] / 5;
                 current.Y += Helper.EntroptPool[i + 999 + (int)PositionSave[0].X] / 4;
                 Random rd = new Random();
                 Color color = Color.White;
 
                 for (int j = 0; j < 30; j++)
                 {
-                    if (Helper.Specialname2Color(Helper.spname) == Color.White)
+                    if (Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname) == Color.White)
                     {
-                        color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(450 - (j + i * 30), 450 + rd.Next(-100, 100)), Color.White, 9, 10);
+                        color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + 500, 1720 + rd.Next(-400, 0)), Color.White, 8, 9);
                     }
                     else
                     {
-                        color = Helper.Specialname2Color(Helper.spname);
+                        color = Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname);
                     }
                     float sizeFix = i + 1;
-                    sizeFix /= 15 / Main.player[projectile.owner].meleeSpeed;
+                    sizeFix /= 24 / Main.player[projectile.owner].meleeSpeed;
                     color = Color.Multiply(color, sizeFix * projectile.timeLeft / 30);
-                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(current, target, j, 30) - Main.screenPosition, null, Color.Multiply(color, 1), projectile.rotation, drawOrigin, 0.19f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(current, target, j, 30) - Main.screenPosition, null, color, projectile.rotation, drawOrigin, 0.19f * (1.3f - sizeFix), SpriteEffects.None, 0f);
                     Lighting.AddLight(Helper.GetCloser(current, target, j, 20), color.R / 245, color.G / 245, color.B / 245);
                     Lighting.AddLight(Helper.GetCloser(current, target, j, 20), 0.55f, 0.55f, 0.55f);
                 }
 
             }
             return true;
+        }
+        public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
+        {
+            Random rd = new Random();
+            int a = rd.Next(5, 15);
+            Dust f = Dust.NewDustDirect(target.position, 0, 0,
+                mod.DustType("hyperbola3"), 0, 0, 0, new Color(233, 233, 255), 0.7f);
+            f.rotation *= a / 10;
         }
     }
 }

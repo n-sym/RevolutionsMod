@@ -331,8 +331,8 @@ namespace Revolutions.Utils
             {
                 string filePath = Main.SavePath + @"\revosets";
                 StreamReader streamReader = new StreamReader(filePath);
-                bool[] array = new bool[9];
-                for (int i = 0; i < 9; i++)
+                bool[] array = new bool[10];
+                for (int i = 0; i < 10; i++)
                 {
                     array[i] = bool.Parse(streamReader.ReadLine());
                 }
@@ -345,6 +345,7 @@ namespace Revolutions.Utils
                 Revolutions.Settings.mutter = array[6];
                 Revolutions.Settings.autoreuse = array[7];
                 Revolutions.Settings.hthbar = array[8];
+                Revolutions.Settings.spcolor = array[9];
             }
             catch
             {
@@ -353,7 +354,7 @@ namespace Revolutions.Utils
         }
         public static void SaveSettings()
         {
-            bool[] array = new bool[9];
+            bool[] array = new bool[10];
             array[0] = false;
             array[1] = false;
             array[2] = false;
@@ -364,9 +365,10 @@ namespace Revolutions.Utils
             array[6] = Revolutions.Settings.mutter;
             array[7] = Revolutions.Settings.autoreuse;
             array[8] = Revolutions.Settings.hthbar;
+            array[9] = Revolutions.Settings.spcolor;
             string filePath = Main.SavePath + @"\revosets";
             StreamWriter streamWriter = new StreamWriter(filePath, false);
-            for (int i = 0; i < 9; i++)
+            for (int i = 0; i < 10; i++)
             {
                 streamWriter.WriteLine(array[i].ToString());
             }
