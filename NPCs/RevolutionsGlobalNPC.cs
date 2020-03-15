@@ -16,6 +16,8 @@ namespace Revolutions.NPCs
             switch (npc.type)
             {
                 case NPCID.DukeFishron:
+                    Player target = Main.player[npc.target];
+                    RevolutionsPlayer revtar = target.GetModPlayer<RevolutionsPlayer>();
                     if (Main.rand.Next(1, 600) == 1 && myTalkCD[npc.whoAmI] == 0)
                     {
                         new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.DkFsion0" + Main.rand.Next(1, 4).ToString()), 180, null);
@@ -28,7 +30,8 @@ namespace Revolutions.NPCs
                         Projectile.NewProjectile(npc.Center + new Vector2(0, 20).RotatedBy(npc.rotation), Helper.ToUnitVector(Main.player[npc.target].Center + Main.player[npc.target].velocity * 30 - npc.Center) * 10, ModContent.ProjectileType<Projectiles.OriBoss.WaterArrow>(), npc.damage / 4, 6);
                         Projectile.NewProjectile(npc.Center + new Vector2(0, -20).RotatedBy(npc.rotation), Helper.ToUnitVector(Main.player[npc.target].Center + Main.player[npc.target].velocity * 30 - npc.Center) * 10, ModContent.ProjectileType<Projectiles.OriBoss.WaterArrow>(), npc.damage / 4, 6);
                     }
-                    if (npc.ai[0] == 10 && npc.ai[0] == 11 && npc.ai[0] == 12) ;
+                    if ((npc.velocity - target.velocity).ToRotation() < 0) npc.velocity = Helper.GetCloser(npc.velocity, target.velocity + npc.velocity, 1, 40);
+                    if (npc.ai[0] == 6) npc.velocity = Helper.GetCloser(Helper.ToUnitVector(npc.velocity), Helper.ToUnitVector(target.Center - npc.Center), 1 + revtar.difficulty / 28, 20) * npc.velocity.Length();
                     break;
                 case NPCID.Plantera:
                     if (Main.rand.Next(1, 600) == 1 && myTalkCD[npc.whoAmI] == 0)

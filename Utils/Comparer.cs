@@ -1,7 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using Terraria;
-using Microsoft.Xna.Framework;
 namespace Revolutions.Utils
 {
     class NPCdistanceComparer : IComparer<NPC>
@@ -15,7 +14,7 @@ namespace Revolutions.Utils
         {
             try
             {
-                if(Vector2.Distance(x.Center, e.Center) > Vector2.Distance(y.Center, e.Center))
+                if (Vector2.Distance(x.Center, e.Center) > Vector2.Distance(y.Center, e.Center))
                 {
                     return -1;
                 }

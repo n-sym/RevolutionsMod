@@ -1,5 +1,4 @@
 ﻿using Microsoft.Xna.Framework;
-using Revolutions.Utils;
 using System;
 using Terraria;
 using Terraria.ID;
@@ -87,7 +86,7 @@ namespace Revolutions.Projectiles.ForWater
             {
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), target.lifeMax / 10000, 0, projectile.owner);
             }
-            else if(target.lifeMax / 10000 < 5 || target.type == NPCID.TargetDummy)
+            else if (target.lifeMax / 10000 < 5 || target.type == NPCID.TargetDummy)
             {
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), 5, 0, projectile.owner);
             }

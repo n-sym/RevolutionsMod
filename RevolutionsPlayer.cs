@@ -129,7 +129,7 @@ namespace Revolutions
             {
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
-                if (hitcounter == 0 && nowBoss != null) difficulty++;
+                if (hitcounter == 0 && nowBoss != null && difficulty < 100) difficulty++;
             }
             //自动开关门
             if (Revolutions.Settings.autodoor)
@@ -403,7 +403,7 @@ namespace Revolutions
         }
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
-            if (nowBoss != null)
+            if (nowBoss != null && difficulty > 0 && hitcounter < 3)
             {
                 difficulty--;
                 hitcounter++;
@@ -411,7 +411,7 @@ namespace Revolutions
         }
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
-            if (nowBoss != null)
+            if (nowBoss != null && difficulty > 0 && hitcounter < 3)
             {
                 difficulty--;
                 hitcounter++;

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Revolutions.Items.Accessory;
 using Revolutions.Utils;
 using System;
 using Terraria;
@@ -31,7 +30,6 @@ namespace Revolutions.Projectiles.CoreWeapon
         public override void AI()
         {
             if (!Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().lightning) projectile.Kill();
-            Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().lightningproj = true;
             if (Main.player[projectile.owner].position != Main.player[projectile.owner].oldPosition)
             {
                 projectile.ai[0] = 1;

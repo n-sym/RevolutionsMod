@@ -171,8 +171,8 @@ namespace Revolutions.Items.Accessory
             {
                 if (!player.GetModPlayer<RevolutionsPlayer>().lightningproj)
                 {
+                    player.GetModPlayer<RevolutionsPlayer>().lightningproj = true;
                     Projectile.NewProjectile(player.Bottom.X, player.Bottom.Y, 0, 0, mod.ProjectileType("Lightningfx"), 0, 0, player.whoAmI);
-                    player.GetModPlayer<RevolutionsPlayer>().lightning = true;
                 }
             }
             player.maxRunSpeed *= 3.15f;

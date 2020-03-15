@@ -1,5 +1,4 @@
 using Microsoft.Xna.Framework;
-using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.Localization;
@@ -85,7 +84,6 @@ namespace Revolutions.Items.Weapon.Core
         }
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
-            Random rd = new Random();
             if (player.altFunctionUse == 2)
             {
                 if (saveint == 0)
@@ -118,19 +116,5 @@ namespace Revolutions.Items.Weapon.Core
             }
             return true;
         }
-
-        /*private void Talk(string message)
-        {
-            if (Main.netMode != 2)
-            {
-                string text = message;
-                Main.NewText(text, 150, 250, 150);
-            }
-            else
-            {
-                NetworkText text = NetworkText.FromKey(message);
-                NetMessage.BroadcastChatMessage(text, new Color(150, 250, 150));
-            }
-        }*/
     }
 }

@@ -82,7 +82,7 @@ namespace Revolutions.Projectiles.CoreWeapon
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if(projectile.penetrate == 2000 && Main.rand.Next(3) == 0)Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<ThunderAlt>(), projectile.damage / 16, 0.1f, projectile.owner, projectile.position.X, projectile.position.Y);
+            if (projectile.penetrate == 2000 && Main.rand.Next(3) == 0) Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<ThunderAlt>(), projectile.damage / 16, 0.1f, projectile.owner, projectile.position.X, projectile.position.Y);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Revolutions.Utils;
-using Terraria;
 using System;
+using Terraria;
 using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles.ForWater
@@ -82,7 +82,7 @@ namespace Revolutions.Projectiles.ForWater
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            
+
         }
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

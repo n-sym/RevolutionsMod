@@ -32,9 +32,9 @@ namespace Revolutions.Items.Weapon.Core
         {
             NPC t = null;
             float distance = new Vector2(Main.screenWidth, Main.screenHeight).Length() * Main.UIScale;
-            if(target.life < damage || target.type == NPCID.TargetDummy || target.SpawnedFromStatue)
+            if (target.life < damage || target.type == NPCID.TargetDummy || target.SpawnedFromStatue)
             {
-                foreach(NPC npc in Main.npc)
+                foreach (NPC npc in Main.npc)
                 {
                     if (npc.active && npc.CanBeChasedBy() && Vector2.Distance(npc.position, player.position) < distance)
                     {
