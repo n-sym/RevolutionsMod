@@ -82,11 +82,7 @@ namespace Revolutions.Projectiles.CoreWeapon
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            Random rd = new Random();
-            int a = rd.Next(5, 15);
-            Dust f = Dust.NewDustDirect(target.position, 0, 0,
-                mod.DustType("hyperbola3"), 0, 0, 0, new Color(233, 233, 255), 0.7f);
-            f.rotation *= a / 10;
+            if(projectile.penetrate == 2000 && Main.rand.Next(3) == 0)Projectile.NewProjectile(projectile.position, Vector2.Zero, ModContent.ProjectileType<ThunderAlt>(), projectile.damage / 16, 0.1f, projectile.owner, projectile.position.X, projectile.position.Y);
         }
     }
 }

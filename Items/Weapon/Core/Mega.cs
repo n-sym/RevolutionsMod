@@ -112,8 +112,8 @@ namespace Revolutions.Items.Weapon.Core
             else
             {
                 GetMegaShootID.save1 = type;
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.CoreWeapon.MFL>(), damage, knockBack, player.whoAmI, 1);
-                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.CoreWeapon.MFL>(), damage, knockBack, player.whoAmI, -1);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.CoreWeapon.MFL>(), damage * 9 / 10, knockBack, player.whoAmI, 1);
+                Projectile.NewProjectile(position.X, position.Y, speedX, speedY, ModContent.ProjectileType<Projectiles.CoreWeapon.MFL>(), damage * 9 / 10, knockBack, player.whoAmI, -1);
 
             }
             return true;

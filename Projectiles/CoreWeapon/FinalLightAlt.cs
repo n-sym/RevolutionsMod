@@ -38,7 +38,6 @@ namespace Revolutions.Projectiles.CoreWeapon
             Vector2 rota = new Vector2(4, 4).RotatedBy(player.itemRotation) * fix;
             if (Vector2.Distance(projectile.position, player.position) < 0.5f * Vector2.Distance(Vector2.Zero, new Vector2(Main.screenWidth, Main.screenHeight)))
             {
-                projectile.damage = (int)(projectile.damage * 0.9f);
                 Projectile.NewProjectile(player.Center + rota, player.Center + rota, ModContent.ProjectileType<Projectiles.CoreWeapon.FinalLight>(), projectile.damage, 0, projectile.owner, rota.ToRotation(), target.whoAmI);
             }
             if (projectile.penetrate == 20)

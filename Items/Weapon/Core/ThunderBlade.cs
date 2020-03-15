@@ -30,7 +30,28 @@ namespace Revolutions.Items.Weapon.Core
         }
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Projectile.NewProjectile(target.Center + new Vector2((600 + Helper.EntroptPool[damage]), -800 + Helper.EntroptPool[damage + 100]), Vector2.Zero, ModContent.ProjectileType<Projectiles.CoreWeapon.Thunder>(), damage * 2, 0, player.whoAmI, target.Center.X, target.Center.Y);
+            NPC t = null;
+            float distance = new Vector2(Main.screenWidth, Main.screenHeight).Length() * Main.UIScale;
+            if(target.life < damage || target.type == NPCID.TargetDummy || target.SpawnedFromStatue)
+            {
+                foreach(NPC npc in Main.npc)
+                {
+                    if (npc.active && npc.CanBeChasedBy() && Vector2.Distance(npc.position, player.position) < distance)
+                    {
+                        t = npc;
+                        distance = Vector2.Distance(npc.position, player.position);
+                        if (npc.boss) break;
+                    }
+                }
+            }
+            if (t == null)
+            {
+                Projectile.NewProjectile(target.Center + 15 * target.velocity + new Vector2((600 + Helper.EntroptPool[damage]), -800 + Helper.EntroptPool[damage + 100]), Vector2.Zero, ModContent.ProjectileType<Projectiles.CoreWeapon.Thunder>(), damage * 2, 0, player.whoAmI, target.Center.X, target.Center.Y);
+            }
+            else
+            {
+                Projectile.NewProjectile(t.Center + 15 * t.velocity + new Vector2((600 + Helper.EntroptPool[damage]), -800 + Helper.EntroptPool[damage + 100]), Vector2.Zero, ModContent.ProjectileType<Projectiles.CoreWeapon.Thunder>(), damage * 2, 0, player.whoAmI, t.Center.X, t.Center.Y);
+            }
         }
 
     }

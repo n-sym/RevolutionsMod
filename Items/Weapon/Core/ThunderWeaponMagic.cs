@@ -16,9 +16,9 @@ namespace Revolutions.Items.Weapon.Core
             item.width = 40;
             item.crit = 6;
             item.height = 20;
-            item.useTime = 20;
-            item.mana = 16;
-            item.useAnimation = 20;
+            item.useTime = 15;
+            item.mana = 12;
+            item.useAnimation = 15;
             item.useStyle = 4;
             item.noMelee = true;
             item.knockBack = 2;
@@ -48,7 +48,7 @@ namespace Revolutions.Items.Weapon.Core
             if (soundcd == 0)
             {
                 Main.PlaySound(SoundLoader.customSoundType, player.Center, mod.GetSoundSlot(SoundType.Custom, "Sounds/Custom/electric" + Main.rand.Next(1, 3).ToString()));
-                soundcd += 30;
+                soundcd += 20;
             }
             return false;
         }

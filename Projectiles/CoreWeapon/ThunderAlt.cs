@@ -7,15 +7,15 @@ using Terraria.ModLoader;
 
 namespace Revolutions.Projectiles.CoreWeapon
 {
-    public class ThunderMagic : PowerProj
+    public class ThunderAlt : PowerProj
     {
         public override void SetDefaults()
         {
             projectile.width = 40;
             projectile.height = 40;
-            projectile.magic = true;
+            projectile.melee = true;
             projectile.friendly = true;
-            projectile.timeLeft = 90;
+            projectile.timeLeft = 16;
             projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.ignoreWater = true;
@@ -23,7 +23,7 @@ namespace Revolutions.Projectiles.CoreWeapon
             projectile.scale = 1f;
             projectile.penetrate = 2000;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = -1;
         }
         int fix = 0;
         List<NPC> hitednpc = new List<NPC>();
@@ -34,7 +34,6 @@ namespace Revolutions.Projectiles.CoreWeapon
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-
         }
         int counter = 1;
         int counter2 = 0;
@@ -45,17 +44,17 @@ namespace Revolutions.Projectiles.CoreWeapon
             PositionSave[0] = new Vector2(projectile.ai[0], projectile.ai[1]);
             foreach (NPC target in Main.npc)
             {
-                if (!target.dontTakeDamage && (!target.friendly || target.type == Terraria.ID.NPCID.TargetDummy) && projectile.timeLeft == 90 && target.active && Vector2.Distance(target.position, projectile.position) < distance && !hitednpc.Contains(target) && counter < 9 && (Main.rand.Next(1, 3) == 1 || counter == 0))
+                if (!target.dontTakeDamage && (!target.friendly || target.type == Terraria.ID.NPCID.TargetDummy) && projectile.timeLeft == 16 && target.active && Vector2.Distance(target.position, projectile.position) < distance && !hitednpc.Contains(target) && counter < 9 && (Main.rand.Next(1, 3) == 1 || counter == 0))
                 {
                     hitednpc.Add(target);
                     PositionSave[counter + counter2] = target.Center;
                     //PositionSave[counter + counter2 + 1] = target.Center + new Vector2(Main.rand.Next(-30, 30), Main.rand.Next(-30, 30));
                     counter++;
                     //counter2++;
-                    distance = 600f;
+                    distance = 400f;
                 }
             }
-            if (projectile.timeLeft == 90)
+            if (projectile.timeLeft == 16)
             {
                 NPCdistanceComparer com = new NPCdistanceComparer(projectile);
                 hitednpc.Sort(com);
@@ -105,11 +104,8 @@ namespace Revolutions.Projectiles.CoreWeapon
                             {
                                 color = Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname);
                             }
-                            float sizeFix = j + i * 30 + z * 180;
-                            sizeFix /= 1150;
-                            sizeFix += 0.1f;
-                            color *= sizeFix * (float)projectile.timeLeft / 90;
-                            spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(currentPos, targetPos, j, 30) - Main.screenPosition, null, Color.Multiply(color, 1), projectile.rotation, drawOrigin, 0.19f * (1.4f - 1.2f * sizeFix), SpriteEffects.None, 0f);
+                            color *= (float)projectile.timeLeft / 16;
+                            spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(currentPos, targetPos, j, 30) - Main.screenPosition, null, Color.Multiply(color, 1), projectile.rotation, drawOrigin, 0.08f, SpriteEffects.None, 0f);
                             Lighting.AddLight(Helper.GetCloser(current, target, j, 20), color.R / 245, color.G / 245, color.B / 245);
                             Lighting.AddLight(Helper.GetCloser(current, target, j, 20), 0.55f, 0.55f, 0.55f);
                             ts = targetPos;

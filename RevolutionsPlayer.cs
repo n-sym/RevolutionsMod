@@ -1,4 +1,4 @@
-using Microsoft.Xna.Framework;
+ï»¿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using Revolutions.Items.Accessory;
 using Revolutions.Items.Armor;
@@ -95,7 +95,7 @@ namespace Revolutions
         {
             if (Revolutions.Settings.spcolor) spname = Helper.Name2Specialname(player.name);
             else spname = "none";
-            //¹ýÈ¥µÄÊôÐÔ
+            //è¿‡åŽ»çš„å±žæ€§
             for (int j = 600; j > 0; j--)
             {
                 pastPosition[j] = pastPosition[j - 1];
@@ -117,21 +117,21 @@ namespace Revolutions
             pastLife[0] = player.statLife;
             pastMana[0] = player.statMana;
             if (talkActive > 0) talkActive--;
-            //ÖÜÆÚÐÔÊÂ¼þ
+            //å‘¨æœŸæ€§äº‹ä»¶
             if (timer == 60)
             {
                 timer = 0;
                 justDmgcounter = 0;
             }
             else timer++;
-            //ÖÜÆÚÐÔÊÂ¼þ
+            //å‘¨æœŸæ€§äº‹ä»¶
             if (timer % 20 == 0 && timer != 0)
             {
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
                 if (hitcounter == 0 && nowBoss != null) difficulty++;
             }
-            //×Ô¶¯¿ª¹ØÃÅ
+            //è‡ªåŠ¨å¼€å…³é—¨
             if (Revolutions.Settings.autodoor)
             {
                 for (int i = 0; i < justOpenDoors.Count; i++)
@@ -168,10 +168,10 @@ namespace Revolutions
             drawcircletype = 0;
         }
         int timerw = 0;
-        //W°´ÏÂµÄ¼ÆÊ±Æ÷
+        //WæŒ‰ä¸‹çš„è®¡æ—¶å™¨
         int timers = 0;
         int counterw = 0;
-        //¼ÆÊ±Æ÷µÄ¼ÆÊýÆ÷£¬ÎªÁËÊµÏÖ¹¦ÄÜ
+        //è®¡æ—¶å™¨çš„è®¡æ•°å™¨ï¼Œä¸ºäº†å®žçŽ°åŠŸèƒ½
         int counters = 0;
         int cd;
         public override void SetControls()
@@ -245,18 +245,18 @@ namespace Revolutions
                     }
                 }
                 if (nowBoss == null && npc.type == 13) nowBoss = npc;
-                //Ôö¼Óboss×é¼þÉúÃüÖµ
+                //å¢žåŠ bossç»„ä»¶ç”Ÿå‘½å€¼
                 if (nowBoss != null && nowBoss.active && npc.active)
                 {
-                    //Ê¯¾ÞÈË
+                    //çŸ³å·¨äºº
                     if (nowBoss.type == 245 && (npc.type == 246 || npc.type == 247 || npc.type == 248)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
-                    //÷¼÷ÃÍõ
+                    //éª·é«…çŽ‹
                     if (nowBoss.type == 35 && npc.type == 36) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
-                    //»úÐµ÷¼÷ÃÍõ
+                    //æœºæ¢°éª·é«…çŽ‹
                     if (nowBoss.type == 127 && (npc.type == 128 || npc.type == 129 || npc.type == 130 || npc.type == 131)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
-                    //¿ËËÕÂ³Ö®ÄÔ
+                    //å…‹è‹é²ä¹‹è„‘
                     if (nowBoss.type == 266 && npc.type == 267) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
-                    //ÊÀ½çÍÌÊÉÕß
+                    //ä¸–ç•Œåžå™¬è€…
                     if (nowBoss.type == 13 && (npc.type == 13 || npc.type == 14 || npc.type == 15)) { nowBossLifeMax += npc.lifeMax; nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } }
                     //Moon Lord
                     if (nowBoss.type == 398 && (npc.type == 396 || npc.type == 397)) { nowBossLifeMax += npc.lifeMax; if (npc.ai[0] != -2) { nowBossLifeTrue += npc.life; if (timer2 == 10 || timer2 == 0) { nowBossLife += npc.life; } } }
