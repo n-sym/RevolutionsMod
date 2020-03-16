@@ -44,11 +44,13 @@ namespace Revolutions.Projectiles.StarFlareWeapon
             projectile.damage = (int)(0.9f * projectile.damage);
             Vector2 pos = 2 * target.Center - projectile.position;
             pos.Y += (target.Center.Y - pos.Y) * 2;
+            Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
+            color = Helper.GetCloserColor(Helper.GetCloserColor(color, Helper.ToGreyColor(color), -2, 1), Color.Black, 4, 7); 
             for (int i = 0; i < 7; i++)
             {
                 Dust d = Dust.NewDustDirect(pos, 4, 4, MyDustId.WhiteTrans, 0.6f * projectile.velocity.X, 0.6f * projectile.velocity.Y, 100, Color.White, 0.8f);
                 d.noGravity = true;
-                Dust e = Dust.NewDustDirect(pos, 4, 4, MyDustId.BlueTrans, 0.6f * projectile.velocity.X, 0.6f * projectile.velocity.Y, 100, Color.White, 0.8f);
+                Dust e = Dust.NewDustDirect(pos, 4, 4, MyDustId.WhiteTrans, 0.6f * projectile.velocity.X, 0.6f * projectile.velocity.Y, 100, color, 0.8f);
                 e.noGravity = true;
             }
         }
@@ -66,7 +68,9 @@ namespace Revolutions.Projectiles.StarFlareWeapon
                 //实际上修复颜色
                 if (Vector2.Distance(projectile.position, player.position) < 0.5f * Vector2.Distance(Vector2.Zero, new Vector2(Main.screenWidth, Main.screenHeight)))
                 {
-                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, new Color((126), (int)(171), (int)(243), (int)(255 * sizeFix)), projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
+                    Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
+                    color = new Color(color.R, color.G, color.B, (int)(255 * sizeFix));
+                    spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, color, projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
                 }
             }
             return true;
@@ -75,15 +79,17 @@ namespace Revolutions.Projectiles.StarFlareWeapon
         public override void Kill(int timeLeft)
         {
             base.Kill(timeLeft);
+            Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
+            color = Helper.GetCloserColor(Helper.GetCloserColor(color, Helper.ToGreyColor(color), -2, 1), Color.Black, 4, 7);
             for (int i = 0; i < 7; i++)
             {
                 Dust d = Dust.NewDustDirect(projectile.position, 2, 2, MyDustId.WhiteTrans, 0.6f * projectile.velocity.X, -0.6f * projectile.velocity.Y, 100, Color.White, 0.8f);
                 d.noGravity = true;
-                Dust e = Dust.NewDustDirect(projectile.position, 2, 2, MyDustId.BlueTrans, 0.6f * projectile.velocity.X, -0.6f * projectile.velocity.Y, 100, Color.White, 0.8f);
-                e.noGravity = true;
                 Dust f = Dust.NewDustDirect(projectile.position, 2, 2, MyDustId.WhiteTrans, 0, 0, 100, Color.White, 0.8f);
                 f.noGravity = true;
-                Dust g = Dust.NewDustDirect(projectile.position, 2, 2, MyDustId.BlueTrans, 0, 0, 100, Color.White, 0.8f);
+                Dust e = Dust.NewDustDirect(projectile.position, 2, 2, MyDustId.WhiteTrans, 0.6f * projectile.velocity.X, -0.6f * projectile.velocity.Y, 100, color, 0.8f);
+                e.noGravity = true;
+                Dust g = Dust.NewDustDirect(projectile.position, 2, 2, MyDustId.WhiteTrans, 0, 0, 100, color, 0.8f);
                 g.noGravity = true;
             }
         }

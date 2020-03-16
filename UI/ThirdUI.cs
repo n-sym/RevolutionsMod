@@ -19,6 +19,7 @@ namespace Revolutions.UI
         UIText HthBarSet;
         UIText RangeIndexSet;
         UIText SpColorSet;
+        UIText ExtraAISet;
         UIText Exit;
         public static bool cesfTips;
         public override void OnInitialize()
@@ -72,11 +73,17 @@ namespace Revolutions.UI
             RangeIndexSet.OnMouseOver += Hover;
             UIPanel1.Append(RangeIndexSet);
             SpColorSet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.SpColor" + Revolutions.Settings.spcolor.ToString()));
-            SpColorSet.Top.Set(320, 0f);
+            SpColorSet.Top.Set(360, 0f);
             SpColorSet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, SpColorSet.Text, 0.4f), 0f);
             SpColorSet.OnClick += Click;
             SpColorSet.OnMouseOver += Hover;
             UIPanel1.Append(SpColorSet);
+            ExtraAISet = new UIText(Language.GetTextValue("Mods.Revolutions.UI.ExtraAI" + Revolutions.Settings.extraAI.ToString()));
+            ExtraAISet.Top.Set(320, 0f);
+            ExtraAISet.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, ExtraAISet.Text, 0.4f), 0f);
+            ExtraAISet.OnClick += Click;
+            ExtraAISet.OnMouseOver += Hover;
+            UIPanel1.Append(ExtraAISet);
             Exit = new UIText(Language.GetTextValue("LegacyMenu.118"), 0.4f, true);
             Exit.Top.Set(440, 0f);
             Exit.Left.Set(320 - 0.5f * Helper.GetStringLength(Main.fontDeathText, Exit.Text, 0.4f), 0f);
@@ -104,7 +111,8 @@ namespace Revolutions.UI
             if (HthBarSet.IsMouseHovering) HthBarSet.TextColor = Color.White; else HthBarSet.TextColor = Color.Gray;
             RangeIndexSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.RangeIndex" + Revolutions.Settings.rangeIndex.ToString()), 0.4f, true);
             if (RangeIndexSet.IsMouseHovering) RangeIndexSet.TextColor = Color.White; else RangeIndexSet.TextColor = Color.Gray;
-            SpColorSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.SpColor" + Revolutions.Settings.spcolor.ToString()), 0.4f, true);
+            ExtraAISet.SetText(Language.GetTextValue("Mods.Revolutions.UI.ExtraAI" + Revolutions.Settings.extraAI.ToString()), 0.4f, true);
+            if (ExtraAISet.IsMouseHovering) ExtraAISet.TextColor = Color.White; else ExtraAISet.TextColor = Color.Gray; SpColorSet.SetText(Language.GetTextValue("Mods.Revolutions.UI.SpColor" + Revolutions.Settings.spcolor.ToString()), 0.4f, true);
             if (Helper.Name2Specialname(Main.LocalPlayer.name) == "none" && UIPanel1.HasChild(SpColorSet)) UIPanel1.RemoveChild(SpColorSet);
             if (SpColorSet.IsMouseHovering) SpColorSet.TextColor = Color.White; else SpColorSet.TextColor = Color.Gray;
 
@@ -136,6 +144,9 @@ namespace Revolutions.UI
                     if (Revolutions.Settings.rangeIndex == 3) Revolutions.Settings.rangeIndex = 0;
                     break;
                 case 320:
+                    Revolutions.Settings.extraAI = !Revolutions.Settings.extraAI;
+                    break;
+                case 360:
                     Revolutions.Settings.spcolor = !Revolutions.Settings.spcolor;
                     break;
                 case 440:

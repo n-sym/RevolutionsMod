@@ -36,7 +36,9 @@ namespace Revolutions
         public int extraSpdTimer = 0;
         public Vector2 instantmove = Vector2.Zero;
         public Color starFlareColor { get; set; } = Color.White;
-        public int saviourstatus { get; set; } = 1;
+        public int starFlareColorType { get; set; } = 0;
+        public bool starFlareStatus { get; set; } = false;
+        public int saviourStatus { get; set; } = 1;
         public bool evolutionary { get; set; } = false;
         public bool saviourexist { get; set; } = false;
         public static int timer = 0;
@@ -50,6 +52,7 @@ namespace Revolutions
         public string spname { get; set; } = "none";
         public bool lightning { get; set; } = false;
         public bool lightningproj { get; set; } = false;
+        public static Color customSFC = Color.White; 
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
         public static int hitcounter = 0;
@@ -78,14 +81,18 @@ namespace Revolutions
             TagCompound tag = new TagCompound();
             tag.Add("sf", starFlare[0]);
             tag.Add("sfmax", maxStarFlare);
+            tag.Add("sfcolor", customSFC);
+            tag.Add("sfcolortype", starFlareColorType);
             return tag;
         }
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax"))
+            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax") && tag.ContainsKey("sfcolor") && tag.ContainsKey("sfmaxcolortype"))
             {
                 starFlare[0] = tag.GetAsInt("sf");
                 maxStarFlare = tag.GetAsInt("sfmax");
+                customSFC = tag.Get<Color>("sfcolor");
+                starFlareColorType = tag.GetAsInt("sfcolortype");
                 //Helper.Array2Setting(tag.Get<bool[]>("setting"));
             }
             base.Load(tag);
@@ -93,6 +100,8 @@ namespace Revolutions
         List<Point> justOpenDoors = new List<Point>();
         public override void PreUpdate()
         {
+            if (!starFlareStatus) starFlareColor = new Color(126, 171, 243);
+            else starFlareColor = Helper.SFCtypeToColor(starFlareColorType);
             if (Revolutions.Settings.spcolor) spname = Helper.Name2Specialname(player.name);
             else spname = "none";
             //过去的属性
@@ -206,15 +215,15 @@ namespace Revolutions
             {
                 counterw = 0;
                 cd = 10;
-                saviourstatus *= -1;
-                new Talk(0, Language.GetTextValue("Mods.Revolutions.saviourstatus" + saviourstatus.ToString()), 180, player);
+                saviourStatus *= -1;
+                new Talk(0, Language.GetTextValue("Mods.Revolutions.saviourstatus" + saviourStatus.ToString()), 180, player);
             }
             if (counters > 12 && cd == 0 && saviourexist)
             {
                 counters = 0;
                 cd = 10;
-                saviourstatus *= -1;
-                new Talk(0, Language.GetTextValue("Mods.Revolutions.saviourstatus" + saviourstatus.ToString()), 180, player);
+                saviourStatus *= -1;
+                new Talk(0, Language.GetTextValue("Mods.Revolutions.saviourstatus" + saviourStatus.ToString()), 180, player);
             }
             if (counterw > 0) counterw--;
             if (counters > 0) counters--;
@@ -302,7 +311,7 @@ namespace Revolutions
             if (a == 7) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack05"), 180, player);
             if (a == 8 && proj.melee) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
             if (a == 6 && proj.minion) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack06"), 180, player);
-            if (saviourstatus == 1)
+            if (saviourStatus == 1)
             {
                 if (player.armor[0].type == ItemType<SaviourRanged>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.ranged)
                 {
@@ -359,7 +368,7 @@ namespace Revolutions
                 if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory03"), 180, player);
             }
             if (a == 8) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
-            if (saviourstatus == 1)
+            if (saviourStatus == 1)
             {
                 if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>())
                 {

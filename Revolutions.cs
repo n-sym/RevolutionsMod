@@ -34,6 +34,7 @@ namespace Revolutions
             public static bool autoreuse = false;
             public static bool hthbar = true;
             public static bool spcolor = true;
+            public static bool extraAI = true;
         }
         public Revolutions()
         {
@@ -190,7 +191,7 @@ namespace Revolutions
                             color = Helper.Specialname2Color(Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().spname);
                         }
                     }
-                    if (RevolutionsPlayer.drawcircletype == 1) color = Helper.GetCloserColor(new Color(126, 171, 243), color, 1, 2);
+                    if (RevolutionsPlayer.drawcircletype == 1) color = Helper.GetCloserColor(Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().starFlareColor , color, 1, 2);
                     color *= (float)Math.Abs(Math.Sin(theta * i + timer));
                     Vector2 drawPos = Main.player[0].Center + new Vector2((float)Math.Cos(theta * i) * RevolutionsPlayer.drawcircler * Main.GameZoomTarget, (float)Math.Sin(theta * i) * RevolutionsPlayer.drawcircler * Main.GameZoomTarget) - Main.screenPosition;
                     spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<Projectiles.RareWeapon.MeteowerHelper>()],

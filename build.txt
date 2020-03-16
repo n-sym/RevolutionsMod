@@ -1,6 +1,6 @@
 ﻿displayName = Revolutions Mod Nightly
 author = Buff Immunity Group
-version = 0.1090
+version = 0.1091
 hideResources = false
 hideCode = false
 includeSource = true

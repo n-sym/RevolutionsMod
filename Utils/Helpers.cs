@@ -256,6 +256,30 @@ namespace Revolutions.Utils
             }
             return Color.White;
         }
+        public static Color ToGreyColor(Color color)
+        {
+            int a = color.R + color.G + color.B;
+            a /= 3;
+            return new Color(a, a, a);
+        }
+        public static Color SFCtypeToColor(int a)
+        {
+            switch (a)
+            {
+                case -1:
+                    return RevolutionsPlayer.customSFC;
+                case 0:
+                    return new Color(246, 247, 150);
+                case 1:
+                    return new Color(240, 127, 225);
+                case 2:
+                    return new Color(127, 240, 232);
+                case 3:
+                    return new Color(181, 127, 240);
+                default:
+                    return Color.White;
+            }
+        }
         public static Vector2 RelativePositionTrans(Vector2 current, Vector2 target)
         {
             return new Vector2(current.X + target.X, current.Y + target.Y);
@@ -331,8 +355,8 @@ namespace Revolutions.Utils
             {
                 string filePath = Main.SavePath + @"\revosets";
                 StreamReader streamReader = new StreamReader(filePath);
-                bool[] array = new bool[10];
-                for (int i = 0; i < 10; i++)
+                bool[] array = new bool[11];
+                for (int i = 0; i < 11; i++)
                 {
                     array[i] = bool.Parse(streamReader.ReadLine());
                 }
@@ -346,6 +370,7 @@ namespace Revolutions.Utils
                 Revolutions.Settings.autoreuse = array[7];
                 Revolutions.Settings.hthbar = array[8];
                 Revolutions.Settings.spcolor = array[9];
+                Revolutions.Settings.extraAI = array[10];
             }
             catch
             {
@@ -354,7 +379,7 @@ namespace Revolutions.Utils
         }
         public static void SaveSettings()
         {
-            bool[] array = new bool[10];
+            bool[] array = new bool[11];
             array[0] = false;
             array[1] = false;
             array[2] = false;
@@ -366,9 +391,10 @@ namespace Revolutions.Utils
             array[7] = Revolutions.Settings.autoreuse;
             array[8] = Revolutions.Settings.hthbar;
             array[9] = Revolutions.Settings.spcolor;
+            array[10] = Revolutions.Settings.extraAI;
             string filePath = Main.SavePath + @"\revosets";
             StreamWriter streamWriter = new StreamWriter(filePath, false);
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 11; i++)
             {
                 streamWriter.WriteLine(array[i].ToString());
             }

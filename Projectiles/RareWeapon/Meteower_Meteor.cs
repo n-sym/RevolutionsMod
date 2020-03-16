@@ -64,22 +64,25 @@ namespace Revolutions.Projectiles.RareWeapon
         }
         public override void Kill(int timeLeft)
         {
+            Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
+            color = Helper.GetCloserColor(Helper.GetCloserColor(color, Helper.ToGreyColor(color), -2, 1), Color.Black, 4, 7); 
             if (timeLeft == 0)
             {
                 Dust f = Dust.NewDustDirect(projectile.position, 0, 0,
                 mod.DustType("hyperbola2"), 0, 0, 0, new Color(233, 233, 255), 1.65f);
                 f.noGravity = true;
-                for (int i = 0; i < 2; i++)
-                {
-                    Dust d = Dust.NewDustDirect(projectile.position - 12 * Helper.ToUnitVector(projectile.position - HyperOldPositon[30]), 24, 24, MyDustId.WhiteTrans, 0, 0, 100, Color.White, 0.8f);
-                    d.noGravity = true;
-                    d.velocity *= 2;
-                    Dust e = Dust.NewDustDirect(projectile.position, 24, 24, MyDustId.BlueTrans, 0, 0, 100, Color.White, 0.8f);
-                    e.noGravity = true;
-                    e.velocity *= 2;
-                }
-
-
+                Dust d = Dust.NewDustDirect(projectile.position - 12 * Helper.ToUnitVector(projectile.position - HyperOldPositon[30]), 24, 24, MyDustId.WhiteTrans, 0, 0, 100, Color.White, 0.8f);
+                d.noGravity = true;
+                d.velocity *= 2;
+                Dust d2 = Dust.NewDustDirect(projectile.position - 12 * Helper.ToUnitVector(projectile.position - HyperOldPositon[30]), 24, 24, MyDustId.WhiteTrans, 0, 0, 100, Color.White, 0.8f);
+                d2.noGravity = true;
+                d2.velocity *= 2;
+                Dust e = Dust.NewDustDirect(projectile.position - 12 * Helper.ToUnitVector(projectile.position - HyperOldPositon[30]), 24, 24, MyDustId.WhiteTrans, 0, 0, 100, color, 0.8f);
+                e.noGravity = true;
+                e.velocity *= 2;
+                Dust e2 = Dust.NewDustDirect(projectile.position - 12 * Helper.ToUnitVector(projectile.position - HyperOldPositon[30]), 24, 24, MyDustId.WhiteTrans, 0, 0, 100, color, 0.8f);
+                e2.noGravity = true;
+                e2.velocity *= 2;
             }
             else
             {
@@ -87,13 +90,15 @@ namespace Revolutions.Projectiles.RareWeapon
                 {
                     Dust d = Dust.NewDustDirect(projectile.position, 4, 4, MyDustId.WhiteTrans, 0, 0, 100, Color.White, 0.8f);
                     d.noGravity = true;
-                    Dust e = Dust.NewDustDirect(projectile.position, 4, 4, MyDustId.BlueTrans, 0, 0, 100, Color.White, 0.8f);
+                    Dust e = Dust.NewDustDirect(projectile.position, 4, 4, MyDustId.WhiteTrans, 0, 0, 100, color, 0.8f);
                     e.noGravity = true;
                 }
             }
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
+            Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
+            color = Helper.GetCloserColor(Helper.GetCloserColor(color, Helper.ToGreyColor(color), -2, 1), Color.Black, 4, 7); 
             projectile.damage = 0;
             if (projectile.timeLeft > 3) projectile.timeLeft = 3;
             Vector2 pos = 2 * target.Center - projectile.position;
@@ -102,7 +107,7 @@ namespace Revolutions.Projectiles.RareWeapon
             {
                 Dust d = Dust.NewDustDirect(pos, 4, 4, MyDustId.WhiteTrans, 0.4f * projectile.velocity.X, 0.4f * projectile.velocity.Y, 100, Color.White, 0.8f);
                 d.noGravity = true;
-                Dust e = Dust.NewDustDirect(pos, 4, 4, MyDustId.BlueTrans, 0.4f * projectile.velocity.X, 0.4f * projectile.velocity.Y, 100, Color.White, 0.8f);
+                Dust e = Dust.NewDustDirect(pos, 4, 4, MyDustId.WhiteTrans, 0.4f * projectile.velocity.X, 0.4f * projectile.velocity.Y, 100, color, 0.8f);
                 e.noGravity = true;
             }
         }
@@ -128,7 +133,12 @@ namespace Revolutions.Projectiles.RareWeapon
                 float sizeFix = 2;
                 sizeFix /= 1 + k;
                 sizeFix -= 1;
-                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, new Color(126, 171, 243, (int)(255 * sizeFix)), projectile.rotation, drawOrigin, projectile.scale * 0.5f, SpriteEffects.None, 0f);
+                float sizeFix2 = 11;
+                sizeFix2 /= 1 + k;
+                sizeFix2 -= 1;
+                Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
+                color = new Color(color.R, color.G, color.B, (int)(255 * sizeFix)) * sizeFix2 * 0.9f;
+                spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, color, projectile.rotation, drawOrigin, projectile.scale * 0.5f, SpriteEffects.None, 0f);
             }
             return true;
         }

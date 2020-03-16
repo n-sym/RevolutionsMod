@@ -18,6 +18,8 @@ namespace Revolutions.NPCs
             if (myTalkCD[npc.whoAmI] > 0) myTalkCD[npc.whoAmI]--;
             if (myTimer[npc.whoAmI] > 0) myTimer[npc.whoAmI]--;
             if (myTimer2[npc.whoAmI] > 0) myTimer2[npc.whoAmI]--;
+            if (myTimer[npc.whoAmI] < 0) myTimer[npc.whoAmI]++;
+            if (myTimer2[npc.whoAmI] < 0) myTimer2[npc.whoAmI]++;
             Player target = Main.player[npc.target];
             RevolutionsPlayer revtar = target.GetModPlayer<RevolutionsPlayer>();
             switch (npc.type)
@@ -48,14 +50,19 @@ namespace Revolutions.NPCs
                     if (npc.life == npc.lifeMax) myOldLife[npc.whoAmI] = npc.lifeMax;
                     if (target.HeldItem.noMelee)
                     {
-                        if(myTimer2[npc.whoAmI] == 0 && Main.rand.Next(420) == 1)
+                        if(myTimer2[npc.whoAmI] == 0 && Main.rand.Next(420) == 1 && npc.life > 12000)
                         {
                             npc.dontTakeDamage = true;
                             myTimer2[npc.whoAmI] += 60;
                         }
+                        else if(npc.life < 12000)
+                        {
+                            if (myTimer2[npc.whoAmI] > 0) npc.dontTakeDamage = false;
+                            myTimer2[npc.whoAmI] = 0;
+                        }
                         if (myTimer2[npc.whoAmI] == 0)
                         {
-                            if (myTimer[npc.whoAmI] == 0 && myOldLife[npc.whoAmI] - npc.life > 1666)
+                            if (myTimer[npc.whoAmI] == 0 && ((myOldLife[npc.whoAmI] - npc.life > 1666) || (npc.life < 12000 && Main.rand.Next(npc.life / 100) == 1)))
                             {
                                 npc.dontTakeDamage = true;
                                 myTimer[npc.whoAmI] += 60;
@@ -75,11 +82,15 @@ namespace Revolutions.NPCs
                                     b = Main.rand.Next(-1, 2);
                                     if (b != 0) break;
                                 }
-                                npc.position = 2 * target.position - npc.position + new Vector2(Main.rand.Next(300, 700) * a, Main.rand.Next(300, 700) * b);
+                                npc.position = 2 * target.position - npc.position + new Vector2(Main.rand.Next(200, 500) * a, Main.rand.Next(200, 500) * b);
 
                             }
                             if (myTimer[npc.whoAmI] < 30) npc.alpha = (int)(myTimer[npc.whoAmI] * 8.5f);
-                            if (myTimer[npc.whoAmI] == 0) npc.dontTakeDamage = false;
+                            if (myTimer[npc.whoAmI] == 1)
+                            {
+                                npc.dontTakeDamage = false;
+                                myTimer[npc.whoAmI] -= 120 - (revtar.difficulty / 2);
+                            }
                         }
                         else
                         {
@@ -88,12 +99,12 @@ namespace Revolutions.NPCs
                             if (myTimer2[npc.whoAmI] > 30) npc.alpha = (int)((60 - myTimer2[npc.whoAmI]) * 8.5f);
                             if (myTimer2[npc.whoAmI] == 30) npc.Center = target.Center + 10 * target.velocity;
                             if (myTimer2[npc.whoAmI] < 30) npc.alpha = (int)(myTimer2[npc.whoAmI] * 8.5f);
-                            if (myTimer2[npc.whoAmI] == 0) npc.dontTakeDamage = false;
+                            if (myTimer2[npc.whoAmI] == 1) npc.dontTakeDamage = false;
                         }
                     }
                     else
                     {
-                        if (myTimer[npc.whoAmI] == 0 && myOldLife[npc.whoAmI] - npc.life > 833)
+                        if (myTimer[npc.whoAmI] == 0 && ((myOldLife[npc.whoAmI] - npc.life > 833) || (npc.life < 12000 && Main.rand.Next(npc.life / 100) == 1)))
                         {
                             npc.dontTakeDamage = true;
                             myTimer[npc.whoAmI] += 60;
@@ -117,8 +128,14 @@ namespace Revolutions.NPCs
 
                         }
                         if (myTimer[npc.whoAmI] < 30) npc.alpha = (int)(myTimer[npc.whoAmI] * 8.5f);
-                        if (myTimer[npc.whoAmI] == 0) npc.dontTakeDamage = false;
+                        if (myTimer[npc.whoAmI] == 1)
+                        {
+                            npc.dontTakeDamage = false;
+                            myTimer[npc.whoAmI] -= 60 - (revtar.difficulty / 3);
+                        }
                     }
+                    if (myTimer[npc.whoAmI] > 60) myTimer[npc.whoAmI] = 60;
+                    if (myTimer2[npc.whoAmI] > 60) myTimer2[npc.whoAmI] = 60;
                     break;
                 case NPCID.Guide:
                     if (Main.rand.Next(1, 100) == 1 && myTalkCD[npc.whoAmI] == 0 && Main.dayTime)

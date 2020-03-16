@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using System;
 using Terraria.Graphics.Effects;
 using Terraria.Localization;
 using Terraria.ModLoader;
@@ -109,14 +110,31 @@ namespace Revolutions.Utils
             => CommandType.Chat;
 
         public override string Command
-            => "blur";
+            => "sfc";
 
         public override string Description
-            => "blur while paused";
+            => "sfc";
 
         public override void Action(CommandCaller caller, string input, string[] args)
         {
-            Revolutions.Settings.blur = !Revolutions.Settings.blur;
+            RevolutionsPlayer z = caller.Player.GetModPlayer<RevolutionsPlayer>();
+            z.starFlareStatus = true;
+            if (args.Length == 1)
+            {
+                int a = 0;
+                int.TryParse(args[0], out a);
+                z.starFlareColorType = a;
+            }
+            if (args.Length == 3)
+            {
+                int r = 0;
+                int.TryParse(args[0], out r);
+                int g = 0;
+                int.TryParse(args[0], out g);
+                int b = 0;
+                int.TryParse(args[0], out b);
+                RevolutionsPlayer.customSFC = new Color(r, g, b);
+            }
         }
     }
 }
