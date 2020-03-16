@@ -129,8 +129,12 @@ namespace Revolutions
             {
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
+            }
+            if (timer % 30 == 0 && timer != 0)
+            {
                 if (hitcounter == 0 && nowBoss != null && difficulty < 100) difficulty++;
             }
+            if (nowBoss == null) difficulty = 50;
             //自动开关门
             if (Revolutions.Settings.autodoor)
             {
@@ -163,7 +167,6 @@ namespace Revolutions
             saviourexist = false;
             evolutionary = false;
             hitcounter = 0;
-            Lightning.LightningCfgs.accexists = false;
             drawcircler = 0;
             drawcircletype = 0;
         }

@@ -111,11 +111,7 @@ namespace Revolutions
         }
         public override void MidUpdatePlayerNPC()
         {
-            for (int i = 0; i < RevolutionsGlobalNPC.myTalkCD.Length; i++)
-            {
-                if (RevolutionsGlobalNPC.myTalkCD[i] <= 0) continue;
-                RevolutionsGlobalNPC.myTalkCD[i]--;
-            }
+            
         }
         public override void PreSaveAndQuit()
         {
