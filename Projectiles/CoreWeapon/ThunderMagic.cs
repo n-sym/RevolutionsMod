@@ -34,7 +34,8 @@ namespace Revolutions.Projectiles.CoreWeapon
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-
+            Player player = Main.player[projectile.owner];
+            if (player.magicDamage < 1.4f) projectile.damage = (int)(projectile.damage * 0.85f);
         }
         int counter = 1;
         int counter2 = 0;
@@ -99,7 +100,7 @@ namespace Revolutions.Projectiles.CoreWeapon
                         {
                             if (Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname) == Color.White)
                             {
-                                color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + z * 180 + 1100, 1950), Color.White, 8, 9);
+                                color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + z * 180 + 1000, 1850), Color.White, 8, 9);
                             }
                             else
                             {

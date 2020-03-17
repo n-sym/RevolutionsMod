@@ -63,7 +63,7 @@ namespace Revolutions.Projectiles.CoreWeapon
                 {
                     if (Helper.Specialname2Color(Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().spname) == Color.White)
                     {
-                        color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + 500, 1720 + rd.Next(-400, 0)), Color.White, 8, 9);
+                        color = Helper.GetCloserColor(Helper.GetRainbowColorLinear(j + i * 30 + 700, 1520), Color.White, 8, 9);
                     }
                     else
                     {

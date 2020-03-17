@@ -43,6 +43,7 @@ namespace Revolutions
         public bool saviourexist { get; set; } = false;
         public static int timer = 0;
         public int justDmgcounter { get; set; } = 0;
+        public int sLifeStealcounter { get; set; } = 0;
         public int talkActive { get; set; } = 0;
         public string nowSaying { get; set; } = "";
         public NPC nowBoss { get; set; } = null;
@@ -131,6 +132,7 @@ namespace Revolutions
             {
                 timer = 0;
                 justDmgcounter = 0;
+                sLifeStealcounter = 0;
             }
             else timer++;
             //周期性事件
@@ -311,24 +313,27 @@ namespace Revolutions
             if (a == 7) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack05"), 180, player);
             if (a == 8 && proj.melee) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
             if (a == 6 && proj.minion) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack06"), 180, player);
-            if (saviourStatus == 1)
+            float lsfix = 1f;
+            if (target.type == NPCID.TargetDummy) lsfix = 1 / damage;
+            if (sLifeStealcounter < 21 && saviourStatus == 1)
             {
                 if (player.armor[0].type == ItemType<SaviourRanged>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.ranged)
                 {
-                    Helper.LifeSteal(player, damage, 0.04f);
+                    Helper.LifeSteal(player, damage, 0.04f * lsfix);
                 }
                 if (player.armor[0].type == ItemType<SaviourMagic>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.magic)
                 {
-                    Helper.LifeSteal(player, damage, 0.04f);
+                    Helper.LifeSteal(player, damage, 0.04f * lsfix);
                 }
                 if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.melee)
                 {
-                    Helper.LifeSteal(player, damage, 0.12f);
+                    Helper.LifeSteal(player, damage, 0.04f * lsfix);
                 }
                 if (player.armor[0].type == ItemType<SaviourSummon>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>() && proj.minion)
                 {
-                    Helper.LifeSteal(player, damage, 0.04f);
+                    Helper.LifeSteal(player, damage, 0.04f * lsfix);
                 }
+                sLifeStealcounter++;
             }
             else if (proj.type != mod.ProjectileType("JustDamage"))
             {
@@ -368,12 +373,13 @@ namespace Revolutions
                 if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory03"), 180, player);
             }
             if (a == 8) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
-            if (saviourStatus == 1)
+            if (saviourStatus == 1 && target.type != NPCID.TargetDummy && saviourStatus == 1)
             {
                 if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>())
                 {
                     Helper.LifeSteal(player, damage, 0.08f);
                 }
+                sLifeStealcounter++;
             }
             else
             {
