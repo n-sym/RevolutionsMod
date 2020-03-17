@@ -27,6 +27,11 @@ namespace Revolutions.Items.OneTimeUse
             item.autoReuse = false;
         }
         int timer = 0;
+        public override bool CanUseItem(Player player)
+        {
+            if (timer != 0) return false;
+            return true;
+        }
         public override bool UseItem(Player player)
         {
             if (timer == 0)

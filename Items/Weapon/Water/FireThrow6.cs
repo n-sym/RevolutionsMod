@@ -24,7 +24,7 @@ namespace Revolutions.Items.Weapon.Water
             item.damage = 39;
             item.knockBack = 0.8f;
             item.crit = 6;
-            item.shootSpeed = 13f;
+            item.shootSpeed = 15f;
             item.noMelee = true;
             item.value = 900000;
             item.rare = 8;

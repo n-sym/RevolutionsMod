@@ -31,7 +31,6 @@ namespace Revolutions.Items.Weapon.Core
         bool l = true;
         public override void OnHitNPC(Player player, NPC target, int damage, float knockBack, bool crit)
         {
-            Helper.Print(player.meleeDamage);
             l = !l;
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.CoreWeapon.Thunder>()] < 51 && l)
             {

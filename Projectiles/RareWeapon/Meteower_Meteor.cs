@@ -11,7 +11,7 @@ namespace Revolutions.Projectiles.RareWeapon
     {
         public override void SetStaticDefaults()
         {
-            DisplayName.SetDefault("Meteower Meteor");
+            DisplayName.SetDefault("Meteor");
             ProjectileID.Sets.TrailCacheLength[projectile.type] = 11;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
@@ -38,7 +38,6 @@ namespace Revolutions.Projectiles.RareWeapon
         public override void AI()
         {
             t++;
-
             for (int j = 19; j > 0; j--)
             {
                 HyperOldPositon[j] = HyperOldPositon[j - 1];
@@ -114,13 +113,13 @@ namespace Revolutions.Projectiles.RareWeapon
         public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             int critfix = 1;
-            if (crit == true) critfix = 2;
+            if (crit) critfix = 2;
             if (target.defense <= projectile.damage * critfix)
             {
                 if (target.defense <= 16) damage += target.defense / 2 * critfix;
                 if (target.defense > 16) damage += 8 * critfix;
             }
-            //无视12防御
+            //无视16防御
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

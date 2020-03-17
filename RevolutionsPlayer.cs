@@ -88,7 +88,7 @@ namespace Revolutions
         }
         public override void Load(TagCompound tag)
         {
-            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax") && tag.ContainsKey("sfcolor") && tag.ContainsKey("sfmaxcolortype"))
+            if (tag.ContainsKey("sf") && tag.ContainsKey("sfmax") && tag.ContainsKey("sfcolor") && tag.ContainsKey("sfcolortype"))
             {
                 starFlare[0] = tag.GetAsInt("sf");
                 maxStarFlare = tag.GetAsInt("sfmax");

@@ -1,5 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
+using Revolutions.Utils;
 using System;
+using System.Collections.Generic;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -14,26 +16,36 @@ namespace Revolutions.Projectiles.ForWater
         }
         public override void SetDefaults()
         {
-            projectile.width = 6;
-            projectile.height = 6;
+            projectile.width = 30;
+            projectile.height = 30;
             projectile.aiStyle = -1;
             projectile.friendly = true;
             projectile.alpha = 255;
-            projectile.penetrate = 10;
+            projectile.penetrate = 1000;
             projectile.ignoreWater = true;
             projectile.extraUpdates = 2;
             projectile.ranged = true;
             projectile.timeLeft = 60;
             projectile.usesLocalNPCImmunity = true;
-            projectile.localNPCHitCooldown = 1;
+            projectile.localNPCHitCooldown = -1;
         }
+        List<NPC> hited = new List<NPC>();
+        NPC tar = null;
         public override void AI()
         {
-            if (projectile.timeLeft > 60)
+            float distance = 500f;
+            foreach(NPC npc in Main.npc)
             {
-                projectile.timeLeft = 60;
+                if(npc.active && Vector2.Distance(npc.Center, projectile.position) < distance && !hited.Contains(npc) && npc.CanBeChasedBy())
+                {
+                    distance = Vector2.Distance(npc.Center, projectile.position);
+                    tar = npc;
+                }
             }
-
+            if(tar != null)
+            {
+                projectile.velocity = Helper.GetCloser(Helper.ToUnitVector(projectile.velocity), Helper.ToUnitVector(tar.Center - projectile.Center), 1, 20) * projectile.velocity.Length();
+            }
             if (projectile.ai[0] > 7f)
             {
                 float dustscalefix = 1f;
@@ -82,23 +94,21 @@ namespace Revolutions.Projectiles.ForWater
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (target.lifeMax / 12000 > 5 && target.lifeMax / 12000 < 20 && target.type != NPCID.TargetDummy)
+            int a = target.lifeMax;
+            if (!hited.Contains(target)) hited.Add(target);
+            if (Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().nowBoss != null && target.boss) a = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().nowBossLifeMax;
+            if (a / 12000 > 5 && a / 12000 < 20 && target.type != NPCID.TargetDummy)
             {
-                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), target.lifeMax / 10000, 0, projectile.owner);
+                Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), a / 10000, 0, projectile.owner);
             }
-            else if (target.lifeMax / 10000 < 5 || target.type == NPCID.TargetDummy)
+            else if (a / 10000 < 5 || target.type == NPCID.TargetDummy)
             {
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), 5, 0, projectile.owner);
             }
-            else if (target.lifeMax / 10000 > 20)
+            else if (a / 10000 > 20)
             {
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), 20, 0, projectile.owner);
             }
-        }
-        public override void ModifyHitNPC(NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
-        {
-            var a = Math.Sqrt(new Vector2(target.Hitbox.Width, target.Hitbox.Height).Length());
-            damage = (int)(damage * 6.557 / a);
         }
     }
 }
