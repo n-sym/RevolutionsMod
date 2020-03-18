@@ -44,7 +44,7 @@ namespace Revolutions.Projectiles.ForWater
             }
             if(tar != null)
             {
-                projectile.velocity = Helper.GetCloser(Helper.ToUnitVector(projectile.velocity), Helper.ToUnitVector(tar.Center - projectile.Center), 1, 20) * projectile.velocity.Length();
+                projectile.velocity = Helper.GetCloser(Helper.ToUnitVector(projectile.velocity), Helper.ToUnitVector(tar.Center - projectile.Center + tar.velocity * 15), 1, 30) * projectile.velocity.Length();
             }
             if (projectile.ai[0] > 7f)
             {

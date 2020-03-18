@@ -166,8 +166,7 @@ namespace Revolutions.NPCs
         public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
         {
             RevolutionsPlayer revply = target.GetModPlayer<RevolutionsPlayer>();
-            if (revply.nowBoss != null && revply.nowBoss.type != NPCID.Plantera) damage = (int)(damage * ((revply.difficulty * revply.difficulty / 13334f) + 0.75f));
-            if (revply.nowBoss != null && revply.nowBoss.type == NPCID.Plantera) damage = (int)(damage * ((revply.difficulty * revply.difficulty / 50000f) + 1f));
+            
         }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {

@@ -53,10 +53,12 @@ namespace Revolutions
         public string spname { get; set; } = "none";
         public bool lightning { get; set; } = false;
         public bool lightningproj { get; set; } = false;
-        public static Color customSFC = Color.White; 
+        public int hitcounter { get; set; } = 0;
+        public int bossFightTimer { get; set; } = 0;
+        public int hitBonuscounter { get; set; } = 0;
+        public static Color customSFC = Color.White;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
-        public static int hitcounter = 0;
         public static float drawcircler = 0;
         public static float drawcircletype = 0;
         public override void OnEnterWorld(Player player)
@@ -141,7 +143,7 @@ namespace Revolutions
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
             }
-            if (timer % 30 == 0 && timer != 0)
+            if (timer == 60)
             {
                 if (hitcounter == 0 && nowBoss != null && difficulty < 100) difficulty++;
             }
@@ -178,6 +180,7 @@ namespace Revolutions
             saviourexist = false;
             evolutionary = false;
             hitcounter = 0;
+            hitBonuscounter = 0;
             drawcircler = 0;
             drawcircletype = 0;
         }
@@ -293,12 +296,20 @@ namespace Revolutions
             {
                 if (nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
                 if (ModLoader.GetMod("Eternalresolve") != null && ModLoader.GetMod("Eternalresolve").NPCType("Omidy") == nowBoss.type && nowBoss.life == 100000) { nowBossLife = 0; nowBossLifeTrue = 0; }
-                if (nowBoss.type == Terraria.ID.NPCID.DukeFishron && rd.Next(0, 600) == 1) new Talk(nowBoss.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.DkFsion0" + rd.Next(1, 3).ToString()), 180, null);
-
+                if (bossFightTimer < 6000 && timer % 5 == 0 && timer != 0) bossFightTimer++;
+            }
+            else
+            {
+                bossFightTimer = 0;
             }
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
+            if (nowBoss != null && hitBonuscounter < 6 && bossFightTimer < 16970)
+            {
+                bossFightTimer ++;
+                hitBonuscounter++;
+            }
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
             if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.GoForTheEyes"), 180, player);
@@ -361,7 +372,11 @@ namespace Revolutions
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-
+            if (nowBoss != null && hitBonuscounter < 6 && bossFightTimer < 16970)
+            {
+                bossFightTimer ++;
+                hitBonuscounter++;
+            }
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
             if (a == 1) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.GoForTheEyes"), 180, player);
@@ -435,7 +450,30 @@ namespace Revolutions
                 hitcounter++;
             }
         }
-
+        public override void ModifyHitByNPC(NPC npc, ref int damage, ref bool crit)
+        {
+            if (Revolutions.Settings.extraAI)
+            {
+                if (nowBoss != null && nowBoss.type != NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 13334f) + 0.75f));
+                if (nowBoss != null && nowBoss.type == NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 50000f) + 1f));
+            }
+        }
+        public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)
+        {
+            if (Revolutions.Settings.extraAI)
+            {
+                if (nowBoss != null && nowBoss.type != NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 13334f) + 0.75f));
+                if (nowBoss != null && nowBoss.type == NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 50000f) + 1f));
+            }
+        }
+        public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
+        {
+            if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 144000000f) + 1f));
+        }
+        public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
+        {
+            if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 144000000f) + 1f));
+        }
     }
 }
 
