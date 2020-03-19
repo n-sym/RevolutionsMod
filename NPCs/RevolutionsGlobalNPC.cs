@@ -26,6 +26,9 @@ namespace Revolutions.NPCs
                 //一计时器两用，太酷了
                 Player target = Main.player[npc.target];
                 RevolutionsPlayer revtar = target.GetModPlayer<RevolutionsPlayer>();
+                Player local = Main.LocalPlayer;
+                RevolutionsPlayer revlocal = local.GetModPlayer<RevolutionsPlayer>();
+                float myDistance = Vector2.Distance(npc.Center, local.Center);
                 switch (npc.type)
                 {
                     case NPCID.DukeFishron:
@@ -45,16 +48,34 @@ namespace Revolutions.NPCs
                         RevolutionsAI.PlanteraAI(npc, target, revtar, ref myTimer[npc.whoAmI], ref myTimer2[npc.whoAmI], myOldLife[npc.whoAmI]);
                         break;
                     case NPCID.Guide:
-                        if (Main.rand.Next(1, 100) == 1 && myTalkCD[npc.whoAmI] == 0 && Main.dayTime)
+                        if (myTalkCD[npc.whoAmI] == 0 && myDistance < 300f && npc.ai[0] != 4)
                         {
-                            new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide1" + Main.rand.Next(1, 3).ToString()), 180, null);
-                            myTalkCD[npc.whoAmI] = 600;
+                            
+                            if (Main.rand.Next(1, 100) == 1 && Main.dayTime && !NPC.AnyDanger())
+                            {
+                                new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide1" + Main.rand.Next(1, 3).ToString()), 180, null);
+                                myTalkCD[npc.whoAmI] = 600;
+                            }
+                            if (Main.rand.Next(1, 100) == 1 && !Main.dayTime && !NPC.AnyDanger())
+                            {
+                                if (npc.homeless) new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide3" + Main.rand.Next(0, 2).ToString()), 180, null);
+                                else new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide3" + Main.rand.Next(1, 3).ToString()), 180, null);
+                                myTalkCD[npc.whoAmI] = 600;
+                            }
+                            if(!Main.dayTime && NPC.AnyDanger() && Main.rand.Next(8) == 7)
+                            {
+                                new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide61"), 180, null);
+                                myTalkCD[npc.whoAmI] = 600;
+                            }
                         }
-                        if (Main.rand.Next(1, 100) == 1 && myTalkCD[npc.whoAmI] == 0 && !Main.dayTime)
+                        else if (myTalkCD[npc.whoAmI] == 0 && myDistance > Vector2.Distance(npc.Center, revlocal.pastCenter[10]) && myDistance < RevolutionsPlayer.screenR / 2 && npc.ai[0] != 4)
                         {
-                            new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide3" + Main.rand.Next(1, 3).ToString()), 180, null);
-                            myTalkCD[npc.whoAmI] = 600;
+                            if (local.HasItem(ItemID.GuideVoodooDoll)) new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide43"), 180, null);
+                            else new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide4" + Main.rand.Next(1, 3).ToString()), 180, null);
+                            myTalkCD[npc.whoAmI] = 1800;
                         }
+                        break;
+                    case NPCID.Nurse:
                         break;
 
                 }

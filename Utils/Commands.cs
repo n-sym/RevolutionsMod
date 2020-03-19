@@ -133,7 +133,7 @@ namespace Revolutions.Utils
                 int.TryParse(args[0], out g);
                 int b = 0;
                 int.TryParse(args[0], out b);
-                RevolutionsPlayer.customSFC = new Color(r, g, b);
+                RevolutionsPlayer.customStarFlareColor = new Color(r, g, b);
             }
         }
     }

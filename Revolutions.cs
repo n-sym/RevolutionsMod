@@ -23,6 +23,7 @@ namespace Revolutions
         public UserInterface AlphaUI;
         public UserInterface BetaUI;
         static SecondUI secondUI = new SecondUI();
+        static Texture2D logo = null;
 
         public static class Settings
         {
@@ -42,6 +43,7 @@ namespace Revolutions
         public override void Load()
         {
             mod = this;
+            logo = mod.GetTexture("UI/Revolutions");
             TimeTravelingPotion = RegisterHotKey("Time Traveling Potion", "Q");
             //Helper.EntroptPool = new int[65537];
             Helper.EntroptPool = new int[10001];
@@ -76,8 +78,8 @@ namespace Revolutions
         }
         public override void Unload()
         {
-            Main.OnPostDraw -= new Action<GameTime>(Welcome);
             Main.OnPostDraw -= new Action<GameTime>(DrawCircle);
+            Main.OnPostDraw -= new Action<GameTime>(Welcome);
             Helper.EntroptPool = new int[0];
             TimeTravelingPotion = null;
         }
@@ -155,12 +157,11 @@ namespace Revolutions
         }
         private static void Welcome(object obj)
         {
-            if (RevolutionsPlayer.logoTimer >= 0 && Helper.CanShowExtraUI())
+            if (RevolutionsPlayer.logoTimer >= 0 && Helper.CanShowExtraUI() && !logo.IsDisposed)
             {
-                Texture2D Logo = Revolutions.mod.GetTexture("UI/Revolutions");
                 Main.spriteBatch.Begin();
                 float scale = 0.3f * (float)Math.Cos(0.0174533 * (90 - RevolutionsPlayer.logoTimer)) + 0.7f;
-                Main.spriteBatch.Draw(Logo, new Vector2(0.5f * Main.screenWidth - 0.25f * scale * Main.UIScale * Logo.Width, 135f + 45f * (float)Math.Cos(0.0174533 * (RevolutionsPlayer.logoTimer))), new Rectangle(0, 0, (int)(Logo.Width), Logo.Height), Color.White * (float)Math.Cos(0.0174533 * (90 - RevolutionsPlayer.logoTimer)), 0f, Vector2.Zero, 0.5f * Main.UIScale * scale, SpriteEffects.None, 0f);
+                Main.spriteBatch.Draw(logo, new Vector2(0.5f * Main.screenWidth - 0.25f * scale * Main.UIScale * logo.Width, 135f + 45f * (float)Math.Cos(0.0174533 * RevolutionsPlayer.logoTimer)), new Rectangle(0, 0, logo.Width, logo.Height), Color.White * (float)Math.Cos(0.0174533 * (90 - RevolutionsPlayer.logoTimer)), 0f, Vector2.Zero, 0.5f * Main.UIScale * scale, SpriteEffects.None, 0f);
                 Main.spriteBatch.End();
             }
         }

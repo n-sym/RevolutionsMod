@@ -56,13 +56,15 @@ namespace Revolutions
         public int hitcounter { get; set; } = 0;
         public int bossFightTimer { get; set; } = 0;
         public int hitBonuscounter { get; set; } = 0;
-        public static Color customSFC = Color.White;
+        public static Color customStarFlareColor = Color.White;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
         public static float drawcircler = 0;
-        public static float drawcircletype = 0;
+        public static int drawcircletype = 0;
+        public static float screenR = 0;
         public override void OnEnterWorld(Player player)
         {
+            screenR = new Vector2(Main.screenWidth, Main.screenHeight).Length() * Main.UIScale / 2;
             logoTimer += 90;
             for (int i = 0; i < 601; i++)
             {
@@ -84,7 +86,7 @@ namespace Revolutions
             TagCompound tag = new TagCompound();
             tag.Add("sf", starFlare[0]);
             tag.Add("sfmax", maxStarFlare);
-            tag.Add("sfcolor", customSFC);
+            tag.Add("sfcolor", customStarFlareColor);
             tag.Add("sfcolortype", starFlareColorType);
             return tag;
         }
@@ -94,7 +96,7 @@ namespace Revolutions
             {
                 starFlare[0] = tag.GetAsInt("sf");
                 maxStarFlare = tag.GetAsInt("sfmax");
-                customSFC = tag.Get<Color>("sfcolor");
+                customStarFlareColor = tag.Get<Color>("sfcolor");
                 starFlareColorType = tag.GetAsInt("sfcolortype");
                 //Helper.Array2Setting(tag.Get<bool[]>("setting"));
             }
@@ -143,7 +145,7 @@ namespace Revolutions
                 if (starFlare[0] + 1 > maxStarFlare) starFlare[0] = maxStarFlare;
                 else starFlare[0] += 1;
             }
-            if (timer == 60)
+            if (timer == 30 || timer == 60)
             {
                 if (hitcounter == 0 && nowBoss != null && difficulty < 100) difficulty++;
             }
@@ -159,7 +161,6 @@ namespace Revolutions
                         WorldGen.CloseDoor(door.X, door.Y);
                         justOpenDoors.RemoveAt(i);
                     }
-
                 }
                 if (Main.tile[Helper.ToTilesPos(player.Center).X + 1, Helper.ToTilesPos(player.Center).Y].type == TileID.ClosedDoor)
                 {
@@ -305,9 +306,9 @@ namespace Revolutions
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-            if (nowBoss != null && hitBonuscounter < 6 && bossFightTimer < 16970)
+            if (nowBoss != null && hitBonuscounter < 3 && bossFightTimer < 6000)
             {
-                bossFightTimer ++;
+                bossFightTimer++;
                 hitBonuscounter++;
             }
             Random rd = new Random();
@@ -346,7 +347,7 @@ namespace Revolutions
                 }
                 sLifeStealcounter++;
             }
-            else if (proj.type != mod.ProjectileType("JustDamage"))
+            else if (saviourStatus == -1 && proj.type != mod.ProjectileType("JustDamage"))
             {
                 if (justDmgcounter < 21)
                 {
@@ -372,9 +373,9 @@ namespace Revolutions
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-            if (nowBoss != null && hitBonuscounter < 6 && bossFightTimer < 16970)
+            if (nowBoss != null && hitBonuscounter < 3 && bossFightTimer < 600)
             {
-                bossFightTimer ++;
+                bossFightTimer++;
                 hitBonuscounter++;
             }
             Random rd = new Random();
@@ -388,7 +389,7 @@ namespace Revolutions
                 if (a == 5) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.NewHistory03"), 180, player);
             }
             if (a == 8) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
-            if (saviourStatus == 1 && target.type != NPCID.TargetDummy && saviourStatus == 1)
+            if (sLifeStealcounter < 21 && saviourStatus == 1 && target.type != NPCID.TargetDummy)
             {
                 if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>())
                 {
@@ -396,15 +397,12 @@ namespace Revolutions
                 }
                 sLifeStealcounter++;
             }
-            else
+            else if (saviourStatus == -1 && justDmgcounter < 21)
             {
-                if (justDmgcounter < 21)
+                if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>())
                 {
-                    if (player.armor[0].type == ItemType<SaviourMelee>() && player.armor[1].type == ItemType<SaviourBreastplate>() && player.armor[2].type == ItemType<SaviourLeggings>())
-                    {
-                        Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("JustDamage"), (int)((target.lifeMax - target.life) * 0.0025f), 0, player.whoAmI); ;
-                        justDmgcounter++;
-                    }
+                    Projectile.NewProjectile(target.Center, Vector2.Zero, mod.ProjectileType("JustDamage"), (int)((target.lifeMax - target.life) * 0.0025f), 0, player.whoAmI); ;
+                    justDmgcounter++;
                 }
             }
         }
@@ -468,11 +466,11 @@ namespace Revolutions
         }
         public override void ModifyHitNPC(Item item, NPC target, ref int damage, ref float knockback, ref bool crit)
         {
-            if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 144000000f) + 1f));
+            if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 36000000f) + 1f));
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 144000000f) + 1f));
+            if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 36000000f) + 1f));
         }
     }
 }

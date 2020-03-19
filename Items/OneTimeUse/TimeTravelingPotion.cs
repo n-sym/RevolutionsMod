@@ -43,6 +43,10 @@ namespace Revolutions.Items.OneTimeUse
                     d.velocity *= 2;
                 }
                 player.Teleport(player.GetModPlayer<RevolutionsPlayer>().pastPosition[120], 3);
+                foreach(Projectile projectile in Main.projectile)
+                {
+                    if (Vector2.Distance(projectile.Center, player.GetModPlayer<RevolutionsPlayer>().pastCenter[120]) < 300f) projectile.Kill();
+                }
                 Main.PlaySound(SoundID.Item6, player.position);
                 for (int i = 0; i < 71; i++)
                 {

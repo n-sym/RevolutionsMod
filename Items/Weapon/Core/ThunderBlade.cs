@@ -15,9 +15,9 @@ namespace Revolutions.Items.Weapon.Core
         {
             item.damage = 145;
             item.melee = true;
-            item.width = 40;
+            item.width = 32;
             item.crit = 14;
-            item.height = 20;
+            item.height = 33;
             item.useTime = 9;
             item.useAnimation = 8;
             item.useStyle = 1;
@@ -35,7 +35,7 @@ namespace Revolutions.Items.Weapon.Core
             if (player.ownedProjectileCounts[ModContent.ProjectileType<Projectiles.CoreWeapon.Thunder>()] < 51 && l)
             {
                 NPC t = null;
-                float distance = new Vector2(Main.screenWidth, Main.screenHeight).Length() * Main.UIScale;
+                float distance = RevolutionsPlayer.screenR;
                 if (target.life < damage || target.type == NPCID.TargetDummy || target.SpawnedFromStatue)
                 {
                     foreach (NPC npc in Main.npc)

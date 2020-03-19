@@ -267,7 +267,7 @@ namespace Revolutions.Utils
             switch (a)
             {
                 case -1:
-                    return RevolutionsPlayer.customSFC;
+                    return RevolutionsPlayer.customStarFlareColor;
                 case 0:
                     return new Color(246, 247, 150);
                 case 1:
