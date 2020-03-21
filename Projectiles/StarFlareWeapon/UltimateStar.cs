@@ -71,6 +71,7 @@ namespace Revolutions.Projectiles.StarFlareWeapon
                     Color color = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().starFlareColor;
                     color = new Color(color.R, color.G, color.B, (int)(255 * sizeFix));
                     spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], drawPosition, null, color, projectile.rotation, drawOrigin, projectile.scale * 0.25f, SpriteEffects.None, 0f);
+                    Lighting.AddLight(drawPosition, color.R / 245, color.G / 245, color.B / 245);
                 }
             }
             return true;

@@ -1,7 +1,10 @@
 using Microsoft.Xna.Framework;
+using Revolutions.Projectiles.StarFlareWeapon;
+using Revolutions.Utils;
 using System;
 using Terraria;
 using Terraria.ID;
+using Terraria.ModLoader;
 
 namespace Revolutions.Items.Weapon.StarFlare
 {
@@ -19,10 +22,11 @@ namespace Revolutions.Items.Weapon.StarFlare
             item.ranged = true;
             item.width = 40;
             item.height = 20;
-            item.useTime = 6;
-            item.useAnimation = 6;
+            item.useTime = 1;
+            item.useAnimation = 1;
             item.useStyle = 5;
             item.noMelee = true;
+            item.noUseGraphic = true;
             item.knockBack = 8;
             item.value = Item.sellPrice(0, 8, 0, 0);
             item.rare = 12;
@@ -30,7 +34,7 @@ namespace Revolutions.Items.Weapon.StarFlare
             item.autoReuse = true;
             item.shoot = 10;
             item.shootSpeed = 40f;
-            sfCosume = 2;
+            //sfCosume = 2;
         }
         public override Vector2? HoldoutOffset()
         {
@@ -42,11 +46,15 @@ namespace Revolutions.Items.Weapon.StarFlare
         float sfix;
         public override bool Shoot(Player player, ref Vector2 position, ref float speedX, ref float speedY, ref int type, ref int damage, ref float knockBack)
         {
+            for (int i = 0; i < 3; i++)
+            {
+                Projectile.NewProjectile(position + new Vector2(200, 0).RotatedByRandom(6.283), Vector2.Zero, ModContent.ProjectileType<USFx>(), 0, 0, player.whoAmI, (float)shoottime / 200 * 5 + 3);
+            }
             if (timer == 0)
             {
                 shoottime = 0;
             }
-            if (shoottime < 501)
+            if (shoottime < 201)
             {
                 shoottime++;
             }
@@ -70,21 +78,33 @@ namespace Revolutions.Items.Weapon.StarFlare
             {
                 sfix = 1 + shoottime / 250;
             }
-            Vector2 perturbedSpeed = new Vector2(speedX, speedY).RotatedByRandom(MathHelper.ToRadians(likechain));
-            speedX = perturbedSpeed.X / sfix;
-            speedY = perturbedSpeed.Y / sfix;
-            Projectile.NewProjectile(position.X, position.Y, speedX, speedY, mod.ProjectileType("UltimateStar"), damage, knockBack, player.whoAmI);
-            player.itemRotation = (float)Math.Atan(speedY / speedX);
             timer = 60;
 
             return false;
         }
+        int timer2 = 0;
         public override void HoldItem(Player player)
         {
             if (timer > 0)
             {
                 timer--;
             }
+            Dust dust = Dust.NewDustPerfect(player.Center + player.direction * new Vector2(player.HeldItem.width, player.HeldItem.height).RotatedBy(player.itemRotation) + player.velocity, ModContent.DustType<Dusts.hyperbola4>(), null, 0, default, 0.25f + (float)shoottime / 500);
+            dust.scale = 0.25f + (float)(shoottime) / 500;
+            dust.alpha = 255 - (int)(0.25f + (float)(shoottime) * 255);
+            dust.position.Y -= 89f * dust.scale;
+            if (timer2 > 0)
+            {
+                timer2--;
+            }
+            /*if (timer2 == 0)
+            {
+                for(int i = 0; i < 21; i++)
+                {
+                    Projectile.NewProjectile(player.Center + new Vector2(200, 0).RotatedBy(6.283 / 20 * i), Vector2.Zero, ModContent.ProjectileType<USFx>(), 0, 0, player.whoAmI, (float)shoottime / 500 * 4 + 8);
+                }
+                timer2 += 20 - (shoottime / 500 * 10);
+            }*/
         }
     }
 }

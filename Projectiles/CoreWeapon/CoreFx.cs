@@ -6,7 +6,7 @@ using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
 
-namespace Revolutions.Projectiles
+namespace Revolutions.Projectiles.CoreWeapon
 {
     public class CoreFx : ModProjectile
     {

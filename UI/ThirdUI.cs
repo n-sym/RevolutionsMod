@@ -121,45 +121,48 @@ namespace Revolutions.UI
         }
         public void Click(UIMouseEvent evt, UIElement listeningElement)
         {
-            Main.soundInstanceMenuTick.Play();
-            switch (listeningElement.Top.GetValue(0f))
+            if (!Main.ingameOptionsWindow)
             {
-                case 80:
-                    Revolutions.Settings.blur = !Revolutions.Settings.blur;
-                    break;
-                case 120:
-                    Revolutions.Settings.autodoor = !Revolutions.Settings.autodoor;
-                    break;
-                case 160:
-                    Revolutions.Settings.mutter = !Revolutions.Settings.mutter;
-                    break;
-                case 200:
-                    Revolutions.Settings.autoreuse = !Revolutions.Settings.autoreuse;
-                    break;
-                case 240:
-                    Revolutions.Settings.hthbar = !Revolutions.Settings.hthbar;
-                    break;
-                case 280:
-                    Revolutions.Settings.rangeIndex++;
-                    if (Revolutions.Settings.rangeIndex == 3) Revolutions.Settings.rangeIndex = 0;
-                    break;
-                case 320:
-                    Revolutions.Settings.extraAI = !Revolutions.Settings.extraAI;
-                    break;
-                case 360:
-                    Revolutions.Settings.spcolor = !Revolutions.Settings.spcolor;
-                    break;
-                case 440:
-                    Main.InGameUI = new UserInterface();
-                    Main.inFancyUI = false;
-                    Main.playerInventory = true;
-                    Main.soundMenuClose.Play();
-                    break;
+                Main.soundInstanceMenuTick.Play();
+                switch (listeningElement.Top.GetValue(0f))
+                {
+                    case 80:
+                        Revolutions.Settings.blur = !Revolutions.Settings.blur;
+                        break;
+                    case 120:
+                        Revolutions.Settings.autodoor = !Revolutions.Settings.autodoor;
+                        break;
+                    case 160:
+                        Revolutions.Settings.mutter = !Revolutions.Settings.mutter;
+                        break;
+                    case 200:
+                        Revolutions.Settings.autoreuse = !Revolutions.Settings.autoreuse;
+                        break;
+                    case 240:
+                        Revolutions.Settings.hthbar = !Revolutions.Settings.hthbar;
+                        break;
+                    case 280:
+                        Revolutions.Settings.rangeIndex++;
+                        if (Revolutions.Settings.rangeIndex == 3) Revolutions.Settings.rangeIndex = 0;
+                        break;
+                    case 320:
+                        Revolutions.Settings.extraAI = !Revolutions.Settings.extraAI;
+                        break;
+                    case 360:
+                        Revolutions.Settings.spcolor = !Revolutions.Settings.spcolor;
+                        break;
+                    case 440:
+                        Main.InGameUI = new UserInterface();
+                        Main.inFancyUI = false;
+                        Main.playerInventory = true;
+                        Main.soundMenuClose.Play();
+                        break;
+                }
             }
         }
         public void Hover(UIMouseEvent evt, UIElement listeningElement)
         {
-            Main.soundInstanceMenuTick.Play();
+            if (!Main.ingameOptionsWindow) Main.soundInstanceMenuTick.Play();
         }
     }
 }

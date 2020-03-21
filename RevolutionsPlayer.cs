@@ -46,10 +46,12 @@ namespace Revolutions
         public int sLifeStealcounter { get; set; } = 0;
         public int talkActive { get; set; } = 0;
         public string nowSaying { get; set; } = "";
-        public NPC nowBoss { get; set; } = null;
-        public int nowBossLife { get; set; } = 0;
-        public int nowBossLifeTrue { get; set; } = 0;
-        public int nowBossLifeMax { get; set; } = 0;
+        public static NPC nowBoss = null;
+        public static int nowBossLife = 0;
+        public static int nowBossLifeTrue = 0;
+        public static int nowBossLifeMax = 0;
+        public static bool lastHthBarStatus = false;
+        public static int HthBarTimer = 0;
         public string spname { get; set; } = "none";
         public bool lightning { get; set; } = false;
         public bool lightningproj { get; set; } = false;

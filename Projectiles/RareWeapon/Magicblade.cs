@@ -89,6 +89,13 @@ namespace Revolutions.Projectiles.RareWeapon
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
             projectile.damage /= 2;
+            for(int theta = 0; theta < 16; theta++)
+            {
+                Vector2 targetpos = projectile.Center + Curve.GetEllipse(theta * 0.3927f, 5f, 5f, 0f);
+                Dust dust = Dust.NewDustDirect(targetpos, 0, 0, MyDustId.PurpleHighFx, 0f, 0f, 100, Color.Purple, 1f);
+                dust.velocity = (projectile.Center - targetpos) / 2;
+                dust.noGravity = true;
+            }
         }
         public override void Kill(int timeLeft)
         {

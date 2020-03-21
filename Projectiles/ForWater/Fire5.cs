@@ -96,7 +96,7 @@ namespace Revolutions.Projectiles.ForWater
         {
             int a = target.lifeMax;
             if (!hited.Contains(target)) hited.Add(target);
-            if (Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().nowBoss != null && target.boss) a = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>().nowBossLifeMax;
+            if (RevolutionsPlayer.nowBoss != null && target.boss) a = RevolutionsPlayer.nowBossLifeMax;
             if (a / 12000 > 5 && a / 12000 < 20 && target.type != NPCID.TargetDummy)
             {
                 Projectile.NewProjectile(target.Center, Vector2.Zero, ModContent.ProjectileType<JustDamageRanged>(), a / 10000, 0, projectile.owner);

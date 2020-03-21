@@ -112,7 +112,7 @@ namespace Revolutions
                 Projectile.NewProjectile(npc.Center + new Vector2(0, -20).RotatedBy(npc.rotation), Helper.ToUnitVector(Main.player[npc.target].Center + Main.player[npc.target].velocity * 30 - npc.Center) * 10, ModContent.ProjectileType<Projectiles.OriBoss.WaterArrow>(), npc.damage / 4, 6);
             }
             if ((npc.velocity - target.velocity).ToRotation() < 0) npc.velocity = Helper.GetCloser(npc.velocity, target.velocity + npc.velocity, 1, 40);
-            if (npc.ai[0] == 6) npc.velocity = Helper.GetCloser(Helper.ToUnitVector(npc.velocity), Helper.ToUnitVector(target.Center - npc.Center), revtar.difficulty / 23, 20) * npc.velocity.Length();
+            if (npc.ai[0] == 6) npc.velocity = Helper.GetCloser(Helper.ToUnitVector(npc.velocity), Helper.ToUnitVector(target.Center - npc.Center), revtar.difficulty / 30, 20) * npc.velocity.Length();
         }
         public static void DukeFishronDraw(NPC npc, SpriteBatch spriteBatch)
         {

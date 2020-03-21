@@ -50,7 +50,6 @@ namespace Revolutions.NPCs
                     case NPCID.Guide:
                         if (myTalkCD[npc.whoAmI] == 0 && myDistance < 300f && npc.ai[0] != 4)
                         {
-                            
                             if (Main.rand.Next(1, 100) == 1 && Main.dayTime && !NPC.AnyDanger())
                             {
                                 new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide1" + Main.rand.Next(1, 3).ToString()), 180, null);
@@ -184,14 +183,8 @@ namespace Revolutions.NPCs
             if (npc.dontTakeDamage) return false;
             return base.CanBeHitByItem(npc, player, item);
         }
-        public override void ModifyHitPlayer(NPC npc, Player target, ref int damage, ref bool crit)
-        {
-            RevolutionsPlayer revply = target.GetModPlayer<RevolutionsPlayer>();
-            
-        }
         public override void ModifyHitByProjectile(NPC npc, Projectile projectile, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            RevolutionsPlayer revply = Main.player[projectile.owner].GetModPlayer<RevolutionsPlayer>();
             switch (npc.type)
             {
                 case NPCID.DukeFishron:
