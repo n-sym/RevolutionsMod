@@ -37,8 +37,7 @@ namespace Revolutions.Items.Armor
         public override void UpdateArmorSet(Player player)
         {
             player.GetModPlayer<RevolutionsPlayer>().saviourexist = true;
-            player.setBonus = Language.GetTextValue("Saviour",
-                    (object)Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN"));
+            player.setBonus = Language.GetTextValue("Mods.Revolutions.SaviourBonus") + "\n" + Language.GetTextValue(Main.ReversedUpDownArmorSetBonuses ? "Key.UP" : "Key.DOWN");
         }
 
 

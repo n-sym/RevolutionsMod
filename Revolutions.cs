@@ -45,7 +45,6 @@ namespace Revolutions
             mod = this;
             logo = mod.GetTexture("UI/Revolutions");
             TimeTravelingPotion = RegisterHotKey("Time Traveling Potion", "Q");
-            //Helper.EntroptPool = new int[65537];
             Helper.EntroptPool = new int[10001];
             for (int i = 0; i < 10000; i++)
             {

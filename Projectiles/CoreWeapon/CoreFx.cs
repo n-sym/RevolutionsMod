@@ -13,7 +13,7 @@ namespace Revolutions.Projectiles.CoreWeapon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("FX");
-            ProjectileID.Sets.TrailCacheLength[projectile.type] = 5;
+            ProjectileID.Sets.TrailCacheLength[projectile.type] = 7;
             ProjectileID.Sets.TrailingMode[projectile.type] = 0;
         }
         public override void SetDefaults()
@@ -30,7 +30,7 @@ namespace Revolutions.Projectiles.CoreWeapon
         public override void AI()
         {
             Player player = Main.player[projectile.owner];
-            projectile.position = Helper.GetCloser(projectile.position, player.itemLocation + 0.5f * new Vector2(player.direction * player.itemWidth, player.itemHeight), 16 - projectile.timeLeft, 40) + player.velocity;
+            projectile.position = Helper.GetCloser(projectile.position, player.Center + 0.5f * player.direction * new Vector2(player.HeldItem.width,  0).RotatedBy(player.itemRotation), 16 - projectile.timeLeft, 40) + player.velocity;
 
         }
         public override void PostDraw(SpriteBatch spriteBatch, Color lightColor)
@@ -45,8 +45,16 @@ namespace Revolutions.Projectiles.CoreWeapon
                 if (projectile.oldPos[k + 1] == Vector2.Zero) drawPositionb += 0.45f * projectile.oldPos[k];
                 else if (drawPositionb == Vector2.Zero) drawPositionb = drawPositiona;
                 float sizeFix = k + 1;
-                sizeFix /= projectile.oldPos.Length;
-                sizeFix = 1 - sizeFix;
+                if (k < projectile.oldPos.Length / 2)
+                {
+                    sizeFix /= 0.5f * projectile.oldPos.Length;
+                }
+                else
+                {
+                    sizeFix -= projectile.oldPos.Length / 2;
+                    sizeFix /= 0.5f * projectile.oldPos.Length;
+                    sizeFix = 1 - sizeFix;
+                }
                 Random rd = new Random();
                 int a = rd.Next(0, 20);
                 int b = rd.Next(1, 2);
@@ -55,7 +63,7 @@ namespace Revolutions.Projectiles.CoreWeapon
                 for (int i = 0; i < 9; i++)
                 {
                     spriteBatch.Draw(Main.projectileTexture[ModContent.ProjectileType<RareWeapon.MeteowerHelper>()], Helper.GetCloser(drawPositiona, drawPositionb, i, 8), null,
-                    color, projectile.rotation, drawOrigin, projectile.scale * 0.17f, SpriteEffects.None, 0f);
+                    color, projectile.rotation, drawOrigin, 0.2f * sizeFix, SpriteEffects.None, 0f);
                 }
             }
         }

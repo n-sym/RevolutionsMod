@@ -5,6 +5,7 @@ using Revolutions.Items.Armor;
 using Revolutions.Utils;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -327,6 +328,7 @@ namespace Revolutions
             if (a == 7) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack05"), 180, player);
             if (a == 8 && proj.melee) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
             if (a == 6 && proj.minion) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack06"), 180, player);
+            if (proj.type == ProjectileID.FallingStar && nowBoss != null && nowBoss.type == NPCID.SkeletronHead && a == 1 && timer % 2 == 0) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.StarCannonSP"), 180, player);
             float lsfix = 1f;
             if (target.type == NPCID.TargetDummy) lsfix = 1 / damage;
             if (sLifeStealcounter < 21 && saviourStatus == 1)
