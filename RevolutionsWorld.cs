@@ -17,8 +17,8 @@ namespace Revolutions
         int AlphaCD = 0;
         public override void PreUpdate()
         {
-            AlphaCD--;
-            if (Main.time < 5 && Main.rand.Next(3) == 0 && AlphaCD == 0)
+            if(AlphaCD > 0)AlphaCD--;
+            if (Main.time < 5 && Main.rand.Next(8) == 0 && AlphaCD == 0)
             {
                 AlphaCD = 3600;
                 Point target = FindHome().Value;
@@ -37,6 +37,7 @@ namespace Revolutions
                 Helper.PrintColor("新的奖励箱已生成！", 255, 255, 0);
             }
         }
+
 
         public static void SpawnChest(Point pos, Point[] items, string name = "", int type = 21)
         {
@@ -261,7 +262,7 @@ namespace Revolutions
         }
         public static Point? FindHome()
         {
-            return new Point(Main.maxTilesX / 2 + Main.rand.Next(-200, 200), Main.spawnTileY + Main.rand.Next(50, 500));
+            return new Point(Main.spawnTileX + Main.rand.Next(-200, 200), Main.spawnTileY + Main.rand.Next(50, 500));
         }
     }
 }
