@@ -21,7 +21,7 @@ namespace Revolutions.Items.Weapon.Water
             item.shoot = ModContent.ProjectileType<Projectiles.ForWater.Fire1>();
             item.useAmmo = AmmoID.Gel;
             item.UseSound = SoundID.Item34;
-            item.damage = 33;
+            item.damage = 35;
             item.knockBack = 0.6f;
             item.shootSpeed = 10f;
             item.noMelee = true;
@@ -38,6 +38,15 @@ namespace Revolutions.Items.Weapon.Water
         {
             if (RevolutionsPlayer.timer % 6 == 0) return true;
             return false;
+        }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Flamethrower, 1);
+            recipe.AddIngredient(ItemID.FrostCore, 1);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
         }
     }
 }

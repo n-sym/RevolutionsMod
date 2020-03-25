@@ -34,5 +34,14 @@ namespace Revolutions.Items.Weapon.Water
             if (RevolutionsPlayer.timer % 6 == 0) return true;
             return false;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.Flamethrower, 1);
+            recipe.AddIngredient(ItemID.Ichor, 20);
+            recipe.AddTile(TileID.MythrilAnvil);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

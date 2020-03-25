@@ -14,7 +14,7 @@ namespace Revolutions.NPCs
                 case ProjectileID.PulseBolt:
                     projectile.penetrate = 30;
                     projectile.usesLocalNPCImmunity = true;
-                    projectile.localNPCHitCooldown = 1;
+                    projectile.localNPCHitCooldown = -1;
                     projectile.timeLeft = 450;
                     break;
                 case ProjectileID.TerraBeam:
@@ -37,6 +37,7 @@ namespace Revolutions.NPCs
             {
                 case ProjectileID.PulseBolt:
                     Main.player[projectile.owner].ApplyDamageToNPC(target, damage, 0, 0, crit);
+                    Main.player[projectile.owner].dpsDamage += damage;
                     break;
                 case ProjectileID.TerraBeam:
                     projectile.damage /= 10;

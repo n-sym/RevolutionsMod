@@ -401,5 +401,15 @@ namespace Revolutions.Utils
             streamWriter.Close();
             streamWriter.Dispose();
         }
+        public static bool InTheRange(Vector2 current, Vector2 range, Vector2 target)
+        {
+            if (range.X < 0) return false;
+            if (range.Y < 0) return false;
+            if (current.X > target.X) return false;
+            if (current.X + range.X < target.X) return false;
+            if (current.Y > target.Y) return false;
+            if (current.Y + range.Y < target.Y) return false;
+            return true;
+        }
     }
 }

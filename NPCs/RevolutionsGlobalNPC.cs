@@ -61,10 +61,10 @@ namespace Revolutions.NPCs
                                 else new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide3" + Main.rand.Next(1, 3).ToString()), 180, null);
                                 myTalkCD[npc.whoAmI] = 600;
                             }
-                            if(!Main.dayTime && NPC.AnyDanger() && Main.rand.Next(8) == 7)
+                            if(!Main.dayTime && NPC.AnyDanger() && Main.rand.Next(1, 50) == 1)
                             {
                                 new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide61"), 180, null);
-                                myTalkCD[npc.whoAmI] = 600;
+                                myTalkCD[npc.whoAmI] = 300;
                             }
                         }
                         else if (myTalkCD[npc.whoAmI] == 0 && myDistance > Vector2.Distance(npc.Center, revlocal.pastCenter[10]) && myDistance < RevolutionsPlayer.screenR / 2 && npc.ai[0] != 4)
@@ -99,11 +99,6 @@ namespace Revolutions.NPCs
                 {
                     case NPCID.Guide:
                         projType = ProjectileID.HolyArrow;
-                        if (myTalkCD[npc.whoAmI] == 0)
-                        {
-                            new Talk(npc.whoAmI, Language.GetTextValue("Mods.Revolutions.Talk.Guide5" + Main.rand.Next(1, 3).ToString()), 180, null);
-                            myTalkCD[npc.whoAmI] = 200;
-                        }
                         break;
                     case NPCID.ArmsDealer:
                         projType = ProjectileID.BulletHighVelocity;

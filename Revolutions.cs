@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Revolutions.NPCs;
 using Revolutions.UI;
 using Revolutions.Utils;
@@ -24,6 +25,7 @@ namespace Revolutions
         public UserInterface AlphaUI;
         public UserInterface BetaUI;
         static SecondUI secondUI = new SecondUI();
+        static PowerUIElement AlphaPE;
         static Texture2D logo = null;
 
         public static class Settings
@@ -71,7 +73,10 @@ namespace Revolutions
                 firstUI.Activate();
                 AlphaUI = new UserInterface();
                 AlphaUI.SetState(firstUI);
-
+                AlphaPE = new PowerUIElement();
+                AlphaPE.MyTexture = logo;
+                AlphaPE.MyPosition = new Vector2(200, 200);
+                AlphaPE.MouseClickMe += DoSth;
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);
@@ -83,9 +88,21 @@ namespace Revolutions
             Helper.EntroptPool = new int[0];
             TimeTravelingPotion = null;
         }
-        int a = 0;
+        bool test = false;
+        int timer2 = 0;
         public override void PostDrawInterface(SpriteBatch spriteBatch)
         {
+            if (test)
+            {
+                AlphaPE.Active();
+                AlphaPE.Draw(spriteBatch);
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.P) && timer2 == 0)
+            {
+                test = !test;
+                timer2 += 10;
+            }
+            timer2 -= timer2 > 0 ? 1 : 0;
             if (Settings.blur && Main.gamePaused && !Filters.Scene["Blur"].IsActive()) Filters.Scene.Activate("Blur", Vector2.Zero);
             if (Filters.Scene["Blur"].IsActive() && !Main.gamePaused) Filters.Scene["Blur"].Deactivate();
             if (!Filters.Scene["Filter"].IsActive() && Settings.dist) Filters.Scene.Activate("Filter", Vector2.Zero).GetShader().UseColor(1f, 1f, 1f);
@@ -99,6 +116,10 @@ namespace Revolutions
                 secondUI = new SecondUI();
                 secondUI.Draw(spriteBatch);
             }
+        }
+        public void DoSth()
+        {
+            Helper.Print("Click!");
         }
         public override void UpdateUI(GameTime gameTime)
         {

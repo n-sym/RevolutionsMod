@@ -35,5 +35,13 @@ namespace Revolutions.Items.Weapon.Water
             if (RevolutionsPlayer.timer % 6 == 0 && Main.rand.Next(0, 101) > 66) return true;
             return false;
         }
+        public override void AddRecipes()
+        {
+            ModRecipe recipe = new ModRecipe(mod);
+            recipe.AddIngredient(ItemID.FragmentVortex, 18);
+            recipe.AddTile(TileID.LunarCraftingStation);
+            recipe.SetResult(this);
+            recipe.AddRecipe();
+        }
     }
 }

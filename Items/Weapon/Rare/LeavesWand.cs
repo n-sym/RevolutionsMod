@@ -56,8 +56,8 @@ namespace Revolutions.Items.Weapon.Rare
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wood, 15);
-            recipe.AddIngredient(ItemID.SoulofLight, 3);
-            recipe.AddIngredient(ItemID.SoulofNight, 3);
+            recipe.AddIngredient(ItemID.SoulofLight, 10);
+            recipe.AddIngredient(ItemID.SoulofNight, 10);
             recipe.AddIngredient(ModContent.ItemType<Treestickblueprint>(), 1);
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
