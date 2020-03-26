@@ -29,12 +29,11 @@ namespace Revolutions.Items.OneTimeUse
         int timer = 0;
         public override bool CanUseItem(Player player)
         {
-            if (timer != 0) return false;
-            return true;
+            return timer == 0;
         }
         public override bool UseItem(Player player)
         {
-            if (timer == 0)
+            if (timer == 0 && player.HasItem(item.type))
             {
                 for (int i = 0; i < 71; i++)
                 {

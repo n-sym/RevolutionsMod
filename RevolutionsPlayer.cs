@@ -197,6 +197,8 @@ namespace Revolutions
         int cd;
         public override void SetControls()
         {
+            Vector2 r = new Vector2(1, 0);
+            r.RotatedBy(0f);
             if (Keyboard.GetState().IsKeyDown(Keys.A))
                 aPTimer++;
             else

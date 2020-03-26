@@ -25,7 +25,8 @@ namespace Revolutions
         public UserInterface AlphaUI;
         public UserInterface BetaUI;
         static SecondUI secondUI = new SecondUI();
-        static PowerUIElement AlphaPE;
+        static PowerUIPanel AlphaPE;
+        static PowerUITextButton BetaPE;
         static Texture2D logo = null;
 
         public static class Settings
@@ -73,10 +74,20 @@ namespace Revolutions
                 firstUI.Activate();
                 AlphaUI = new UserInterface();
                 AlphaUI.SetState(firstUI);
-                AlphaPE = new PowerUIElement();
-                AlphaPE.MyTexture = logo;
-                AlphaPE.MyPosition = new Vector2(200, 200);
-                AlphaPE.MouseClickMe += DoSth;
+                AlphaPE = new PowerUIPanel();
+                AlphaPE.MySize = new Vector2(500, 500);
+                AlphaPE.UseMouseFix = false;
+                AlphaPE.MyMainColor = new Color(63, 82, 151) * 0.7f;
+                AlphaPE.MyRelativePos = new Vector2(200, 200);
+                AlphaPE.MouseClickMe += DoSth2;
+                AlphaPE.MyCenterType = CenterType.MiddleCenter;
+                BetaPE = new PowerUITextButton();
+                BetaPE.MyText = "Revolutions";
+                BetaPE.MouseClickMe += DoSth;
+                BetaPE.MyScale = 0.5f; 
+                BetaPE.MyRelativePos = new Vector2(250, 100);
+                BetaPE.MyCenterType = CenterType.MiddleCenter;
+                AlphaPE.Append(BetaPE);
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);
@@ -120,6 +131,10 @@ namespace Revolutions
         public void DoSth()
         {
             Helper.Print("Click!");
+        }
+        public void DoSth2()
+        {
+            AlphaPE.MyRelativePos = Main.MouseScreen;
         }
         public override void UpdateUI(GameTime gameTime)
         {

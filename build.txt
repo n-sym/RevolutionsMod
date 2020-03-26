@@ -6,4 +6,4 @@ hideCode = false
 includeSource = true
 includePDB = true
 homepage = none
-buildIgnore = *.csproj, *.sln, obj\*, bin\*, *.suo, *.user, .git\*, .vs\*, Libraries\*
+buildIgnore = *.sln, obj\*, bin\*, *.suo, *.user, .git\*, .vs\*

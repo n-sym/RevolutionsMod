@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using System;
 using System.IO;
@@ -344,6 +345,14 @@ namespace Revolutions.Utils
         public static float GetStringLength(DynamicSpriteFont font, string text, float scale)
         {
             return font.MeasureString(text).X * scale;
+        }
+        public static float GetStringHeight(DynamicSpriteFont font, string text, float scale)
+        {
+            return font.MeasureString(text).Y * scale;
+        }
+        public static Vector2 GetStringSize(DynamicSpriteFont font, string text, float scale)
+        {
+            return font.MeasureString(text) * scale;
         }
         public static bool CanShowExtraUI()
         {

@@ -21,8 +21,6 @@ namespace Revolutions.UI
         UIText RangeIndexSet;
         UIText SpColorSet;
         UIText ExtraAISet;
-        UITextBox HthBarPosX;
-        UITextBox HthBarPosY;
         UIText Exit;
         bool MyStatus = false;
         int MyOffset = 0;
@@ -89,9 +87,6 @@ namespace Revolutions.UI
             ExtraAISet.OnClick += Click;
             ExtraAISet.OnMouseOver += Hover;
             UIPanel1.Append(ExtraAISet);
-            /*HthBarPosX = new UITextBox("血条横向偏移");
-            HthBarPosX.Top.Set(280, 0f);
-            HthBarPosX.Left.Set(300 - 0.5f * Helper.GetStringLength(Main.fontDeathText, ExtraAISet.Text, 0.4f), 0f);*/
             Exit = new UIText(Language.GetTextValue("LegacyMenu.118"), 0.4f, true);
             Exit.Top.Set(440, 0f);
             Exit.Left.Set(300 - 0.5f * Helper.GetStringLength(Main.fontDeathText, Exit.Text, 0.4f), 0f);
