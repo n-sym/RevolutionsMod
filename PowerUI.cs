@@ -9,23 +9,6 @@ using Terraria;
 
 namespace Revolutions
 {
-    public class PlayerWithNum
-    {
-        public Player player;
-        public float num;
-    }
-    public class StringTimerInt
-    {
-        public string text = "";
-        public int number = 0;
-        public int timer = 0;
-        public StringTimerInt(string talk, int num, int time)
-        {
-            text = talk;
-            number = num;
-            timer = time;
-        }
-    }
     internal class PowerUIElement
     {
         public PowerUIElement parent;
@@ -36,12 +19,34 @@ namespace Revolutions
         public Action MouseNotUponMe;
         public Action MouseClickMe;
         public Texture2D MyTexture;
+        /// <summary>
+        /// 自定义UI的中心对齐方式，使用CenterType类
+        /// </summary>
         public Point MyCenterType;
+        /// <summary>
+        /// 自定义UI的ID，默认-1
+        /// </summary>
         public int MyID;
+        /// <summary>
+        /// 自定义UI信息
+        /// </summary>
+        public object MyCunstomData;
+        /// <summary>
+        /// 是否在鼠标松开前不重复执行Click事件
+        /// </summary>
         public bool UseMouseFix;
         public bool IsMouseUpon;
+        /// <summary>
+        /// 鼠标是否在UI之上且不在子UI之上
+        /// </summary>
         public bool IsFocusOn;
+        /// <summary>
+        /// 不需要修改这个参数，用时获取
+        /// </summary>
         public Vector2 MyPosition;
+        /// <summary>
+        ///  不需要修改这个参数，它是中心对齐时的偏移量
+        /// </summary>
         public Vector2 MyCenterFix;
         bool MouseDown;
         bool LastMouseStatus;
@@ -52,11 +57,16 @@ namespace Revolutions
             MyPosition = Vector2.Zero;
             MySize = Vector2.Zero;
             MyTexture = null;
+            MyID = -1;
+            MyCunstomData = null;
             MyCenterType = CenterType.TopLeft;
             MouseClickMe += Upon;
             MouseUponMe += Upon;
             MouseNotUponMe += NotUpon;
         }
+        /// <summary>
+        /// 在Draw之前手动调用，更新UI的信息
+        /// </summary>
         public void Active()
         {
             MyPosition = parent == null ? MyRelativePos : MyRelativePos + parent.MyPosition - parent.MyCenterFix;
@@ -78,25 +88,49 @@ namespace Revolutions
             CustomActive();
             ActiveChildren();
         }
-        public void Upon() { IsMouseUpon = true; Main.LocalPlayer.delayUseItem = true; }
-        public void NotUpon() { IsMouseUpon = false; }
+        private void Upon() { IsMouseUpon = true; Main.LocalPlayer.delayUseItem = true; }
+        private void NotUpon() { IsMouseUpon = false; }
+        /// <summary>
+        /// 在Active之后自动调用，用于自定义信息
+        /// </summary>
         public virtual void CustomActive() { }
+        /// <summary>
+        /// 附加子UI
+        /// </summary>
         public void Append(PowerUIElement child)
         {
             child.parent = this;
             children.Add(child);
         }
+        /// <summary>
+        /// 移除子UI，如果子UI不存在返回false
+        /// </summary>
+        public bool Subtract(PowerUIElement child)
+        {
+            if (children.Contains(child))
+            {
+                child.parent = null;
+                return children.Remove(child);
+            }
+            return false;
+        }
+        /// <summary>
+        /// 在Active之后手动调用，默认绘制UI的贴图，可以修改
+        /// </summary>
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (MyTexture != null)
             {
-                Vector2 CenterFix = MySize * Main.UIScale;
+                Vector2 CenterFix = MySize;
                 CenterFix.X *= MyCenterType.X == 1 ? 0 : (MyCenterType.X == 2 ? 0.5f : 1);
                 CenterFix.Y *= MyCenterType.Y == 1 ? 0 : (MyCenterType.Y == 2 ? 0.5f : 1);
                 spriteBatch.Draw(MyTexture, MyPosition - CenterFix, Color.White);
             }
             DrawChildren(spriteBatch);
         }
+        /// <summary>
+        /// 在Draw之后自动调用，如果重写Draw则需要手动调用，依次执行子UI的Draw方法
+        /// </summary>
         public void DrawChildren(SpriteBatch spriteBatch)
         {
             foreach(PowerUIElement child in children)
@@ -104,6 +138,9 @@ namespace Revolutions
                 if(child != null)child.Draw(spriteBatch);
             }
         }
+        /// <summary>
+        /// 在Active之后自动调用，依次执行子UI的Active方法
+        /// </summary>
         public void ActiveChildren()
         {
             foreach (PowerUIElement child in children)
@@ -193,23 +230,107 @@ namespace Revolutions
     }
     internal class PowerUIPanel : PowerUIElement
     {
-        public Color MyMainColor;
-        public Color MyBorderColor;
+        public Color MyColor;
         public PowerUIPanel()
         {
-            MyMainColor = Color.White;
-            MyBorderColor = Color.Black;
+            MyColor = Color.White;
         }
         public override void Draw(SpriteBatch spriteBatch)
         {
-            Vector2 CenterFix = MySize;
-            CenterFix.X *= MyCenterType.X == 1 ? 0 : (MyCenterType.X == 2 ? 0.5f : 1);
-            CenterFix.Y *= MyCenterType.Y == 1 ? 0 : (MyCenterType.Y == 2 ? 0.5f : 1);
-            spriteBatch.Draw(Main.magicPixel, MyPosition - CenterFix, new Rectangle(0, 0, (int)MySize.X, 2), MyBorderColor);
-            spriteBatch.Draw(Main.magicPixel, MyPosition - CenterFix + new Vector2(0, MySize.Y), new Rectangle(0, 0, (int)MySize.X + 2, 2), MyBorderColor);
-            spriteBatch.Draw(Main.magicPixel, MyPosition - CenterFix, new Rectangle(0, 0, 2, (int)MySize.Y), MyBorderColor);
-            spriteBatch.Draw(Main.magicPixel, MyPosition - CenterFix + new Vector2(MySize.X, 0), new Rectangle(0, 0, 2, (int)MySize.Y), MyBorderColor);
-            spriteBatch.Draw(Main.magicPixel, MyPosition - CenterFix + new Vector2(2, 2), new Rectangle(2, 2, (int)MySize.X - 2, (int)MySize.Y - 2), MyMainColor);
+            Terraria.Utils.DrawInvBG(spriteBatch, MyPosition.X - MyCenterFix.X, MyPosition.Y - MyCenterFix.Y, MySize.X, MySize.Y, MyColor); 
+            DrawChildren(spriteBatch);
+        }
+    }
+    internal class PowerUIItemSlot : PowerUIPanel
+    {
+        public Item MyItem;
+        public bool UseSizeReact;
+        float SizeFix;
+        bool active;
+        public PowerUIItemSlot()
+        {
+            UseSizeReact = true;
+            MyItem = new Item();
+            MySize = new Vector2(52, 52); 
+            MyColor = new Color(63, 82, 151) * 0.7f;
+            MouseClickMe += ClickMe;
+            MouseUponMe += UponMe;
+            MouseNotUponMe += NotUponMe;
+            SizeFix = 1f;
+        }
+        public void ClickMe()
+        {
+            if (Main.mouseItem.type != 0)
+            {
+                MyItem = Main.mouseItem;
+                Main.mouseItem = new Item();
+                Main.soundInstanceGrab.Play();
+            }
+            else if (Main.mouseItem.type == 0 && MyItem.type != 0)
+            {
+                Main.mouseItem = MyItem;
+                MyItem = new Item();
+                Main.soundInstanceGrab.Play();
+            }
+        }
+        public void UponMe()
+        { 
+            active = Main.mouseItem.type != 0 && UseSizeReact;
+            Main.mouseText = true;
+        }
+        public void NotUponMe() { active = false; }
+        public override void CustomActive()
+        {
+            MySize = new Vector2(52, 52) * SizeFix;
+            if (active && SizeFix < 1.08f) SizeFix += 0.02f;
+            if (!active && SizeFix > 1f) SizeFix -= 0.02f;
+            MyCenterFix = new Vector2((int)Math.Floor(MyCenterFix.X), (int)Math.Floor(MyCenterFix.Y));
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            Terraria.Utils.DrawInvBG(spriteBatch, MyPosition.X - MyCenterFix.X, MyPosition.Y - MyCenterFix.Y, MySize.X, MySize.Y, MyColor);
+            DrawChildren(spriteBatch);
+            if (MyItem.type != 0)
+            {
+                Texture2D tex = Main.itemTexture[MyItem.type];
+                float scale = 0.8f * SizeFix;
+                if (tex.Width > 42) scale *= 42f / tex.Width;
+                spriteBatch.Draw(tex, MyPosition - MyCenterFix + new Vector2(26, 26) * SizeFix - tex.Size() * scale * 0.5f, null, Color.White, 0, Vector2.Zero, scale, SpriteEffects.None, 0f);
+                if (MyItem.stack != 1) Terraria.Utils.DrawBorderStringFourWay(spriteBatch, Main.fontMouseText, MyItem.stack.ToString(), MyPosition.X - MyCenterFix.X + 6 * SizeFix, MyPosition.Y - MyCenterFix.Y + 32 * SizeFix, Color.White, Color.Black, Vector2.Zero, 0.8f * SizeFix);
+            }
+        }
+    }
+    internal class PowerUIButton : PowerUIPanel
+    {
+        public bool UseSizeReact;
+        /// <summary>
+        /// 调整这个数值，而非MySize
+        /// </summary>
+        public Vector2 ButtonSize;
+        float SizeFix;
+        bool active;
+        public PowerUIButton()
+        {
+            UseSizeReact = true;
+            MySize = Vector2.Zero;
+            MyColor = new Color(63, 82, 151) * 0.7f;
+            MouseUponMe += UponMe;
+            MouseNotUponMe += NotUponMe;
+            SizeFix = 1f;
+        }
+        public void UponMe() { active = UseSizeReact; }
+        public void NotUponMe() { active = false; }
+        public override void CustomActive()
+        {
+            MySize = ButtonSize * SizeFix;
+            if (active && SizeFix < 1.08f) SizeFix += 0.02f;
+            if (!active && SizeFix > 1f) SizeFix -= 0.02f;
+            MyCenterFix = new Vector2((int)Math.Floor(MyCenterFix.X), (int)Math.Floor(MyCenterFix.Y));
+        }
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if(MyTexture == null)Terraria.Utils.DrawInvBG(spriteBatch, MyPosition.X - MyCenterFix.X, MyPosition.Y - MyCenterFix.Y, MySize.X, MySize.Y, MyColor);
+            else base.Draw(spriteBatch);
             DrawChildren(spriteBatch);
         }
     }

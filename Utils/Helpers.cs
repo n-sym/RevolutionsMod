@@ -338,6 +338,9 @@ namespace Revolutions.Utils
                 player.HealEffect(damage);
             }
         }
+        /// <summary>
+		/// 世界转化为物块坐标，只用写一行
+		/// </summary>
         public static Point ToTilesPos(Vector2 position)
         {
             return new Point((int)(position.X / 16), (int)(position.Y / 16));
@@ -410,6 +413,9 @@ namespace Revolutions.Utils
             streamWriter.Close();
             streamWriter.Dispose();
         }
+        /// <summary>
+        /// 从左上角判定是否在范围中
+        /// </summary>
         public static bool InTheRange(Vector2 current, Vector2 range, Vector2 target)
         {
             if (range.X < 0) return false;

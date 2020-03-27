@@ -27,6 +27,7 @@ namespace Revolutions
         static SecondUI secondUI = new SecondUI();
         static PowerUIPanel AlphaPE;
         static PowerUITextButton BetaPE;
+        static PowerUIItemSlot GammaPE;
         static Texture2D logo = null;
 
         public static class Settings
@@ -77,7 +78,7 @@ namespace Revolutions
                 AlphaPE = new PowerUIPanel();
                 AlphaPE.MySize = new Vector2(500, 500);
                 AlphaPE.UseMouseFix = false;
-                AlphaPE.MyMainColor = new Color(63, 82, 151) * 0.7f;
+                AlphaPE.MyColor = new Color(63, 82, 151) * 0.7f;
                 AlphaPE.MyRelativePos = new Vector2(200, 200);
                 AlphaPE.MouseClickMe += DoSth2;
                 AlphaPE.MyCenterType = CenterType.MiddleCenter;
@@ -88,6 +89,10 @@ namespace Revolutions
                 BetaPE.MyRelativePos = new Vector2(250, 100);
                 BetaPE.MyCenterType = CenterType.MiddleCenter;
                 AlphaPE.Append(BetaPE);
+                GammaPE = new PowerUIItemSlot();
+                GammaPE.MyRelativePos = new Vector2(250, 200);
+                GammaPE.MyCenterType = CenterType.MiddleCenter;
+                AlphaPE.Append(GammaPE);
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);
