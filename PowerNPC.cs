@@ -6,7 +6,6 @@ namespace Revolutions
     public abstract class PowerNPC : ModNPC
     {
         public Vector2[] PositionSave = { Vector2.Zero, Vector2.Zero, Vector2.Zero };
-        public PlayerWithNum Difficulty = new PlayerWithNum();
     }
 }
 

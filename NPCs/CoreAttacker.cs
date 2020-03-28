@@ -40,7 +40,6 @@ namespace Revolutions.NPCs
             Core.GetCore.attackerexist = 1;
             Vector2 position = Core.GetCore.position;
             Player target = Core.GetCore.target;
-            Difficulty.player = target;
             float size = 0.002f * npc.ai[2] * npc.ai[2] + 1;
             switch (npc.ai[3])
             {
@@ -123,7 +122,7 @@ namespace Revolutions.NPCs
                 case 104:
                     //冲三次
                     if (npc.ai[1] == 0) PositionSave[0] = npc.Center;
-                    npc.Center = Helper.GetCloser(PositionSave[0], target.Center + 250 * Helper.ToUnitVector(target.Center - PositionSave[0]) + Difficulty.num * 0.3f * target.velocity, -14 * (float)Math.Cos(npc.ai[1] * 0.1122f) + 14, 28);
+                    npc.Center = Helper.GetCloser(PositionSave[0], target.Center + 250 * Helper.ToUnitVector(target.Center - PositionSave[0]) + target.velocity, -14 * (float)Math.Cos(npc.ai[1] * 0.1122f) + 14, 28);
                     npc.ai[1]++;
                     if (npc.ai[1] == 28)
                     {

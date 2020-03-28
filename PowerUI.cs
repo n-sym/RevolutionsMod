@@ -41,11 +41,11 @@ namespace Revolutions
         /// </summary>
         public bool IsFocusOn;
         /// <summary>
-        /// 不需要修改这个参数，用时获取
+        /// 一般不需要修改这个参数，用时获取
         /// </summary>
         public Vector2 MyPosition;
         /// <summary>
-        ///  不需要修改这个参数，它是中心对齐时的偏移量
+        /// 一般不需要修改这个参数，它是中心对齐时的偏移量
         /// </summary>
         public Vector2 MyCenterFix;
         bool MouseDown;
@@ -88,7 +88,7 @@ namespace Revolutions
             CustomActive();
             ActiveChildren();
         }
-        private void Upon() { IsMouseUpon = true; Main.LocalPlayer.delayUseItem = true; }
+        private void Upon() { IsMouseUpon = true; Main.LocalPlayer.mouseInterface = true; }
         private void NotUpon() { IsMouseUpon = false; }
         /// <summary>
         /// 在Active之后自动调用，用于自定义信息

@@ -58,7 +58,7 @@ namespace Revolutions
         public bool lightningproj { get; set; } = false;
         public int hitcounter { get; set; } = 0;
         public int bossFightTimer { get; set; } = 0;
-        public int hitBonuscounter { get; set; } = 0;
+        public bool hitBonuscounter { get; set; } = true;
         public static Color customStarFlareColor = Color.White;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
@@ -184,7 +184,7 @@ namespace Revolutions
             saviourexist = false;
             evolutionary = false;
             hitcounter = 0;
-            hitBonuscounter = 0;
+            hitBonuscounter = true;
             drawcircler = 0;
             drawcircletype = 0;
         }
@@ -302,7 +302,7 @@ namespace Revolutions
             {
                 if (nowBoss.type == 398 && nowBoss.ai[0] == 2) { nowBossLife = 0; nowBossLifeTrue = 0; }
                 if (ModLoader.GetMod("Eternalresolve") != null && ModLoader.GetMod("Eternalresolve").NPCType("Omidy") == nowBoss.type && nowBoss.life == 100000) { nowBossLife = 0; nowBossLifeTrue = 0; }
-                if (bossFightTimer < 6000 && timer % 5 == 0 && timer != 0) bossFightTimer++;
+                if (bossFightTimer < 6000 && timer % 3 == 0 && timer != 0) bossFightTimer++;
             }
             else
             {
@@ -311,10 +311,10 @@ namespace Revolutions
         }
         public override void OnHitNPCWithProj(Projectile proj, NPC target, int damage, float knockback, bool crit)
         {
-            if (nowBoss != null && hitBonuscounter < 3 && bossFightTimer < 6000)
+            if (nowBoss != null && hitBonuscounter && bossFightTimer < 6000)
             {
-                bossFightTimer++;
-                hitBonuscounter++;
+                bossFightTimer += 2;
+                hitBonuscounter = false;
             }
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
@@ -379,10 +379,10 @@ namespace Revolutions
 
         public override void OnHitNPC(Item item, NPC target, int damage, float knockback, bool crit)
         {
-            if (nowBoss != null && hitBonuscounter < 3 && bossFightTimer < 600)
+            if (nowBoss != null && hitBonuscounter && bossFightTimer < 6000)
             {
-                bossFightTimer++;
-                hitBonuscounter++;
+                bossFightTimer += 2;
+                hitBonuscounter = false;
             }
             Random rd = new Random();
             int a = rd.Next(0, 60 / player.HeldItem.useTime * 20);
@@ -440,7 +440,7 @@ namespace Revolutions
         }
         public override void OnHitByNPC(NPC npc, int damage, bool crit)
         {
-            if (nowBoss != null && difficulty > 0 && hitcounter < 3)
+            if (nowBoss != null && difficulty > 0 && hitcounter < 3 && player.position != player.oldPosition)
             {
                 difficulty--;
                 hitcounter++;
@@ -448,7 +448,7 @@ namespace Revolutions
         }
         public override void OnHitByProjectile(Projectile proj, int damage, bool crit)
         {
-            if (nowBoss != null && difficulty > 0 && hitcounter < 3)
+            if (nowBoss != null && difficulty > 0 && hitcounter < 3 && player.position != player.oldPosition)
             {
                 difficulty--;
                 hitcounter++;
@@ -476,6 +476,7 @@ namespace Revolutions
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
+            Helper.Print((((bossFightTimer * bossFightTimer / 36000000f) + 1f)));
             if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 36000000f) + 1f));
         }
     }

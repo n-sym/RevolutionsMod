@@ -90,6 +90,7 @@ namespace Revolutions
                 if(NPC.downedGolemBoss && Main.rand.Next(100) < 33)
                 {
                     items.Add(new Point(ItemID.BeetleHusk, Main.rand.Next(2, 5)));
+                    items.Add(new Point(ModContent.ItemType<Items.OneTimeUse.TimeTravelingPotion>(), Main.rand.Next(6, 13)));
                 }
                 if(NPC.downedMoonlord && Main.rand.Next(100) < 33)
                 {
