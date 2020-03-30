@@ -12,6 +12,7 @@ using Terraria;
 using Terraria.Graphics.Effects;
 using Terraria.Graphics.Shaders;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.ModLoader;
 using Terraria.UI;
 
@@ -50,7 +51,7 @@ namespace Revolutions
         public override void Load()
         {
             mod = this;
-            logo = mod.GetTexture("UI/Revolutions");
+            logo = GetTexture("UI/Revolutions");
             TimeTravelingPotion = RegisterHotKey("Time Traveling Potion", "Q");
             Helper.EntroptPool = new int[10001];
             for (int i = 0; i < 10000; i++)
@@ -210,6 +211,13 @@ namespace Revolutions
             }*/
 
         }
+        private static void TranslationFix()
+        {
+            if(GameCulture.Chinese.IsActive)
+            {
+              
+            }
+        }
         private static void Welcome(object obj)
         {
             if (RevolutionsPlayer.logoTimer >= 0 && Helper.CanShowExtraUI() && !logo.IsDisposed)
@@ -221,8 +229,6 @@ namespace Revolutions
             }
         }
         float timer = 0;
-
-
         private void DrawCircle(object obj)
         {
             if (RevolutionsPlayer.drawcircler > 0 && Helper.CanShowExtraUI() && Settings.rangeIndex != 2)
