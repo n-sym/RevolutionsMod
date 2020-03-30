@@ -476,7 +476,6 @@ namespace Revolutions
         }
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
-            Helper.Print((((bossFightTimer * bossFightTimer / 36000000f) + 1f)));
             if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 36000000f) + 1f));
         }
     }

@@ -28,6 +28,8 @@ namespace Revolutions
         static PowerUIPanel AlphaPE;
         static PowerUITextButton BetaPE;
         static PowerUIItemSlot GammaPE;
+        static PowerUIButton EtaPE;
+        static PowerUIText ZetaPE;
         static Texture2D logo = null;
 
         public static class Settings
@@ -86,13 +88,25 @@ namespace Revolutions
                 BetaPE.MyText = "Revolutions";
                 BetaPE.MouseClickMe += DoSth;
                 BetaPE.MyScale = 0.5f; 
-                BetaPE.MyRelativePos = new Vector2(250, 100);
+                BetaPE.MyRelativePos = new Vector2(0, -200);
                 BetaPE.MyCenterType = CenterType.MiddleCenter;
                 AlphaPE.Append(BetaPE);
                 GammaPE = new PowerUIItemSlot();
-                GammaPE.MyRelativePos = new Vector2(250, 200);
+                GammaPE.MyRelativePos = new Vector2(0, -100);
                 GammaPE.MyCenterType = CenterType.MiddleCenter;
                 AlphaPE.Append(GammaPE);
+                EtaPE = new PowerUIButton();
+                EtaPE.MyRelativePos = new Vector2(0, 100);
+                EtaPE.MySize = new Vector2(100, 45);
+                EtaPE.MyCenterType = CenterType.MiddleCenter;
+                ZetaPE = new PowerUIText();
+                ZetaPE.MyText = "终结遗憾";
+                ZetaPE.MyCenterType = CenterType.MiddleCenter;
+                ZetaPE.MyRelativePos.Y += 5;
+                ZetaPE.CanFocusMe = false;
+                ZetaPE.MyScale = 0.4f;
+                EtaPE.Append(ZetaPE);
+                AlphaPE.Append(EtaPE);
             }
             Main.OnPostDraw += new Action<GameTime>(Welcome);
             Main.OnPostDraw += new Action<GameTime>(DrawCircle);

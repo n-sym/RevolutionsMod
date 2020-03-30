@@ -23,7 +23,7 @@ namespace Revolutions.Utils
         {
             if (Main.netMode != 2)
             {
-                Main.NewText(t.ToString(), 255, 255, 255);
+                Main.NewText(t);
             }
             else
             {

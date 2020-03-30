@@ -24,12 +24,12 @@ namespace Revolutions.UI
                 float scale = 0.5f;
                 NPC boss = RevolutionsPlayer.nowBoss;
                 RevolutionsPlayer.HthBarTimer -= RevolutionsPlayer.HthBarTimer > 0 ? 1 : 0;
-                if ((boss != null && boss.active) != RevolutionsPlayer.lastHthBarStatus && Revolutions.Settings.extraAI && boss.active) RevolutionsPlayer.HthBarTimer = 30;
+                if ((boss != null && boss.active) != RevolutionsPlayer.lastHthBarStatus && Revolutions.Settings.extraAI && Main.LocalPlayer.active && !RevolutionsPlayer.lastHthBarStatus) RevolutionsPlayer.HthBarTimer = 30;
                 float drawPosFix = 0;
                 SoundEffect soundEffect = Revolutions.mod.GetSound("Sounds/Custom/sword");
                 if (RevolutionsPlayer.HthBarTimer == 10) soundEffect.Play();
                 if (RevolutionsPlayer.HthBarTimer != 0) drawPosFix = (1 - (30 - RevolutionsPlayer.HthBarTimer) * (30 - RevolutionsPlayer.HthBarTimer) / 900f) * Main.screenWidth * Main.UIScale;
-                if (boss != null && boss.active)
+                if (boss != null && boss.active && Main.LocalPlayer.active)
                 {
                     string text = boss.TypeName;
                     if (boss.type == 398) text = Language.GetTextValue("NPCName.MoonLordHead");
