@@ -4,6 +4,7 @@ using ReLogic.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Xml;
 using Terraria;
@@ -167,7 +168,7 @@ namespace Revolutions.Utils
                 case "Cyril":
                     break;
                 case "-Cyril-":
-                    name = "Cryil";
+                    name = "Cyril";
                     break;
                 case "努力的向阳花":
                     name = "Sunflower";
@@ -430,19 +431,28 @@ namespace Revolutions.Utils
         }
         public static bool SetLang(string key, string text)
         {
-            FieldInfo alphaInfo = typeof(LanguageManager).GetField("_localizedTexts", BindingFlags.NonPublic | BindingFlags.Instance);
-            Dictionary<string, LocalizedText> dic = (Dictionary<string, LocalizedText>)alphaInfo.GetValue(LanguageManager.Instance);
-            LocalizedText alphaText;
-            if (dic.TryGetValue(key, out alphaText))
+            if (key != null)
             {
-                MethodInfo betaInfo = alphaText.GetType().GetMethod("SetValue", BindingFlags.NonPublic | BindingFlags.Instance);
-                object[] alphaObj = { text };
-                betaInfo.Invoke(alphaText, alphaObj);
-                dic.Remove(key);
-                dic.Add(key, alphaText);
-                return true;
+                FieldInfo alphaInfo = typeof(LanguageManager).GetField("_localizedTexts", BindingFlags.NonPublic | BindingFlags.Instance);
+                Dictionary<string, LocalizedText> dic = (Dictionary<string, LocalizedText>)alphaInfo.GetValue(LanguageManager.Instance);
+                LocalizedText alphaText;
+                if (dic.TryGetValue(key, out alphaText))
+                {
+                    MethodInfo betaInfo = alphaText.GetType().GetMethod("SetValue", BindingFlags.NonPublic | BindingFlags.Instance);
+                    object[] alphaObj = { text };
+                    betaInfo.Invoke(alphaText, alphaObj);
+                    dic.Remove(key);
+                    dic.Add(key, alphaText);
+                    return true;
+                }
             }
             return false;
+        }
+        public static string FindLang(string text)
+        {
+            FieldInfo alphaInfo = typeof(LanguageManager).GetField("_localizedTexts", BindingFlags.NonPublic | BindingFlags.Instance);
+            List<KeyValuePair<string, LocalizedText>> alphaLs = ((Dictionary<string, LocalizedText>)alphaInfo.GetValue(LanguageManager.Instance)).ToList();
+            return alphaLs.FirstOrDefault(ls => ls.Value.Value == text).Key;
         }
     }
 }

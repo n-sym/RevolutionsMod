@@ -136,5 +136,22 @@ namespace Revolutions.Utils
                 RevolutionsPlayer.customStarFlareColor = new Color(r, g, b);
             }
         }
+        public class Testcmd6 : ModCommand
+        {
+            public override CommandType Type
+                => CommandType.Chat;
+
+            public override string Command
+                => "nogvt";
+
+            public override string Description
+                => "nogvt";
+
+            public override void Action(CommandCaller caller, string input, string[] args)
+            {
+                RevolutionsPlayer z = caller.Player.GetModPlayer<RevolutionsPlayer>();
+                z.noGravity = !z.noGravity;
+            }
+        }
     }
 }

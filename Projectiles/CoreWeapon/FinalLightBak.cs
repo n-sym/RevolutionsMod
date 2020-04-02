@@ -20,7 +20,7 @@ namespace Revolutions.Projectiles.CoreWeapon
             projectile.width = 12;
             projectile.height = 12;
             projectile.friendly = true;
-            projectile.extraUpdates = 1;
+            projectile.extraUpdates = 2;
             projectile.ranged = true;
             projectile.timeLeft = 600;
             projectile.tileCollide = true;
@@ -38,7 +38,7 @@ namespace Revolutions.Projectiles.CoreWeapon
         NPC t = null;
         public override void AI()
         {
-
+            //projectile.velocity.Y -= 0.05f;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {

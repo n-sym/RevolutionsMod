@@ -32,7 +32,7 @@ namespace Revolutions
         static PowerUIButton EtaPE;
         static PowerUIText ZetaPE;
         static Texture2D logo = null;
-
+        public static List<PowerBullet> powerBullets = new List<PowerBullet>();
         public static class Settings
         {
             public static int rangeIndex = 0;
@@ -109,13 +109,14 @@ namespace Revolutions
                 EtaPE.Append(ZetaPE);
                 AlphaPE.Append(EtaPE);
             }
-            Main.OnPostDraw += new Action<GameTime>(Welcome);
-            Main.OnPostDraw += new Action<GameTime>(DrawCircle);
+            Main.OnPostDraw += Welcome;
+            Main.OnPostDraw += DrawCircle;
+            TranslationFix();
         }
         public override void Unload()
         {
-            Main.OnPostDraw -= new Action<GameTime>(DrawCircle);
-            Main.OnPostDraw -= new Action<GameTime>(Welcome);
+            Main.OnPostDraw -= DrawCircle;
+            Main.OnPostDraw -= Welcome;
             Helper.EntroptPool = new int[0];
             TimeTravelingPotion = null;
         }
@@ -168,9 +169,9 @@ namespace Revolutions
                 Main.inFancyUI = true;
             }
         }
-        public override void MidUpdatePlayerNPC()
+        public override void PreUpdateEntities()
         {
-            
+            ActiveBullets();
         }
         public override void PreSaveAndQuit()
         {
@@ -193,6 +194,7 @@ namespace Revolutions
                     InterfaceScaleType.UI)
                 );
             }
+            layers.Insert(layers.FindIndex(layer => layer.Name.Equals("Vanilla: Ruler")), new LegacyGameInterfaceLayer("Revolutions: PowerBullet", delegate { return DrawBullets(Main.spriteBatch); }, InterfaceScaleType.Game));
         }
         public override void HotKeyPressed(string name)
         {
@@ -215,7 +217,7 @@ namespace Revolutions
         {
             if(GameCulture.Chinese.IsActive)
             {
-              
+                Helper.SetLang(Helper.FindLang("猪龙鱼公爵"), "猪鲨公爵");
             }
         }
         private static void Welcome(object obj)
@@ -229,6 +231,26 @@ namespace Revolutions
             }
         }
         float timer = 0;
+        private bool ActiveBullets()
+        {
+            for (int i = 0; i < powerBullets.Count; i++)
+            {
+                if (powerBullets[i] == null) continue;
+                if (powerBullets[i].active) powerBullets[i].Active();
+                else powerBullets.RemoveAt(i);
+            }
+            return true;
+        }
+        private bool DrawBullets(SpriteBatch spriteBatch)
+        {
+            for (int i = 0; i < powerBullets.Count; i++)
+            {
+                if (powerBullets[i] == null) continue;
+                if (powerBullets[i].active) powerBullets[i].Draw(spriteBatch);
+                else powerBullets.RemoveAt(i);
+            }
+            return true;
+        }
         private void DrawCircle(object obj)
         {
             if (RevolutionsPlayer.drawcircler > 0 && Helper.CanShowExtraUI() && Settings.rangeIndex != 2)

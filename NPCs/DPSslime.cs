@@ -1,5 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Revolutions.Bullets;
+using Revolutions.Utils;
+using System;
 using Terraria;
 using Terraria.ID;
 using Terraria.ModLoader;
@@ -34,13 +37,16 @@ namespace Revolutions.NPCs
         }
         public override void AI()
         {
-            Texture2D Bar = Revolutions.mod.GetTexture("UI/WhiteLine");
-            SpriteBatch sprite = Main.spriteBatch;
-            sprite.Begin();
-            sprite.Draw(Bar, new Vector2(100, 100), new Rectangle(0, 0, (int)(Bar.Width), Bar.Height), Color.White * 0.33f, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-            sprite.End();
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.P)) npc.scale += 0.1f;
-            if (Microsoft.Xna.Framework.Input.Keyboard.GetState().IsKeyDown(Microsoft.Xna.Framework.Input.Keys.O)) npc.scale -= 0.1f;
+            try
+            {
+                PowerBullet powerBullet = PowerBullet.NewBullet(typeof(AlphaBullet), 100, npc.Center, new Vector2(12, 0).RotatedByRandom(1), npc);
+                powerBullet.extra[0] = 12;
+                powerBullet.extra[1] = 0;
+            }
+            catch(Exception e)
+            {
+                Helper.Print(e);
+            }
         }
         /*public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

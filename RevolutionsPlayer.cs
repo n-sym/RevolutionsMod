@@ -1,11 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using Revolutions.Items.Accessory;
+using Revolutions.Bullets;
 using Revolutions.Items.Armor;
 using Revolutions.Utils;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -18,47 +17,48 @@ namespace Revolutions
 {
     public class RevolutionsPlayer : ModPlayer
     {
-        public Vector2[] pastPosition { get; set; } = new Vector2[601];
-        public Vector2[] pastCenter { get; set; } = new Vector2[601];
-        public Vector2[] pastSpeed { get; set; } = new Vector2[601];
-        public int[] pastLife { get; set; } = new int[601];
-        public int[] pastMana { get; set; } = new int[601];
-        public int[] starFlare { get; set; } = new int[601];
-        public int[] corePower { get; set; } = new int[601];
-        public float sanity { get; set; } = 100;
-        public int difficulty { get; set; } = 0;
-        public int maxStarFlare { get; set; } = 500;
-        public int aPTimer { get; set; } = 0;
-        public int dPTimer { get; set; } = 0;
-        public int wPTimer { get; set; } = 0;
-        public int sPTimer { get; set; } = 0;
+        public Vector2[] pastPosition = new Vector2[601];
+        public Vector2[] pastCenter = new Vector2[601];
+        public Vector2[] pastSpeed = new Vector2[601];
+        public int[] pastLife = new int[601];
+        public int[] pastMana = new int[601];
+        public int[] starFlare = new int[601];
+        public int[] corePower = new int[601];
+        public float sanity = 100;
+        public int difficulty = 0;
+        public int maxStarFlare = 500;
+        public int aPTimer = 0;
+        public int dPTimer = 0;
+        public int wPTimer = 0;
+        public int sPTimer = 0;
         public int channeltime = 0;
         public float[] extraSpeed = new float[2];
         public int extraSpdTimer = 0;
         public Vector2 instantmove = Vector2.Zero;
-        public Color starFlareColor { get; set; } = Color.White;
-        public int starFlareColorType { get; set; } = 0;
-        public bool starFlareStatus { get; set; } = false;
-        public int saviourStatus { get; set; } = 1;
-        public bool evolutionary { get; set; } = false;
-        public bool saviourexist { get; set; } = false;
+        public Color starFlareColor = Color.White;
+        public int starFlareColorType = 0;
+        public bool starFlareStatus = false;
+        public int saviourStatus = 1;
+        public bool evolutionary = false;
+        public bool saviourexist = false;
         public static int timer = 0;
-        public int justDmgcounter { get; set; } = 0;
-        public int sLifeStealcounter { get; set; } = 0;
-        public int talkActive { get; set; } = 0;
-        public string nowSaying { get; set; } = "";
+        public int justDmgcounter = 0;
+        public int sLifeStealcounter = 0;
+        public int talkActive = 0;
+        public string nowSaying = "";
         public static NPC nowBoss = null;
         public static int nowBossLife = 0;
         public static int nowBossLifeTrue = 0;
         public static int nowBossLifeMax = 0;
         public static bool lastHthBarStatus = false;
         public static int HthBarTimer = 0;
-        public string spname { get; set; } = "none";
-        public bool lightning { get; set; } = false;
-        public bool lightningproj { get; set; } = false;
-        public int hitcounter { get; set; } = 0;
-        public int bossFightTimer { get; set; } = 0;
-        public bool hitBonuscounter { get; set; } = true;
+        public string spname = "none";
+        public bool lightning = false;
+        public bool lightningproj = false;
+        public int hitcounter = 0;
+        public int bossFightTimer = 0;
+        public bool hitBonuscounter = true;
+        public bool noGravity = false;
         public static Color customStarFlareColor = Color.White;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
@@ -178,9 +178,11 @@ namespace Revolutions
                     justOpenDoors.Add(new Point(Helper.ToTilesPos(player.Center).X - 1, Helper.ToTilesPos(player.Center).Y));
                 }
             }
+           
         }
         public override void ResetEffects()
         {
+            if(noGravity) player.gravity = 0;
             saviourexist = false;
             evolutionary = false;
             hitcounter = 0;
@@ -197,8 +199,39 @@ namespace Revolutions
         int cd;
         public override void SetControls()
         {
-            Vector2 r = new Vector2(1, 0);
-            r.RotatedBy(0f);
+            if (noGravity)
+            {
+                Vector2 speed = Vector2.Zero;
+                if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.Up))
+                {
+                    speed.Y += -12f;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
+                {
+                    if ((!Main.tileSolidTop[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type] && !Main.tileSolid[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type]) || !Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].active()) speed.Y += 12f;
+                    if (Main.tileSolidTop[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type]) player.position.Y += 12;
+
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
+                {
+                    speed.X += -12f;
+                    if (speed.Y > 0) speed = new Vector2(-8.4f, 8.4f);
+                    if (speed.Y < 0) speed = new Vector2(-8.4f, -8.4f);
+                    if (!player.controlUseItem) player.direction = -1;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
+                {
+                    speed.X += 12f;
+                    if (speed.Y > 0) speed = new Vector2(8.4f, 8.4f);
+                    if (speed.Y < 0) speed = new Vector2(8.4f, -8.4f);
+                    if (!player.controlUseItem) player.direction = 1;
+                }
+                if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.RightShift))
+                {
+                    speed /= 2;
+                }
+                player.velocity = speed;
+            }
             if (Keyboard.GetState().IsKeyDown(Keys.A))
                 aPTimer++;
             else
@@ -207,7 +240,7 @@ namespace Revolutions
                 dPTimer++;
             else
                 dPTimer = 0;
-            if (Keyboard.GetState().IsKeyDown(Keys.W))
+            if (Keyboard.GetState().IsKeyDown(Keys.W)) 
                 wPTimer++;
             else
                 wPTimer = 0;
@@ -459,7 +492,7 @@ namespace Revolutions
             if (Revolutions.Settings.extraAI)
             {
                 if (nowBoss != null && nowBoss.type != NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 13334f) + 0.75f));
-                if (nowBoss != null && nowBoss.type == NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 50000f) + 1f));
+                if (nowBoss != null && nowBoss.type == NPCID.Plantera) damage = (int)(damage * ((difficulty * difficulty / 50000f) + 0.8f));
             }
         }
         public override void ModifyHitByProjectile(Projectile proj, ref int damage, ref bool crit)

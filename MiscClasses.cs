@@ -26,4 +26,13 @@ namespace Revolutions
             timer = time;
         }
     }
+    public class DamageType
+    {
+        public static int Ranged = 1;
+        public static int Magic = 2;
+        public static int Melee = 3;
+        public static int Summon = 4;
+        public static int Thrown = 5;
+        public static int StarFlare = 6;
+    }
 }
