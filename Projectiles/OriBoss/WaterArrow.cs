@@ -28,7 +28,7 @@ namespace Revolutions.Projectiles.OriBoss
         {
             if (projectile.position.X > Main.screenPosition.X && projectile.position.Y > Main.screenPosition.Y && projectile.position.X < Main.screenPosition.X + Main.screenWidth && projectile.position.Y < Main.screenPosition.Y + Main.screenHeight)
             {
-                for (int i = 0; i < 10; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     Dust d = Dust.NewDustDirect(projectile.Center, 17, 17, MyDustId.Water);
                     d.noGravity = true;

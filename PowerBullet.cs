@@ -77,7 +77,7 @@ namespace Revolutions
         {
             if (PreHitPlayer(player))
             {
-                if (owner is NPC && !player.immune)
+                if (owner is NPC && !player.immune && hitRec.Intersects(player.GetModPlayer<RevolutionsPlayer>().actualHitbox))
                 {
                     NPC o = (NPC)owner;
                     player.Hurt(PlayerDeathReason.ByNPC(o.type), (int)damage, 0);

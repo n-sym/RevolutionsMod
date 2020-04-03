@@ -243,7 +243,11 @@ namespace Revolutions
         }
         private bool DrawBullets(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < powerBullets.Count; i++)
+            if ((Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.RightShift)) && Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().noGravity)
+            {
+                spriteBatch.Draw(Main.magicPixel, Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().actualHitbox.Location.ToVector2() - Main.screenPosition, Main.LocalPlayer.GetModPlayer<RevolutionsPlayer>().actualHitbox, Color.White);
+            }
+                for (int i = 0; i < powerBullets.Count; i++)
             {
                 if (powerBullets[i] == null) continue;
                 if (powerBullets[i].active) powerBullets[i].Draw(spriteBatch);

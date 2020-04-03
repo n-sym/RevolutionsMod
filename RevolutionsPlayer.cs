@@ -59,6 +59,7 @@ namespace Revolutions
         public int bossFightTimer = 0;
         public bool hitBonuscounter = true;
         public bool noGravity = false;
+        public Rectangle actualHitbox = new Rectangle();
         public static Color customStarFlareColor = Color.White;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
         public static int logoTimer = 0;
@@ -182,7 +183,7 @@ namespace Revolutions
         }
         public override void ResetEffects()
         {
-            if(noGravity) player.gravity = 0;
+            if (noGravity) player.gravity = 0;
             saviourexist = false;
             evolutionary = false;
             hitcounter = 0;
@@ -204,31 +205,31 @@ namespace Revolutions
                 Vector2 speed = Vector2.Zero;
                 if (Keyboard.GetState().IsKeyDown(Keys.W) || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.Up))
                 {
-                    speed.Y += -12f;
+                    speed.Y += -10f;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.S) || Keyboard.GetState().IsKeyDown(Keys.Down))
                 {
-                    if ((!Main.tileSolidTop[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type] && !Main.tileSolid[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type]) || !Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].active()) speed.Y += 12f;
-                    if (Main.tileSolidTop[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type]) player.position.Y += 12;
+                    if ((!Main.tileSolidTop[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type] && !Main.tileSolid[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type]) || !Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].active()) speed.Y += 10f;
+                    if (Main.tileSolidTop[Main.tile[(int)(player.Center.X / 16), (int)(player.Bottom.Y / 16)].type]) player.position.Y += 10;
 
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.A) || Keyboard.GetState().IsKeyDown(Keys.Left))
                 {
-                    speed.X += -12f;
-                    if (speed.Y > 0) speed = new Vector2(-8.4f, 8.4f);
-                    if (speed.Y < 0) speed = new Vector2(-8.4f, -8.4f);
+                    speed.X += -10f;
+                    if (speed.Y > 0) speed = new Vector2(-7.07f, 7.07f);
+                    if (speed.Y < 0) speed = new Vector2(-7.07f, -7.07f);
                     if (!player.controlUseItem) player.direction = -1;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.D) || Keyboard.GetState().IsKeyDown(Keys.Right))
                 {
-                    speed.X += 12f;
-                    if (speed.Y > 0) speed = new Vector2(8.4f, 8.4f);
-                    if (speed.Y < 0) speed = new Vector2(8.4f, -8.4f);
+                    speed.X += 10f;
+                    if (speed.Y > 0) speed = new Vector2(7.07f, 7.07f);
+                    if (speed.Y < 0) speed = new Vector2(7.07f, -7.07f);
                     if (!player.controlUseItem) player.direction = 1;
                 }
                 if (Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.RightShift))
                 {
-                    speed /= 2;
+                    speed /= 1.66f;
                 }
                 player.velocity = speed;
             }
@@ -280,6 +281,14 @@ namespace Revolutions
         public static int timer3 = 0;
         public override void PostUpdate()
         {
+            if ((Keyboard.GetState().IsKeyDown(Keys.LeftShift) || Keyboard.GetState().IsKeyDown(Keys.RightShift)) && noGravity)
+            {
+                actualHitbox = new Rectangle(player.Hitbox.Center.X - 4, player.Hitbox.Center.Y - 4, 8, 8);
+            }
+            else
+            {
+                actualHitbox = player.Hitbox;
+            }
             nowBoss = null;
             nowBossLifeMax = 0;
             if (timer2 == 10 || timer2 == 0) nowBossLife = 0;
@@ -510,6 +519,16 @@ namespace Revolutions
         public override void ModifyHitNPCWithProj(Projectile proj, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
         {
             if (Revolutions.Settings.extraAI && nowBoss != null) damage = (int)(damage * ((bossFightTimer * bossFightTimer / 36000000f) + 1f));
+        }
+        public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
+        {
+            if(damageSource.SourceProjectileIndex != -1)
+            {
+                Projectile projectile = Main.projectile[damageSource.SourceProjectileIndex];
+                if (projectile.Hitbox.Intersects(actualHitbox)) return true;
+                else return false;
+            }
+            return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);
         }
     }
 }
