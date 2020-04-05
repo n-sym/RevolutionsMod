@@ -17,7 +17,7 @@ namespace Revolutions.Items.Weapon.Rare
         }
         public override void SetDefaults()
         {
-            item.damage = 30;
+            item.damage = 33;
             item.knockBack = 0f;
             item.crit = 8;
             item.rare = 8;
@@ -52,7 +52,7 @@ namespace Revolutions.Items.Weapon.Rare
         {
             return new Vector2(0, 0);
         }
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.Wood, 15);
@@ -62,7 +62,7 @@ namespace Revolutions.Items.Weapon.Rare
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+        }*/
 
     }
 }

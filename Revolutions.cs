@@ -33,6 +33,7 @@ namespace Revolutions
         static PowerUIText ZetaPE;
         static Texture2D logo = null;
         public static List<PowerBullet> powerBullets = new List<PowerBullet>();
+        public static BluePrintManager bluePrintManager;
         public static class Settings
         {
             public static int rangeIndex = 0;

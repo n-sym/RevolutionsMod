@@ -5,6 +5,7 @@ using Revolutions.Items.Armor;
 using Revolutions.Utils;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Terraria;
 using Terraria.DataStructures;
 using Terraria.ID;
@@ -59,6 +60,7 @@ namespace Revolutions
         public int bossFightTimer = 0;
         public bool hitBonuscounter = true;
         public bool noGravity = false;
+        public bool[] bluePrint = new bool[10];
         public Rectangle actualHitbox = new Rectangle();
         public static Color customStarFlareColor = Color.White;
         public static List<StringTimerInt> npctalk = new List<StringTimerInt>();
@@ -92,6 +94,10 @@ namespace Revolutions
             tag.Add("sfmax", maxStarFlare);
             tag.Add("sfcolor", customStarFlareColor);
             tag.Add("sfcolortype", starFlareColorType);
+            for (int i = 0; i < bluePrint.Length; i++)
+            {
+                tag.Add("blueprint" + i.ToString(), bluePrint[i]);
+            }
             return tag;
         }
         public override void Load(TagCompound tag)
@@ -102,13 +108,27 @@ namespace Revolutions
                 maxStarFlare = tag.GetAsInt("sfmax");
                 customStarFlareColor = tag.Get<Color>("sfcolor");
                 starFlareColorType = tag.GetAsInt("sfcolortype");
+                //bluePrint = tag.Get<bool[]>("blueprint");
                 //Helper.Array2Setting(tag.Get<bool[]>("setting"));
+            }
+            for (int i = 0; i < bluePrint.Length; i++)
+            {
+                if (tag.ContainsKey("blueprint" + i.ToString()))
+                {
+                    bluePrint[i] = tag.GetBool("blueprint" + i.ToString());
+                }
+                else
+                {
+                    bluePrint[i] = false;
+                }
             }
             base.Load(tag);
         }
         List<Point> justOpenDoors = new List<Point>();
         public override void PreUpdate()
-        {
+        { 
+            if (logoTimer == 80) Revolutions.bluePrintManager = new BluePrintManager(mod);
+            if (Main.playerInventory && Revolutions.bluePrintManager != null) Revolutions.bluePrintManager.Update();
             if (!starFlareStatus) starFlareColor = new Color(126, 171, 243);
             else starFlareColor = Helper.SFCtypeToColor(starFlareColorType);
             if (Revolutions.Settings.spcolor) spname = Helper.Name2Specialname(player.name);
@@ -184,6 +204,7 @@ namespace Revolutions
         public override void ResetEffects()
         {
             if (noGravity) player.gravity = 0;
+            lightning = false;
             saviourexist = false;
             evolutionary = false;
             hitcounter = 0;
@@ -372,7 +393,6 @@ namespace Revolutions
             if (a == 7) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack05"), 180, player);
             if (a == 8 && proj.melee) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack04"), 180, player);
             if (a == 6 && proj.minion) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.Attack06"), 180, player);
-            if (proj.type == ProjectileID.FallingStar && nowBoss != null && nowBoss.type == NPCID.SkeletronHead && a == 1 && timer % 2 == 0) new Talk(0, Language.GetTextValue("Mods.Revolutions.Talk.StarCannonSP"), 180, player);
             float lsfix = 1f;
             if (target.type == NPCID.TargetDummy) lsfix = 1 / damage;
             if (sLifeStealcounter < 21 && saviourStatus == 1)
@@ -522,10 +542,10 @@ namespace Revolutions
         }
         public override bool PreHurt(bool pvp, bool quiet, ref int damage, ref int hitDirection, ref bool crit, ref bool customDamage, ref bool playSound, ref bool genGore, ref PlayerDeathReason damageSource)
         {
-            if(damageSource.SourceProjectileIndex != -1)
+            if(damageSource.SourceProjectileIndex != -1 && noGravity)
             {
                 Projectile projectile = Main.projectile[damageSource.SourceProjectileIndex];
-                if (projectile.Hitbox.Intersects(actualHitbox)) return true;
+                if (projectile.Hitbox.Intersects(actualHitbox) || (projectile.penetrate < 0 && projectile.alpha == 255)) return true;
                 else return false;
             }
             return base.PreHurt(pvp, quiet, ref damage, ref hitDirection, ref crit, ref customDamage, ref playSound, ref genGore, ref damageSource);

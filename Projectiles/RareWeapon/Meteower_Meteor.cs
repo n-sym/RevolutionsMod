@@ -116,8 +116,8 @@ namespace Revolutions.Projectiles.RareWeapon
             if (crit) critfix = 2;
             if (target.defense <= projectile.damage * critfix)
             {
-                if (target.defense <= 16) damage += target.defense / 2 * critfix;
-                if (target.defense > 16) damage += 8 * critfix;
+                if (target.defense <= 19) damage += target.defense / 2 * critfix;
+                if (target.defense > 19) damage += 8 * critfix;
             }
             //无视16防御
         }

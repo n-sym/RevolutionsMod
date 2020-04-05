@@ -9,11 +9,11 @@ namespace Revolutions.Items.Weapon.Rare
     {
         public override void SetStaticDefaults()
         {
-            Tooltip.SetDefault("Casting 15 meteors every attack\nMeteors can penetrate enemys 16 defenses");
+            Tooltip.SetDefault("Casting 15 meteors every attack\nMeteors can penetrate enemys 19 defenses");
         }
         public override void SetDefaults()
         {
-            item.damage = 14;
+            item.damage = 11;
             item.magic = true;
             item.width = 40;
             item.crit = 6;
@@ -31,7 +31,7 @@ namespace Revolutions.Items.Weapon.Rare
             item.shootSpeed = 12f;
             item.shoot = ModContent.ProjectileType<Projectiles.RareWeapon.MeteowerHelper>();
         }
-        public override void AddRecipes()
+        /*public override void AddRecipes()
         {
             ModRecipe recipe = new ModRecipe(mod);
             recipe.AddIngredient(ItemID.CrystalShard, 15);
@@ -40,7 +40,7 @@ namespace Revolutions.Items.Weapon.Rare
             recipe.AddTile(TileID.MythrilAnvil);
             recipe.SetResult(this);
             recipe.AddRecipe();
-        }
+        }*/
         public override void UpdateInventory(Player player)
         {
             if (player.HeldItem == item && Revolutions.Settings.rangeIndex == 1)

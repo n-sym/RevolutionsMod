@@ -28,7 +28,7 @@ namespace Revolutions.NPCs
         {
             switch (projectile.type)
             {
-                
+
             }
         }
         public override void ModifyHitNPC(Projectile projectile, NPC target, ref int damage, ref float knockback, ref bool crit, ref int hitDirection)
@@ -43,6 +43,9 @@ namespace Revolutions.NPCs
                 case ProjectileID.TerraBeam:
                     projectile.damage /= 10;
                     projectile.damage *= 9;
+                    break;
+                case ProjectileID.FallingStar:
+                    if (Main.rand.Next(100) < Main.player[projectile.owner].rangedCrit) crit = true;
                     break;
             }
         }

@@ -24,12 +24,12 @@ namespace Revolutions.Projectiles.RareWeapon
             projectile.friendly = true;
             projectile.magic = true;
             projectile.timeLeft = 300;
-            projectile.tileCollide = true;
+            projectile.tileCollide = false;
             projectile.alpha = 255;
             projectile.ignoreWater = true;
             projectile.aiStyle = -1;
-            projectile.light = 0.35f;
-            projectile.penetrate = 2000;
+            projectile.light = 1f;
+            projectile.penetrate = 3;
             projectile.usesLocalNPCImmunity = true;
             projectile.localNPCHitCooldown = -1;
         }
@@ -39,6 +39,7 @@ namespace Revolutions.Projectiles.RareWeapon
             projectile.rotation = projectile.velocity.ToRotation() + 1.57f;
             if (projectile.frame == 3 && projectile.timeLeft % 3 == 0) projectile.frame = 0;
             else if(projectile.timeLeft % 3 == 0) projectile.frame++;
+            if (projectile.penetrate < 0) projectile.alpha += 15;
             if (projectile.timeLeft == 299)
             {
                 for (int i = 1; i < 17; i++)
@@ -48,7 +49,7 @@ namespace Revolutions.Projectiles.RareWeapon
                     d.velocity = Helper.ToUnitVector(d.position - projectile.position);
                 }
             }
-            if (projectile.timeLeft < 295)
+            if (projectile.alpha < 60)
             {
                 for (int i = 0; i < 4; i++)
                 {
@@ -59,19 +60,29 @@ namespace Revolutions.Projectiles.RareWeapon
             projectile.scale = 1.05f + 0.1f * (float)Math.Sin(a);
             a += 0.314f;
             if (projectile.timeLeft >= 290) projectile.alpha = (int)((projectile.timeLeft - 290) * 25.5f);
+            if (projectile.ai[0] != 0) projectile.tileCollide = true;
         }
         public override void OnHitNPC(NPC target, int damage, float knockback, bool crit)
         {
-            if (projectile.penetrate == 1) projectile.damage = 0;
-            if (projectile.penetrate == 2000 && projectile.ai[0] != 0)
+            if (projectile.ai[0] != 0)
             {
-                Vector2 random = new Vector2(50, 0).RotatedByRandom(6.283);
-                random.X += Main.player[projectile.owner].direction == 1 ? -50 : 50;
-                Projectile.NewProjectile(new Vector2(projectile.ai[0], projectile.ai[1]) + random, Helper.ToUnitVector(target.Center - new Vector2(projectile.ai[0], projectile.ai[1]) - random) * 38, projectile.type, damage, projectile.knockBack, projectile.owner);
-                random = new Vector2(50, 0).RotatedByRandom(6.283);
-                random.X += Main.player[projectile.owner].direction == 1 ? -50 : 50;
-                Projectile.NewProjectile(new Vector2(projectile.ai[0], projectile.ai[1]) + random, Helper.ToUnitVector(target.Center - new Vector2(projectile.ai[0], projectile.ai[1]) - random) * 38, projectile.type, damage, projectile.knockBack, projectile.owner);
+                if (projectile.penetrate == 1) projectile.penetrate++;
+                else
+                {
+                    Vector2 random = new Vector2(50, 0).RotatedByRandom(6.283);
+                    random.X += Main.player[projectile.owner].direction == 1 ? -50 : 50;
+                    Projectile.NewProjectile(new Vector2(projectile.ai[0], projectile.ai[1]) + random, Helper.ToUnitVector(target.Center - new Vector2(projectile.ai[0], projectile.ai[1]) - random) * 38, projectile.type, damage, projectile.knockBack, projectile.owner);
+                    random = new Vector2(50, 0).RotatedByRandom(6.283);
+                    random.X += Main.player[projectile.owner].direction == 1 ? -50 : 50;
+                    Projectile.NewProjectile(new Vector2(projectile.ai[0], projectile.ai[1]) + random, Helper.ToUnitVector(target.Center - new Vector2(projectile.ai[0], projectile.ai[1]) - random) * 38, projectile.type, damage, projectile.knockBack, projectile.owner);
+                }
             }
+            else
+            {
+                projectile.penetrate = -1;
+                projectile.damage = 0;
+            }
+            projectile.damage = (int)(projectile.damage * 0.95f);
         }
         public override bool PreDraw(SpriteBatch spriteBatch, Color lightColor)
         {

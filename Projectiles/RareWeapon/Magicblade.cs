@@ -12,7 +12,7 @@ namespace Revolutions.Projectiles.RareWeapon
         public override void SetStaticDefaults()
         {
             DisplayName.SetDefault("Magic blade");
-            DisplayName.AddTranslation(GameCulture.Chinese, "魔法叶片");
+            //DisplayName.AddTranslation(GameCulture.Chinese, "魔法叶片");
             Main.projFrames[projectile.type] = 5;
         }
         public override void SetDefaults()
@@ -65,7 +65,7 @@ namespace Revolutions.Projectiles.RareWeapon
             {
                 if (npc.active && !npc.friendly && npc.CanBeChasedBy())
                 {
-                    float currentDistance = Vector2.Distance(npc.Center, player.Center);
+                    float currentDistance = Vector2.Distance(npc.Center, projectile.Center);
                     if (currentDistance < distanceMax)
                     {
                         distanceMax = currentDistance;
